@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="appointmentss.css" />
+</head>
+<body>
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <img src="newimus.png" alt="Barangay Logo" class="logo" />
+      <h2>BARANGAY CLINIC<br>ONLINE APPOINTMENT SYSTEM</h2>
+      <p>Imus, Cavite</p>
+      <nav>
+        <button onclick="location.href='admin.html'">Dashboard</button>
+        <button onclick="location.href='appointmentss.html'">Appointments</button>
+        <button onclick="location.href='consultation.html'">Consultation</button>
+        <button onclick="location.href='patients.html'">Patients</button>
+        <button onclick="location.href='medical-request.html'">View Medical Request</button>
+        <hr />
+        <button onclick="location.href='index.html'">LOGOUT</button>
+      </nav>
+    </aside>
+  
+    <!-- Main Content -->
+    <div class="main-content">
+      <h1>Appointment</h1>
+      <hr>
+
+      <div class="content-container">
+        <h2 class="page-title">Appointment</h2>
+
+        <div class="top-buttons">
+          <div class="date-sorting">
+            <label for="date">Date Sorting</label>
+            <input type="date" id="date">
+            <button type="button" onclick="submitDate()">Submit</button>
+          </div>
+
+          <div class="action-buttons">
+            <button class="add-btn" onclick="location.href='add-appointment.html'">Add Appointment</button>
+            <button class="archive-btn" onclick="location.href='archive appointmentss.html'">Archive</button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Ref #. Date</th>
+                <th>Complaint</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Vince Lee</td>
+                <td>#01-01062025</td>
+                <td>Check-up for Elders</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>Jayson Stark</td>
+                <td>#02-01062025</td>
+                <td>Sick Check-up</td>
+                <td>Completed</td>
+              </tr>
+              <tr>
+                <td>Michael Jackstar</td>
+                <td>#03-01062025</td>
+                <td>Sick Check-up</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>Nick Felids</td>
+                <td>#04-01062025</td>
+                <td>Sick Check-up</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>Camille Sprats</td>
+                <td>#01-01072025</td>
+                <td>Sick Check-up</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>Guinevere Tan</td>
+                <td>#02-01072025</td>
+                <td>Sick Check-up</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>Nolan Gord</td>
+                <td>#03-01072025</td>
+                <td>Sick Check-up</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>Tony Foul</td>
+                <td>#01-01082025</td>
+                <td>Pap Smear</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>Chloe Cal</td>
+                <td>#02-01082025</td>
+                <td>Kids Medication</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>Kazz Smith</td>
+                <td>#03-01082025</td>
+                <td>Prenatal</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>Hev Ali</td>
+                <td>#04-01082025</td>
+                <td>Immunization</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>Malu Peeton</td>
+                <td>#01-01082025</td>
+                <td>Pregnant Check-up</td>
+                <td>Pending</td>
+              </tr>
+              <tr>
+                <td>Isma Glass</td>
+                <td>#06-01082025</td>
+                <td>Immunization</td>
+                <td>Pending</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function submitDate() {
+      const selectedDate = document.getElementById('date').value;
+      if (selectedDate) {
+        alert('You selected: ' + selectedDate);
+        
+      } else {
+        alert('Please select a date first.');
+      }
+    }
+
+    function logout() {
+  alert("Logging out...");
+  localStorage.clear(); // Clear stored login info if using localStorage
+  window.location.href = "index.html";
+}
+
+  </script>
+</body>
+</html>

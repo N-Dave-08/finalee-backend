@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="request med.css" />
+  <title>Barangay Clinic Appointment</title>
+</head>
+<body>
+  <!-- X Button -->
+  <button class="close-btn" onclick="navigateTo('home.html')">×</button>
+
+  <div class="container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <img src="newimus.png" alt="Barangay Logo" class="logo" />
+      <h2>BARANGAY CLINIC<br>ONLINE APPOINTMENT SYSTEM</h2>
+      <p>Imus, Cavite</p>
+      <nav>
+        <button onclick="navigateTo('home.html')">HOME</button>
+        <button onclick="navigateTo('update-profile.html')">UPDATE PROFILE</button>
+        <button onclick="navigateTo('request for new consultation.html')">REQUEST FOR NEW CONSULTATION</button>
+        <button onclick="navigateTo('view-consultation.html')">VIEW CONSULTATION RESULT</button>
+        <button onclick="navigateTo('appointments.html')">VIEW APPOINTMENTS</button>
+        <button onclick="navigateTo('request medical document.html')">REQUEST MEDICAL DOCUMENTS</button>
+        <button onclick="navigateTo('change-password.html')">CHANGE PASSWORD</button>
+        <button onclick="logout('index.html')">LOGOUT</button>
+        <button onclick="navigateTo('broad-consent.html')">VIEW BROAD CONSENT</button>
+        <button onclick="navigateTo('privacy-notice.html')">VIEW DATA PRIVACY NOTICE</button>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <h2>REQUEST MEDICAL DOCUMENTS</h2>
+      <div class="info-box">
+        <p><strong>What to do?</strong><br>
+        To request medical documents, fill out the online form or visit the clinic/hospital and provide your details along with the documents you need.</p>
+        <p><strong>Ano ang gagawin?</strong><br>
+        Para humiling ng mga medikal na dokumento, punan ang online form o pumunta sa klinika/ospital at ibigay ang inyong mga detalye at ang mga dokumentong kailangan mo.</p>
+      </div>
+
+      <form id="requestForm">
+        <div class="form-group">
+          <label for="fullName">Full name:</label>
+          <input type="text" id="fullName" name="fullName" required>
+      
+          <label for="contactNumber">Contact Number:</label>
+          <input type="text" id="contactNumber" name="contactNumber" required>
+        </div>
+      
+        <div class="form-group">
+          <label for="documentType">Document to be requested:</label>
+          <select id="documentType" name="documentType" required>
+            <option value="">Select</option>
+            <option value="Kids Medication">Kids Medication</option>
+            <option value="Sick Check-up">Sick Check-up</option>
+            <option value="Immunization">Immunization</option>
+            <option value="Prenatal">Prenatal</option>
+            <option value="Family Planning">Family Planning</option>
+            <option value="Pregnant Check-up">Pregnant Check-up</option>
+            <option value="Pap Smear">Pap Smear</option>
+          </select>
+        </div>
+      
+        <!-- Improved date selection with a calendar -->
+        <div class="form-group date-group">
+          <label for="birthDate">Date of Birth:</label>
+          <input type="date" id="birthDate" name="birthDate" required>
+        </div>
+      
+        <button type="submit" class="save-btn">Save</button>
+      </form>
+      
+      <script>
+        document.getElementById("requestForm").addEventListener("submit", function (e) {
+          e.preventDefault(); // Prevent default form submission
+          alert("Form submitted successfully!");
+          window.location.href = "home.html"; // Redirect to home page
+        });
+
+        function navigateTo(page) {
+          window.location.href = page;
+        }
+      </script>
+      
+</body>
+</html>

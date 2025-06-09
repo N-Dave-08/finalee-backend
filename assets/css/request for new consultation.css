@@ -1,0 +1,245 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background-color: #f4f4f4;
+  }
+  
+  .container {
+    display: flex;
+    height: 140vh;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    background-color: #d5f7dc;
+    width: 330px;
+    padding: 20px 10px;
+    text-align: center;
+  }
+  
+  .sidebar .logo {
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .sidebar h2 {
+    font-size: 14px;
+    margin: 20px 0 10px;
+    line-height: 1.2;
+  }
+  
+  .sidebar p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .sidebar nav button {
+    font-size: 14px;
+    padding: 10px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .sidebar nav button:hover {
+    background-color: #b6e7c9;
+  }
+  
+  .main-content {
+    flex-grow: 1;
+    padding: 30px;
+  }
+  
+  .welcome h3 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .help-box {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 6px;
+  }
+  
+  .appointment-box {
+    background-color: #e9ffe6;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .appointment-box h4 {
+    background-color: #ffb3b3;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 18px;
+  }
+  
+  .appointment-info p {
+    margin: 8px 0;
+  }
+  
+  .book-btn {
+    background-color: #fdfd96;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .book-btn:hover {
+    background-color: #fbe870;
+  }
+  
+  /* Additional styles for profile page */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f7f7f7;
+  }
+  
+  .top-bar {
+    background-color: #fff;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .close-btn {
+    background: #ff4d4d;
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .close-btn:hover {
+    background: #e43d3d;
+  }
+  
+  .content {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1, h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .input-group {
+    margin-bottom: 15px;
+  }
+  
+  .input-group label {
+    display: block;
+    margin-bottom: 6px;
+    color: #333;
+  }
+  
+  .input-group input,
+  .input-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .save-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto 0;
+    font-size: 16px;
+  }
+  
+  .save-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Main Content */
+  .main-content {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: #fff;
+  }
+  
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  header h2 {
+    font-size: 20px;
+  }
+  
+  header select {
+    padding: 5px;
+    font-size: 14px;
+  }
+  
+  /* Consultation Box */
+  .consultation-box {
+    border: 1px solid #aaa;
+    background: linear-gradient(to bottom, #f0fff0, #ccffcc);
+    padding: 25px;
+    border-radius: 8px;
+  }
+  
+  .consultation-box p {
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+  
+  .consultation-box button {
+    background-color: #ee6c4d;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  
+  .consultation-box button:hover {
+    background-color: #d95c3e;
+  }
+  

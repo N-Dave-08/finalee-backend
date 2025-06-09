@@ -1,0 +1,157 @@
+input[type="text"] {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #4CAF50;
+    
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  table th, table td {
+    padding: 10px;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background-color: #f4f4f4;
+  }
+  
+  .dashboard-container {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .sidebar {
+    background-color: #d5f7dc;
+    width: 200px;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+ 
+  
+
+  
+  .sidebar .logo {
+    max-width: 100px;
+    margin-bottom: 15px;
+  }
+  
+  .sidebar h2 {
+    font-size: 14px;
+    margin: 20px 0 10px;
+    line-height: 1.2;
+    text-align: center;
+  }
+  
+  .sidebar p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .sidebar nav button {
+    font-size: 14px;
+    padding: 10px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+  }
+  
+  .sidebar nav button:hover {
+    background-color: #b6e7c9;
+  }
+
+  .main-content {
+    flex: 1; /* takes remaining space */
+    padding: 20px;
+  }
+
+  
+  .page-title {
+    background: #32CD32;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    font-size: 24px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+  
+  .top-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .date-sorting {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .add-btn, .archive-btn {
+    background: limegreen;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .add-btn:hover, .archive-btn:hover {
+    background: green;
+  }
+  
+  .table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ccffcc;
+  }
+  
+  .table-container th, .table-container td {
+    border: 1px solid #666;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .table-container th {
+    background: #2e8b57;
+    color: white;
+  }
+  

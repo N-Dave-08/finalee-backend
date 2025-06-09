@@ -1,0 +1,164 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background-color: #f4f4f4;
+  }
+  
+  .dashboard-container {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .sidebar {
+    background-color: #d5f7dc;
+    width: 200px;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+ 
+  
+
+  
+  .sidebar .logo {
+    max-width: 100px;
+    margin-bottom: 15px;
+  }
+  
+  .sidebar h2 {
+    font-size: 14px;
+    margin: 20px 0 10px;
+    line-height: 1.2;
+    text-align: center;
+  }
+  
+  .sidebar p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .sidebar nav button {
+    font-size: 14px;
+    padding: 10px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 100%;
+  }
+  
+  .sidebar nav button:hover {
+    background-color: #b6e7c9;
+  }
+  
+  /* Main content: takes remaining width */
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    background-color: #f4f4f4;
+    overflow-y: auto;
+  }
+  
+  
+  /* Section Title */
+  .section-title {
+    font-size: 24px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+  }
+  
+  /* Responsive content box */
+  .content-box {
+    background: #ccffcc;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Header inside the box */
+  .header {
+    background-color: #00cc00;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  /* Search input styling */
+  .search-container {
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  #searchInput {
+    padding: 10px;
+    width: 80%;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  /* Scrollable patient list */
+  .patient-list {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  
+  /* Each patient row */
+  .patient-row {
+    display: flex;
+    justify-content: space-between;
+    background-color: #90ee90;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    align-items: center;
+  }
+  
+  /* Name column */
+  .patient-name {
+    flex: 1;
+  }
+  
+  /* Buttons */
+  .btn {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .profile-btn {
+    background-color: #00cc00;
+  }
+  
+  .archive-btn {
+    background-color: #66cc66;
+  }
+  

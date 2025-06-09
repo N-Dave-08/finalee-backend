@@ -1,0 +1,165 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(to bottom, #b6ffb6, #b6ffb6 60%, #00ff00);
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    height: 140vh;
+  }
+  
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 30px;
+        background-color: transparent;
+        color: #333;
+        font-size: 14px;
+        border: none;
+        cursor: pointer;
+        z-index: 1000;
+        transition: color 0.2s ease;
+      }
+  
+   
+  
+  /* Sidebar */
+  .sidebar {
+    background-color: #d5f7dc;
+    width: 200px;
+    padding: 20px 10px;
+    text-align: center;
+  }
+  
+  .sidebar .logo {
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .sidebar h2 {
+    font-size: 14px;
+    margin: 20px 0 10px;
+    line-height: 1.2;
+  }
+  
+  .sidebar p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .sidebar nav button {
+    font-size: 14px;
+    padding: 10px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .sidebar nav button:hover {
+    background-color: #b6e7c9;
+  }
+  .main {
+    flex-grow: 1;
+    padding: 30px;
+  }
+  .main h2 {
+    margin-bottom: 20px;
+  }
+  .info-box {
+    background-color: white;
+    border: 1px solid #aaa;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+  }
+  .info-box p {
+    font-size: 14px;
+    color: #333;
+  }
+  .tab-buttons {
+    display: flex;
+    margin-bottom: -1px;
+  }
+  .tab-buttons button {
+    padding: 10px 20px;
+    border: 1px solid #aaa;
+    background: #d1f2d1;
+    cursor: pointer;
+  }
+  .tab-buttons button.active {
+    background: white;
+    border-bottom: none;
+  }
+  .tab-content {
+    display: none;
+    background: #c3f7c3;
+    padding: 15px;
+    border: 1px solid #aaa;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+  }
+  .tab-content.active {
+    display: block;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: white;
+  }
+  th, td {
+    border: 1px solid #aaa;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+  }
+  th {
+    background-color: #b4eeb4;
+  }
+  .cancelled {
+    color: red;
+    font-weight: bold;
+  }
+  .cancel-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .cancel-btn:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+  }
+
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    #printable-document, #printable-document * {
+      visibility: visible;
+    }
+    #printable-document {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+    }
+  }

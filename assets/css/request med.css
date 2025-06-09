@@ -1,0 +1,144 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background-color: #f4f4f4;
+  }
+  
+  .container {
+    display: flex;
+    height: 140vh;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    background-color: #d5f7dc;
+    width: 195px;
+    padding: 20px 10px;
+    text-align: center;
+  }
+  
+  .sidebar .logo {
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .sidebar h2 {
+    font-size: 14px;
+    margin: 20px 0 10px;
+    line-height: 1.2;
+  }
+  
+  .sidebar p {
+    font-size: 13px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .sidebar nav button {
+    font-size: 14px;
+    padding: 10px;
+    border: none;
+    background: #f1f1f1;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .sidebar nav button:hover {
+    background-color: #b6e7c9;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 30px;
+    background: linear-gradient(to bottom, #fff, #caffc3);
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+  }
+  
+  .info-box {
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #aaa;
+    margin-bottom: 20px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  form {
+    background: transparent;
+  }
+  
+  .form-group {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  
+  input[type="text"], select {
+    padding: 8px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .date-group input {
+    width: 100px;
+    margin-right: 10px;
+  }
+  
+  .save-btn {
+    background: #ffeb3b;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    float: right;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+  }
+  
+  .close-btn {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    z-index: 999;
+  }
+
+  .close-btn:hover {
+    color: red;
+  }
+
+  /* Style for the date input section */
+  .date-group input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+
+  .date-group input[type="date"]:focus {
+    border-color: #3498db;
+  }

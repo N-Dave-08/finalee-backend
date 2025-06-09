@@ -1,0 +1,277 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Apply background image only for login screen */
+body.login-page {
+  height: 100vh;
+  background-image: url("bgimus.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  perspective: 1000px;
+}
+
+/* Center the card inside .scene */
+.scene {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Remove background for dashboard screen */
+body:not(.login-page) {
+  background: none;
+}
+
+.card-container {
+  width: 350px;
+  height: 420px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease-in-out;
+  perspective: 1000px; /* Added here for better 3D effect */
+}
+
+.form-card {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center; /* Center horizontally */
+  text-align: center;
+}
+
+.logo {
+  max-width: 50%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.form-card h2 {
+  text-align: center;
+}
+
+.form-card input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.form-card button {
+  padding: 10px;
+  border: none;
+  background: #4e4376;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.form-card .link {
+  text-align: center;
+  font-size: 14px;
+  color: #4e4376;
+  cursor: pointer;
+}
+
+.back-card {
+  transform: rotateY(180deg);
+}
+
+.card-container.flip .front-card {
+  transform: rotateY(180deg);
+}
+
+.card-container.flip .back-card {
+  transform: rotateY(0deg);
+}
+
+.switch-role {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.switch-role button {
+  background: #eee;
+  color: #333;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.switch-role button.active {
+  background: #4e4376;
+  color: #fff;
+}
+
+#forgotOverlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background: #000000aa;
+  justify-content: center;
+  align-items: center;
+}
+
+.forgot-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  width: 300px;
+  text-align: center;
+}
+
+.forgot-box input {
+  margin: 10px 0;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.forgot-box button {
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 10px;
+  background: #4e4376;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+}
+
+/* ======== DASHBOARD and other styles below ======== */
+/* (You can keep your dashboard and other styles as they were) *
+
+
+/* Reset some default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #f4f6f8;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  min-height: 100vh;
+}
+
+/* Container */
+#updateProfileSection {
+  background-color: #fff;
+  width: 100%;
+  max-width: 700px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Top Bar */
+.top-bar {
+  background-color: #0fb833;
+  color: #fff;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Form Content */
+.content {
+  padding: 30px 20px;
+}
+
+.content h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.content h2 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  color: #555;
+  font-size: 20px;
+}
+
+/* Form Inputs */
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #fafafa;
+  transition: border-color 0.3s;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #0fb833;
+  outline: none;
+  background-color: #fff;
+}
+
+/* Submit Button */
+.save-button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background-color: #0fb833;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-button:hover {
+  background-color: #0fb833;
+}
