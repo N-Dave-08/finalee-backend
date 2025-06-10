@@ -8,7 +8,7 @@
 </head>
 <body>
   <!-- X Button -->
-  <button class="close-btn" onclick="navigateTo('home.html')">×</button>
+  <button class="close-btn" onclick="navigateTo('home.php')">×</button>
 
   <div class="container">
     <!-- SIDEBAR -->
@@ -75,7 +75,7 @@
         document.getElementById("requestForm").addEventListener("submit", function (e) {
           e.preventDefault(); // Prevent default form submission
           alert("Form submitted successfully!");
-          window.location.href = "home.html"; // Redirect to home page
+          window.location.href = "home.php"; // Redirect to home page
         });
 
         function navigateTo(page) {

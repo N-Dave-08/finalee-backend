@@ -42,10 +42,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (data.success) {
           if (data.role === 'admin') {
             alert('Admin login successful!');
-            window.location.href = 'admin.html';
+            window.location.href = 'admin.php';
           } else if (data.role === 'user') {
             alert('User login successful!');
-            window.location.href = 'home.html';
+            window.location.href = 'home.php';
           } else {
             alert('Unknown role.');
           }
@@ -93,8 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function logout() {
-    document.getElementById("dashboardSection").style.display = "none";
-    document.getElementById("loginSection").style.display = "block";
+    window.location.href = "logout.php";
   }
 
   function flipToRegister() {
