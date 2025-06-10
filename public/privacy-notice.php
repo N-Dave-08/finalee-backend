@@ -23,7 +23,7 @@
         <button onclick="navigateTo('change-password.php')">CHANGE PASSWORD</button>
         <button onclick="navigateTo('broad-consent.php')">VIEW BROAD CONSENT</button>
         <button onclick="navigateTo('privacy-notice.php')">VIEW DATA PRIVACY NOTICE</button>
-        <button onclick="logout('index.html')">LOGOUT</button>
+        <button onclick="logout()">LOGOUT</button>
       </nav>
     </aside>
 
@@ -51,13 +51,6 @@
     function navigateTo(page) {
       window.location.href = page;
     }
-
-    function logout() {
-  alert("Logging out...");
-  localStorage.clear(); // Clear stored login info if using localStorage
-  window.location.href = "index.html";
-}
-
 
     function bookNow() {
       alert("Redirecting to booking page...");

@@ -156,13 +156,6 @@ require_role('admin');
         alert('Please select a date first.');
       }
     }
-
-    function logout() {
-  alert("Logging out...");
-  localStorage.clear(); // Clear stored login info if using localStorage
-  window.location.href = "index.html";
-}
-
   </script>
 </body>
 </html>

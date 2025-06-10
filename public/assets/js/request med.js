@@ -8,13 +8,6 @@ document.getElementById("requestForm").addEventListener("submit", function(e) {
     window.location.href = page;
   }
 
-  function logout() {
-  alert("Logging out...");
-  localStorage.clear(); // Clear stored login info if using localStorage
-  window.location.href = "index.html";
-}
-
-
   function bookNow() {
     alert("Redirecting to booking page...");
     // Add booking logic here

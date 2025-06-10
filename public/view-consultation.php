@@ -27,7 +27,7 @@ require_role('user');
           <button onclick="navigateTo('change-password.php')">CHANGE PASSWORD</button>
           <button onclick="navigateTo('broad-consent.php')">VIEW BROAD CONSENT</button>
           <button onclick="navigateTo('privacy-notice.php')">VIEW DATA PRIVACY NOTICE</button>
-          <button onclick="logout('index.html')">LOGOUT</button>
+          <button onclick="logout()">LOGOUT</button>
         </nav>
       </aside>
 
@@ -106,10 +106,6 @@ require_role('user');
 
     function navigateTo(page) {
       window.location.href = page;
-    }
-
-    function logout() {
-      alert("Logging out...");
     }
 
     function bookNow() {

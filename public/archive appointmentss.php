@@ -97,12 +97,6 @@
         alert('Please select a date first.');
       }
     }
-
-    function logout() {
-      if (confirm("Are you sure you want to logout?")) {
-        location.href = "login.php";
-      }
-    }
   </script>
 </body>
 </html>
