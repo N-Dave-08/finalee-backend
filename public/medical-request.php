@@ -23,7 +23,7 @@ require_role('admin');
         <button onclick="location.href='patients.php'">Patients</button>
         <button onclick="location.href='medical-request.php'">View Medical Request</button>
         <hr />
-        <button onclick="location.href='index.php'">LOGOUT</button>
+        <button onclick="location.href='index.html'">LOGOUT</button>
       </nav>
     </aside>
 

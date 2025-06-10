@@ -23,7 +23,7 @@ require_role('admin');
         <button onclick="location.href='patients.php'">Patients</button>
         <button onclick="location.href='medical-request.php'">View Medical Request</button>
         <hr />
-        <button onclick="location.href='index.php'">LOGOUT</button>
+        <button onclick="location.href='index.html'">LOGOUT</button>
       </nav>
     </aside>
   
@@ -159,7 +159,7 @@ require_role('admin');
     function logout() {
   alert("Logging out...");
   localStorage.clear(); // Clear stored login info if using localStorage
-  window.location.href = "index.php";
+  window.location.href = "index.html";
 }
 
   </script>

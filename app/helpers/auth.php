@@ -3,7 +3,7 @@
 function require_role($role) {
     session_start();
     if (!isset($_SESSION['user'])) {
-        header('Location: index.php');
+        header('Location: index.html');
         exit();
     }
     if ($_SESSION['user']['role'] !== $role) {
@@ -19,7 +19,7 @@ function require_role($role) {
 function require_login() {
     session_start();
     if (!isset($_SESSION['user'])) {
-        header('Location: index.php');
+        header('Location: index.html');
         exit();
     }
 } 
