@@ -1,5 +1,5 @@
 <?php
-// public/actions/register.php (MVC entry point for registration)
+
 require_once __DIR__ . '/../../app/controllers/AuthController.php';
 
 header('Content-Type: application/json');
