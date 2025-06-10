@@ -18,7 +18,8 @@ $response = $auth->login($username, $password);
 if ($response['success']) {
     // Store user info in session
     $_SESSION['user'] = [
-        'username' => $username,
+        'id' => $response['id'],
+        'username' => $response['username'],
         'role' => $response['role']
     ];
 }

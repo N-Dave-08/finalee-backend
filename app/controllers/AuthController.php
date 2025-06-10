@@ -10,7 +10,9 @@ class AuthController {
                 return [
                     'success' => true,
                     'message' => 'Login successful',
-                    'role' => $user['role']
+                    'role' => $user['role'],
+                    'id' => $user['id'],
+                    'username' => $user['username']
                 ];
             } else {
                 return [

@@ -1,18 +1,64 @@
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('profileForm');
+  // Fetch and populate profile data
+  fetch('update-profile-api.php', { credentials: 'include' })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        const user = data.data.user || {};
+        const emergency = data.data.emergency || {};
+        document.getElementById('lastName').value = user.last_name || '';
+        document.getElementById('firstName').value = user.first_name || '';
+        document.getElementById('middleName').value = user.middle_name || '';
+        document.getElementById('dob').value = user.date_of_birth || '';
+        document.getElementById('placeOfBirth').value = user.place_of_birth || '';
+        document.getElementById('gender').value = user.gender || '';
+        document.getElementById('email').value = user.email || '';
+        document.getElementById('contactNumber').value = user.contact_num || '';
+        document.getElementById('emergencyLastName').value = emergency.last_name || '';
+        document.getElementById('emergencyFirstName').value = emergency.first_name || '';
+        document.getElementById('emergencyMiddleName').value = emergency.middle_name || '';
+        document.getElementById('relationship').value = emergency.relationship || '';
+        document.getElementById('emergencyContactNumber').value = emergency.contact_num || '';
+        document.getElementById('emergencyEmail').value = emergency.email || '';
+      }
+    });
   if (form) {
     form.addEventListener('submit', function (event) {
       event.preventDefault();
-
-      const formData = new FormData(form);
-      const profile = {};
-      formData.forEach((value, key) => {
-        profile[key] = value;
-      });
-
-      console.log("Profile data submitted:", profile);
-      alert("Profile updated successfully!");
-      window.location.href = "home.html";
+      const user = {
+        last_name: document.getElementById('lastName').value,
+        first_name: document.getElementById('firstName').value,
+        middle_name: document.getElementById('middleName').value,
+        date_of_birth: document.getElementById('dob').value,
+        place_of_birth: document.getElementById('placeOfBirth').value,
+        gender: document.getElementById('gender').value,
+        email: document.getElementById('email').value,
+        contact_num: document.getElementById('contactNumber').value
+      };
+      const emergency = {
+        last_name: document.getElementById('emergencyLastName').value,
+        first_name: document.getElementById('emergencyFirstName').value,
+        middle_name: document.getElementById('emergencyMiddleName').value,
+        relationship: document.getElementById('relationship').value,
+        contact_num: document.getElementById('emergencyContactNumber').value,
+        email: document.getElementById('emergencyEmail').value
+      };
+      fetch('update-profile-api.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ user, emergency })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert('Profile updated successfully!');
+            window.location.href = 'home.php';
+          } else {
+            alert('Update failed: ' + (data.message || 'Unknown error'));
+          }
+        });
     });
   }
 

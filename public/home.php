@@ -57,7 +57,7 @@ require_role('user');
     <!-- MAIN CONTENT -->
     <main class="main-content">
       <section class="welcome">
-        <h3>Hello, User!</h3>
+        <h3>Hello, <?php echo htmlspecialchars($_SESSION['user']['username']); ?>!</h3>
         <div class="help-box">
           <p><strong>Ano ang maitutulong ko sa iyo?</strong><br>Ang button ay maayos na nakalagay sa gilid, kaya madali mong maa-access ang kailangan mo sa isang pindot lang.</p>
           <p><strong>What can I help you?</strong><br>The button is conveniently placed on the side, allowing you to easily access what you need with a single click.</p>

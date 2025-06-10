@@ -32,6 +32,30 @@ class UserModel {
             return ['success' => false, 'message' => $error];
         }
     }
+    public function updateProfile($id, $first_name, $last_name, $middle_name, $date_of_birth, $place_of_birth, $gender, $email, $contact_num) {
+        $stmt = $this->conn->prepare('UPDATE user SET first_name=?, last_name=?, middle_name=?, date_of_birth=?, place_of_birth=?, gender=?, email=?, contact_num=? WHERE id=?');
+        if (!$stmt) {
+            return ['success' => false, 'message' => $this->conn->error];
+        }
+        $stmt->bind_param('ssssssssi', $first_name, $last_name, $middle_name, $date_of_birth, $place_of_birth, $gender, $email, $contact_num, $id);
+        $result = $stmt->execute();
+        $error = $stmt->error;
+        $stmt->close();
+        if ($result) {
+            return ['success' => true];
+        } else {
+            return ['success' => false, 'message' => $error];
+        }
+    }
+    public function findUserById($id) {
+        $stmt = $this->conn->prepare('SELECT * FROM user WHERE id = ?');
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        $stmt->close();
+        return $user;
+    }
     public function __destruct() {
         $this->conn->close();
     }
