@@ -1,7 +1,7 @@
 <?php
-// public/login.php (MVC entry point for login)
+// public/actions/login.php (MVC entry point for login)
 session_start();
-require_once __DIR__ . '/../app/controllers/AuthController.php';
+require_once __DIR__ . '/../../app/controllers/AuthController.php';
 
 header('Content-Type: application/json');
 

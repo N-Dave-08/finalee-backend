@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('profileForm');
   // Fetch and populate profile data
-  fetch('update-profile-api.php', { credentials: 'include' })
+  fetch('actions/update-profile-api.php', { credentials: 'include' })
     .then(res => res.json())
     .then(data => {
       if (data.success) {
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
         contact_num: document.getElementById('emergencyContactNumber').value,
         email: document.getElementById('emergencyEmail').value
       };
-      fetch('update-profile-api.php', {
+      fetch('actions/update-profile-api.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const password = inputs[1].value;
 
       // Send POST request to login.php for both user and admin (MVC)
-      fetch('login.php', {
+      fetch('actions/login.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Send POST request to register.php
-    fetch('register.php', {
+    fetch('actions/register.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function logout() {
-    window.location.href = "logout.php";
+    window.location.href = "actions/logout.php";
   }
 
   function flipToRegister() {

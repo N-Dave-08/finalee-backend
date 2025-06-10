@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../app/controllers/ProfileController.php';
+require_once __DIR__ . '/../../app/controllers/ProfileController.php';
 session_start();
 // var_dump($_SESSION);
 if (!isset($_SESSION['user']['id'])) {
