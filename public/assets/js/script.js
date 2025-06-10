@@ -18,34 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ==== Login/Register/Forgot Section ====
   const card = document.getElementById('card');
-  const userBtn = document.getElementById('userBtn');
-  const adminBtn = document.getElementById('adminBtn');
-  const loginTitle = document.getElementById('loginTitle');
   const loginButton = document.querySelector('#loginForm button');
 
   const registerLink = document.querySelector('#loginForm .link[onclick="flipToRegister()"]');
   const forgotLink = document.querySelector('#loginForm .link[onclick="flipToForgot()"]');
-
-  if (userBtn && adminBtn) {
-    userBtn.onclick = () => {
-      loginTitle.textContent = 'User Login';
-      userBtn.classList.add('active');
-      adminBtn.classList.remove('active');
-      registerLink.style.display = 'block';
-      forgotLink.style.display = 'block';
-      card.classList.remove('no-flip');
-    };
-
-    adminBtn.onclick = () => {
-      loginTitle.textContent = 'Admin Login';
-      adminBtn.classList.add('active');
-      userBtn.classList.remove('active');
-      registerLink.style.display = 'none';
-      forgotLink.style.display = 'none';
-      card.classList.remove('flip');
-      card.classList.add('no-flip');
-    };
-  }
 
   if (loginButton) {
     loginButton.onclick = () => {
@@ -122,21 +98,15 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function flipToRegister() {
-    if (!isAdminMode()) {
-      card.classList.add('flip');
-    }
+    card.classList.add('flip');
   }
 
   function flipToLogin() {
-    if (!isAdminMode()) {
-      card.classList.remove('flip');
-    }
+    card.classList.remove('flip');
   }
 
   function flipToForgot() {
-    if (!isAdminMode()) {
-      document.getElementById('forgotOverlay').style.display = 'flex';
-    }
+    document.getElementById('forgotOverlay').style.display = 'flex';
   }
 
   function closeForgot() {
@@ -145,10 +115,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function navigateTo(page) {
     window.location.href = page;
-  }
-
-  function isAdminMode() {
-    return loginTitle.textContent.includes('Admin');
   }
 
   // Expose globally
