@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../app/helpers/auth.php';
+require_once dirname(__DIR__, 2) . '/app/helpers/auth.php';
 require_role('user');
 ?>
 <!DOCTYPE html>
@@ -23,10 +23,10 @@ require_role('user');
       <nav>
         <button onclick="navigateTo('home.php')">HOME</button>
         <button onclick="navigateTo('update-profile.php')">UPDATE PROFILE</button>
-        <button onclick="navigateTo('request for new consultation.php')">REQUEST FOR NEW CONSULTATION</button>
+        <button onclick="navigateTo('request-for-new-consultation.php')">REQUEST FOR NEW CONSULTATION</button>
         <button onclick="navigateTo('view-consultation.php')">VIEW CONSULTATION RESULT</button>
         <button onclick="navigateTo('appointments.php')">VIEW APPOINTMENTS</button>
-        <button onclick="navigateTo('request medical document.php')">REQUEST MEDICAL DOCUMENTS</button>
+        <button onclick="navigateTo('request-medical-document.php')">REQUEST MEDICAL DOCUMENTS</button>
         <button onclick="navigateTo('change-password.php')">CHANGE PASSWORD</button>
         <button onclick="navigateTo('broad-consent.php')">VIEW BROAD CONSENT</button>
         <button onclick="navigateTo('privacy-notice.php')">VIEW DATA PRIVACY NOTICE</button>

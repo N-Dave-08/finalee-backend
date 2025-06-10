@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../app/helpers/auth.php';
+require_once dirname(__DIR__, 2) . '/app/helpers/auth.php';
 require_role('admin');
 ?>
 <!DOCTYPE html>
@@ -44,7 +44,7 @@ require_role('admin');
 
           <div class="action-buttons">
             <button class="add-btn" onclick="location.href='add-appointment.php'">Add Appointment</button>
-            <button class="archive-btn" onclick="location.href='archive appointmentss.php'">Archive</button>
+            <button class="archive-btn" onclick="location.href='archive-appointmentss.php'">Archive</button>
           </div>
         </div>
 
