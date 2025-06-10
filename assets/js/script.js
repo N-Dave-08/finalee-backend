@@ -53,30 +53,33 @@ document.addEventListener('DOMContentLoaded', function () {
       const username = inputs[0].value;
       const password = inputs[1].value;
 
-      const currentRole = isAdminMode() ? 'admin' : 'user';
-
-      const dummyAccounts = {
-        admin: { username: 'admin123', password: 'adminpass' },
-        user: { username: 'user123', password: 'pass123' }
-      };
-
-      const registeredUser = JSON.parse(localStorage.getItem('registeredUser'));
-      let valid = null;
-
-      if (currentRole === 'admin') {
-        valid = dummyAccounts.admin;
-      } else if (registeredUser && username === registeredUser.username) {
-        valid = registeredUser;
-      } else {
-        valid = dummyAccounts.user;
-      }
-
-      if (valid && username === valid.username && password === valid.password) {
-        alert(`${currentRole.charAt(0).toUpperCase() + currentRole.slice(1)} login successful!`);
-        window.location.href = currentRole === 'admin' ? 'admin.html' : 'home.html';
-      } else {
-        alert('Invalid username or password');
-      }
+      // Send POST request to user_login.php for both user and admin
+      fetch('user_login.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          if (data.role === 'admin') {
+            alert('Admin login successful!');
+            window.location.href = 'admin.html';
+          } else if (data.role === 'user') {
+            alert('User login successful!');
+            window.location.href = 'home.html';
+          } else {
+            alert('Unknown role.');
+          }
+        } else {
+          alert(data.message || 'Login failed');
+        }
+      })
+      .catch(() => {
+        alert('Error connecting to server.');
+      });
     };
   }
 
