@@ -53,8 +53,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const username = inputs[0].value;
       const password = inputs[1].value;
 
-      // Send POST request to user_login.php for both user and admin
-      fetch('user_login.php', {
+      // Send POST request to login.php for both user and admin (MVC)
+      fetch('login.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
