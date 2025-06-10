@@ -151,3 +151,4 @@ require_role('admin');
               
 </body>
 </html>
+<script src="assets/js/common.js"></script>

@@ -70,3 +70,7 @@ require_role('admin');
       </div>
     </div>
     
+    <script src="assets/js/common.js"></script>
+</body>
+</html>
+    

@@ -87,6 +87,7 @@
     </div>
   </div>
 
+  <script src="assets/js/common.js"></script>
   <script>
     function submitDate() {
       const selectedDate = document.getElementById('date').value;

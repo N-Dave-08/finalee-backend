@@ -77,18 +77,11 @@ require_role('user');
     </main>
   </div>
 
+  <script src="assets/js/common.js"></script>
   <script>
     function navigateTo(page) {
       window.location.href = page;
     }
-
- function logout() {
-  alert("Logging out...");
-  localStorage.clear(); // Clear stored login info if using localStorage
-  window.location.href = "index.html";
-}
-
-
 
     function bookNow() {
       alert(href=goto("general concern.php"));

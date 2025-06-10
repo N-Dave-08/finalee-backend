@@ -42,5 +42,6 @@ require_role('admin');
   </div>
 
   <script src="assets/js/patients.js"></script>
+  <script src="assets/js/common.js"></script>
 </body>
 </html>

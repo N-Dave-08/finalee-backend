@@ -25,9 +25,9 @@ require_role('user');
           <button onclick="navigateTo('appointments.php')">VIEW APPOINTMENTS</button>
           <button onclick="navigateTo('request medical document.php')">REQUEST MEDICAL DOCUMENTS</button>
           <button onclick="navigateTo('change-password.php')">CHANGE PASSWORD</button>
-          <button onclick="logout('index.html')">LOGOUT</button>
           <button onclick="navigateTo('broad-consent.php')">VIEW BROAD CONSENT</button>
           <button onclick="navigateTo('privacy-notice.php')">VIEW DATA PRIVACY NOTICE</button>
+          <button onclick="logout('index.html')">LOGOUT</button>
         </nav>
       </aside>
 
@@ -92,6 +92,7 @@ require_role('user');
     </div>
   </div>
 
+  <script src="assets/js/common.js"></script>
   <script>
     function showTab(tabId) {
       const buttons = document.querySelectorAll('.tab-buttons button');

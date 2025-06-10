@@ -89,5 +89,6 @@ require_role('user');
   </div>
 
   <script src="assets/js/script.js"></script>
+  <script src="assets/js/common.js"></script>
 </body>
 </html>

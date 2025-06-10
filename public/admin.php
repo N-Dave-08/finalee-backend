@@ -58,14 +58,7 @@ require_role('admin');
     </main>
   </div>
 
-  <script>
-    function logout() {
-  alert("Logging out...");
-  localStorage.clear(); // Clear stored login info if using localStorage
-  window.location.href = "index.html";
-}
-
-  </script>
+  <script src="assets/js/common.js"></script>
 </body>
 </html>
 

@@ -25,9 +25,9 @@ require_role('user');
         <button onclick="navigateTo('appointments.php')">VIEW APPOINTMENTS</button>
         <button onclick="navigateTo('request medical document.php')">REQUEST MEDICAL DOCUMENTS</button>
         <button onclick="navigateTo('change-password.php')">CHANGE PASSWORD</button>
-        <button onclick="logout('index.html')">LOGOUT</button>
         <button onclick="navigateTo('broad-consent.php')">VIEW BROAD CONSENT</button>
         <button onclick="navigateTo('privacy-notice.php')">VIEW DATA PRIVACY NOTICE</button>
+        <button onclick="logout('index.html')">LOGOUT</button>
       </nav>
     </aside>
 
@@ -66,6 +66,7 @@ require_role('user');
       I have read and understand the information provided above. I voluntarily agree to participate in the online clinic appointment system and consent to the use of my data as outlined.
     </div>
   </div>
+  <script src="assets/js/common.js"></script>
   <script>
     function navigateTo(page) {
       window.location.href = page;

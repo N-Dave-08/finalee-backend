@@ -157,6 +157,7 @@ require_role('user');
     </div>
   </div>
 
+  <script src="assets/js/common.js"></script>
   <script>
     function togglePassword(fieldId) {
       const input = document.getElementById(fieldId);
