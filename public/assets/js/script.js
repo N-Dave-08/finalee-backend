@@ -94,10 +94,26 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    const newUser = { username, email, password };
-    localStorage.setItem('registeredUser', JSON.stringify(newUser));
-    alert("Registration successful!");
-    flipToLogin();
+    // Send POST request to register.php
+    fetch('register.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&email=${encodeURIComponent(email)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('Registration successful!');
+        flipToLogin();
+      } else {
+        alert(data.message || 'Registration failed');
+      }
+    })
+    .catch(() => {
+      alert('Error connecting to server.');
+    });
   }
 
   function logout() {

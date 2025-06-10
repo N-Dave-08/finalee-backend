@@ -16,6 +16,22 @@ class UserModel {
         $stmt->close();
         return $user;
     }
+    public function createUser($username, $password, $email = null, $role = 'user') {
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $this->conn->prepare('INSERT INTO user (username, password, email, role) VALUES (?, ?, ?, ?)');
+        if (!$stmt) {
+            return ['success' => false, 'message' => $this->conn->error];
+        }
+        $stmt->bind_param('ssss', $username, $hashedPassword, $email, $role);
+        $result = $stmt->execute();
+        $error = $stmt->error;
+        $stmt->close();
+        if ($result) {
+            return ['success' => true];
+        } else {
+            return ['success' => false, 'message' => $error];
+        }
+    }
     public function __destruct() {
         $this->conn->close();
     }
