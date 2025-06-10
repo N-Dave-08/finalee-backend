@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../app/helpers/auth.php';
+require_role('admin');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,10 +18,10 @@
       <p>Imus, Cavite</p>
       <nav>
         <button onclick="location.href='admin.php'">Dashboard</button>
-        <button onclick="location.href='appointmentss.html'">Appointments</button>
-        <button onclick="location.href='consultation.html'">Consultation</button>
-        <button onclick="location.href='patients.html'">Patients</button>
-        <button onclick="location.href='medical-request.html'">View Medical Request</button>
+        <button onclick="location.href='appointmentss.php'">Appointments</button>
+        <button onclick="location.href='consultation.php'">Consultation</button>
+        <button onclick="location.href='patients.php'">Patients</button>
+        <button onclick="location.href='medical-request.php'">View Medical Request</button>
         <hr />
         <button onclick="logout()">LOGOUT</button>
       </nav>
@@ -36,7 +40,7 @@
             <div style="position: relative; background-color: #eaffea; padding: 20px; border-radius: 15px;">
 
                 <!-- X Button to exit -->
-                <button onclick="window.location.href='appointmentss.html';" style="
+                <button onclick="window.location.href='appointmentss.php';" style="
                   position: absolute;
                   top: 10px;
                   right: 10px;
@@ -141,7 +145,7 @@
                 function submitAppointment() {
                   // After confirming, redirect back to appointments page
                   alert("Appointment successfully added!"); 
-                  window.location.href = "appointmentss.html";
+                  window.location.href = "appointmentss.php";
                 }
               </script>
               

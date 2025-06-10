@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../app/helpers/auth.php';
+require_role('admin');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,12 +18,12 @@
       <p>Imus, Cavite</p>
       <nav>
         <button onclick="location.href='admin.php'">Dashboard</button>
-        <button onclick="location.href='appointmentss.html'">Appointments</button>
-        <button onclick="location.href='consultation.html'">Consultation</button>
-        <button onclick="location.href='patients.html'">Patients</button>
-        <button onclick="location.href='medical-request.html'">View Medical Request</button>
+        <button onclick="location.href='appointmentss.php'">Appointments</button>
+        <button onclick="location.href='consultation.php'">Consultation</button>
+        <button onclick="location.href='patients.php'">Patients</button>
+        <button onclick="location.href='medical-request.php'">View Medical Request</button>
         <hr />
-        <button onclick="location.href='index.html'">LOGOUT</button>
+        <button onclick="location.href='index.php'">LOGOUT</button>
       </nav>
     </aside>
   
@@ -39,8 +43,8 @@
           </div>
 
           <div class="action-buttons">
-            <button class="add-btn" onclick="location.href='add-appointment.html'">Add Appointment</button>
-            <button class="archive-btn" onclick="location.href='archive appointmentss.html'">Archive</button>
+            <button class="add-btn" onclick="location.href='add-appointment.php'">Add Appointment</button>
+            <button class="archive-btn" onclick="location.href='archive appointmentss.php'">Archive</button>
           </div>
         </div>
 
@@ -154,7 +158,7 @@
 
     function logout() {
       if (confirm("Are you sure you want to logout?")) {
-        location.href = "login.html"; // Redirect to login page after logout
+        location.href = "login.php"; // Redirect to login page after logout
       }
     }
   </script>

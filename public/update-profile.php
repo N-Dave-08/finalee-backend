@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../app/helpers/auth.php';
+require_role('user');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +14,7 @@
   <!-- Update Profile Section -->
   <div id="updateProfileSection">
     <div class="top-bar">
-      <button class="close-btn" onclick="window.location.href='home.html'">X</button>
+      <button class="close-btn" onclick="window.location.href='home.php'">X</button>
     </div>
 
     <div class="content">

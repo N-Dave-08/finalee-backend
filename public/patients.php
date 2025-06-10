@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../app/helpers/auth.php';
+require_role('admin');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,12 +17,12 @@
           <p>Imus, Cavite</p>
           <nav>
             <button onclick="location.href='admin.php'">Dashboard</button>
-            <button onclick="location.href='appointmentss.html'">Appointments</button>
-            <button onclick="location.href='appointmentss.html'">Consultation</button>
-            <button onclick="location.href='patients.html'">Patients</button>
-            <button onclick="location.href='medical-request.html'">View Medical Request</button>
+            <button onclick="location.href='appointmentss.php'">Appointments</button>
+            <button onclick="location.href='appointmentss.php'">Consultation</button>
+            <button onclick="location.href='patients.php'">Patients</button>
+            <button onclick="location.href='medical-request.php'">View Medical Request</button>
             <hr />
-            <button onclick="location.href='index.html'">LOGOUT</button>
+            <button onclick="location.href='index.php'">LOGOUT</button>
           </nav>
         </aside>
   

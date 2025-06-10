@@ -14,16 +14,16 @@
       <h2>BARANGAY CLINIC<br>ONLINE APPOINTMENT SYSTEM</h2>
       <p>Imus, Cavite</p>
       <nav>
-        <button onclick="navigateTo('home.html')">HOME</button>
-        <button onclick="navigateTo('update-profile.html')">UPDATE PROFILE</button>
-        <button onclick="navigateTo('request for new consultation.html')">REQUEST FOR NEW CONSULTATION</button>
-        <button onclick="navigateTo('view-consultation.html')">VIEW CONSULTATION RESULT</button>
-        <button onclick="navigateTo('appointments.html')">VIEW APPOINTMENTS</button>
-        <button onclick="navigateTo('request medical document.html')">REQUEST MEDICAL DOCUMENTS</button>
-        <button onclick="navigateTo('change-password.html')">CHANGE PASSWORD</button>
-        <button onclick="logout('index.html')">LOGOUT</button>
-        <button onclick="navigateTo('broad-consent.html')">VIEW BROAD CONSENT</button>
-        <button onclick="navigateTo('privacy-notice.html')">VIEW DATA PRIVACY NOTICE</button>
+        <button onclick="navigateTo('home.php')">HOME</button>
+        <button onclick="navigateTo('update-profile.php')">UPDATE PROFILE</button>
+        <button onclick="navigateTo('request for new consultation.php')">REQUEST FOR NEW CONSULTATION</button>
+        <button onclick="navigateTo('view-consultation.php')">VIEW CONSULTATION RESULT</button>
+        <button onclick="navigateTo('appointments.php')">VIEW APPOINTMENTS</button>
+        <button onclick="navigateTo('request medical document.php')">REQUEST MEDICAL DOCUMENTS</button>
+        <button onclick="navigateTo('change-password.php')">CHANGE PASSWORD</button>
+        <button onclick="logout('index.php')">LOGOUT</button>
+        <button onclick="navigateTo('broad-consent.php')">VIEW BROAD CONSENT</button>
+        <button onclick="navigateTo('privacy-notice.php')">VIEW DATA PRIVACY NOTICE</button>
       </nav>
     </aside>
 
@@ -54,7 +54,7 @@
     function logout() {
   alert("Logging out...");
   localStorage.clear(); // Clear stored login info if using localStorage
-  window.location.href = "index.html";
+  window.location.href = "index.php";
 }
 
 

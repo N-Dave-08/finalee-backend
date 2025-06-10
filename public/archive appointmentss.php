@@ -13,11 +13,11 @@
       <h2>BARANGAY CLINIC<br>ONLINE APPOINTMENT SYSTEM</h2>
       <p>Imus, Cavite</p>
       <nav>
-        <button onclick="location.href='admin.html'">Dashboard</button>
-        <button onclick="location.href='appointmentss.html'">Appointments</button>
-        <button onclick="location.href='consultation.html'">Consultation</button>
-        <button onclick="location.href='patients.html'">Patients</button>
-        <button onclick="location.href='medical-request.html'">View Medical Request</button>
+        <button onclick="location.href='admin.php'">Dashboard</button>
+        <button onclick="location.href='appointmentss.php'">Appointments</button>
+        <button onclick="location.href='consultation.php'">Consultation</button>
+        <button onclick="location.href='patients.php'">Patients</button>
+        <button onclick="location.href='medical-request.php'">View Medical Request</button>
         <hr />
         <button onclick="logout()">LOGOUT</button>
       </nav>
@@ -39,8 +39,8 @@
           </div>
 
           <div class="action-buttons">
-            <button class="add-btn" onclick="location.href='add-appointment.html'">Add Appointment</button>
-            <button class="archive-btn" onclick="location.href='appointmentss.html'">Back to Appointments</button>
+            <button class="add-btn" onclick="location.href='add-appointment.php'">Add Appointment</button>
+            <button class="archive-btn" onclick="location.href='appointmentss.php'">Back to Appointments</button>
           </div>
         </div>
 
@@ -99,7 +99,7 @@
 
     function logout() {
       if (confirm("Are you sure you want to logout?")) {
-        location.href = "login.html";
+        location.href = "login.php";
       }
     }
   </script>
