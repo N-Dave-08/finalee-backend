@@ -12,24 +12,7 @@ require_role('user');
 </head>
 <body>
   <div class="container">
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <img src="assets/images/newimus.png" alt="Barangay Logo" class="logo" />
-        <h2>BARANGAY CLINIC ONLINE APPOINTMENT SYSTEM</h2>
-        <p>Imus, Cavite</p>
-        <nav>
-          <button onclick="navigateTo('home.php')">HOME</button>
-          <button onclick="navigateTo('update-profile.php')">UPDATE PROFILE</button>
-          <button onclick="navigateTo('request-for-new-consultation.php')">REQUEST FOR NEW CONSULTATION</button>
-          <button onclick="navigateTo('view-consultation.php')">VIEW CONSULTATION RESULT</button>
-          <button onclick="navigateTo('appointments.php')">VIEW APPOINTMENTS</button>
-          <button onclick="navigateTo('request-medical-document.php')">REQUEST MEDICAL DOCUMENTS</button>
-          <button onclick="navigateTo('change-password.php')">CHANGE PASSWORD</button>
-          <button onclick="navigateTo('broad-consent.php')">VIEW BROAD CONSENT</button>
-          <button onclick="navigateTo('privacy-notice.php')">VIEW DATA PRIVACY NOTICE</button>
-          <button onclick="logout()">LOGOUT</button>
-        </nav>
-      </aside>
+    <?php $activePage = 'view-consultation.php'; include 'sidebar.php'; ?>
 
   <div class="main">
     <h2>VIEW CONSULTATION RESULT</h2>
@@ -124,6 +107,18 @@ require_role('user');
         alert("Appointment canceled successfully.");
       }
     }
+
+    // Highlight active sidebar button
+    document.addEventListener('DOMContentLoaded', function() {
+      const buttons = document.querySelectorAll('.sidebar nav button');
+      const currentPage = window.location.pathname.split('/').pop();
+      buttons.forEach(btn => {
+        const match = btn.getAttribute('onclick')?.match(/navigateTo\('([^']+)'\)/);
+        if (match && match[1] === currentPage) {
+          btn.classList.add('active');
+        }
+      });
+    });
   </script>
 </body>
 </html>

@@ -275,3 +275,9 @@ body {
 .save-button:hover {
   background-color: #0fb833;
 }
+
+.sidebar nav button.active {
+  background-color: #b2f0cb;
+  font-weight: bold;
+  color: #222;
+}

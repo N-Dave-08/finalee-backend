@@ -120,40 +120,44 @@ require_role('user');
 </head>
 <body>
 
-  <a href="home.php" class="exit-icon">✖</a>
+  <div class="container">
+    <?php $activePage = 'change-password.php'; include 'sidebar.php'; ?>
 
-  <div class="content">
-    <h1>CHANGE PASSWORD</h1>
-    <form id="changePasswordForm">
-      <div class="form-group">
-        <label for="currentPassword">Current Password</label>
-        <div class="password-field">
-          <input type="password" id="currentPassword" name="currentPassword" required>
-          <span class="toggle-password" onclick="togglePassword('currentPassword')">Show</span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="newPassword">New Password</label>
-        <div class="password-field">
-          <input type="password" id="newPassword" name="newPassword" required>
-          <span class="toggle-password" onclick="togglePassword('newPassword')">Show</span>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="confirmPassword">Confirm New Password</label>
-        <div class="password-field">
-          <input type="password" id="confirmPassword" name="confirmPassword" required>
-          <span class="toggle-password" onclick="togglePassword('confirmPassword')">Show</span>
-        </div>
-      </div>
-      <button type="submit" class="submit-btn">Submit</button>
-    </form>
-  </div>
+    <a href="home.php" class="exit-icon">✖</a>
 
-  <!-- Modal -->
-  <div id="successModal" class="modal">
-    <div class="modal-content">
-      <h2>Password Successfully Changed!</h2>
+    <div class="content">
+      <h1>CHANGE PASSWORD</h1>
+      <form id="changePasswordForm">
+        <div class="form-group">
+          <label for="currentPassword">Current Password</label>
+          <div class="password-field">
+            <input type="password" id="currentPassword" name="currentPassword" required>
+            <span class="toggle-password" onclick="togglePassword('currentPassword')">Show</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="newPassword">New Password</label>
+          <div class="password-field">
+            <input type="password" id="newPassword" name="newPassword" required>
+            <span class="toggle-password" onclick="togglePassword('newPassword')">Show</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm New Password</label>
+          <div class="password-field">
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <span class="toggle-password" onclick="togglePassword('confirmPassword')">Show</span>
+          </div>
+        </div>
+        <button type="submit" class="submit-btn">Submit</button>
+      </form>
+    </div>
+
+    <!-- Modal -->
+    <div id="successModal" class="modal">
+      <div class="modal-content">
+        <h2>Password Successfully Changed!</h2>
+      </div>
     </div>
   </div>
 

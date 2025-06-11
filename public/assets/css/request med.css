@@ -59,6 +59,12 @@
     background-color: #b6e7c9;
   }
   
+  .sidebar nav button.active {
+    background-color: #b2f0cb;
+    font-weight: bold;
+    color: #222;
+  }
+  
   .content {
     flex: 1;
     padding: 30px;
