@@ -28,6 +28,14 @@ require_role('admin');
     </div>
   </div>
 
+  <div id="profileModal" class="modal" style="display:none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100vw; height: 100vh; overflow: auto; background: rgba(0,0,0,0.4);">
+    <div class="modal-content" style="background: #fff; margin: 10% auto; padding: 20px; border-radius: 8px; width: 90%; max-width: 400px; position: relative;">
+      <span class="close" id="closeModalBtn" style="position: absolute; right: 16px; top: 8px; font-size: 28px; cursor: pointer;">&times;</span>
+      <h2>Patient Profile</h2>
+      <div id="modalDetails"></div>
+    </div>
+  </div>
+
   <script src="assets/js/patients.js"></script>
   <script src="assets/js/common.js"></script>
 </body>
