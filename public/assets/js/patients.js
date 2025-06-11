@@ -42,17 +42,17 @@ function showProfileModal(patient) {
     <p><strong>Email:</strong> ${patient.email}</p>
     <p><strong>Contact:</strong> ${patient.contact_num}</p>
   `;
-  modal.classList.add('show');
+  modal.style.display = 'block';
 }
 
 document.getElementById('closeModalBtn').onclick = function() {
-  document.getElementById('profileModal').classList.remove('show');
+  document.getElementById('profileModal').style.display = 'none';
 };
 
 window.onclick = function(event) {
   const modal = document.getElementById('profileModal');
   if (event.target == modal) {
-    modal.classList.remove('show');
+    modal.style.display = 'none';
   }
 };
 
