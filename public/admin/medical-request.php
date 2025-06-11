@@ -12,20 +12,7 @@ require_role('admin');
 </head>
 <body>
   <div class="dashboard-container">
-    <aside class="sidebar">
-      <img src="assets/images/newimus.png" alt="Barangay Logo" class="logo" />
-      <h2>BARANGAY CLINIC<br>ONLINE APPOINTMENT SYSTEM</h2>
-      <p>Imus, Cavite</p>
-      <nav>
-        <button onclick="location.href='admin.php'">Dashboard</button>
-        <button onclick="location.href='appointmentss.php'">Appointments</button>
-        <button onclick="location.href='consultation.php'">Consultation</button>
-        <button onclick="location.href='patients.php'">Patients</button>
-        <button onclick="location.href='medical-request.php'">View Medical Request</button>
-        <hr />
-        <button onclick="location.href='index.html'">LOGOUT</button>
-      </nav>
-    </aside>
+    <?php include 'sidebar.php'; ?>
 
     <div class="main-content">
       <h2 style="text-align: center; background-color: #00B300; color: white; padding: 10px; font-family: Arial, sans-serif;">
