@@ -39,20 +39,23 @@ require_role('user');
       </div>
 
       <!-- Consultation Form -->
-      <form class="consultation-form" id="consultationForm">
+      <form class="consultation-form" id="consultationForm" novalidate>
         <div class="form-group">
           <label for="fullname">Buong Pangalan*<br><span>(Full Name)</span></label>
           <input type="text" id="fullname" placeholder="e.g., Juan Dela Cruz" required />
+          <div class="error-message" id="fullname-error"></div>
         </div>
 
         <div class="form-group">
           <label for="complaint">Ano ang karamdaman na gusto mong ipakonsulta?*<br><span>(What is your main complaint?)</span></label>
           <input type="text" id="complaint" placeholder="e.g., Immunization" required />
+          <div class="error-message" id="complaint-error"></div>
         </div>
 
         <div class="form-group">
           <label for="details">Karagdagang detalye*<br><span>(Other details)</span></label>
           <textarea id="details" placeholder="Please provide more information..." required></textarea>
+          <div class="error-message" id="details-error"></div>
         </div>
 
         <div class="form-group">
@@ -72,12 +75,15 @@ require_role('user');
             <div>
               <label for="appointment-date">Select Date</label>
               <input type="date" id="appointment-date" required />
+              <div class="error-message" id="date-error"></div>
             </div>
             <div id="time-slots" class="time-slots"></div>
+            <div class="error-message" id="slot-error"></div>
           </div>
         </div>
 
-        <button type="submit" class="save-btn">Submit</button>
+        <button type="submit" class="save-btn" id="submitBtn" disabled>Submit</button>
+        <div id="form-status" style="margin-top:10px;"></div>
       </form>
     </main>
   </div>
@@ -144,8 +150,54 @@ require_role('user');
     }
 
     const form = document.getElementById("consultationForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const statusDiv = document.getElementById("form-status");
+
+    function validateForm() {
+      let valid = true;
+      // Clear previous errors
+      ["fullname", "complaint", "details", "date"].forEach(id => {
+        const el = document.getElementById(id + "-error");
+        if (el) el.innerText = "";
+      });
+      document.getElementById("slot-error").innerText = "";
+
+      if (!document.getElementById("fullname").value.trim()) {
+        document.getElementById("fullname-error").innerText = "Full name is required.";
+        valid = false;
+      }
+      if (!document.getElementById("complaint").value.trim()) {
+        document.getElementById("complaint-error").innerText = "Main complaint is required.";
+        valid = false;
+      }
+      if (!document.getElementById("details").value.trim()) {
+        document.getElementById("details-error").innerText = "Other details are required.";
+        valid = false;
+      }
+      if (!dateInput.value) {
+        document.getElementById("date-error").innerText = "Date is required.";
+        valid = false;
+      }
+      if (!selectedSlot) {
+        document.getElementById("slot-error").innerText = "Please select a time slot!";
+        valid = false;
+      }
+      submitBtn.disabled = !valid;
+      return valid;
+    }
+
+    ["fullname", "complaint", "details", "appointment-date"].forEach(id => {
+      document.getElementById(id).addEventListener("input", validateForm);
+    });
+    prioritySelect.addEventListener("change", validateForm);
+    dateInput.addEventListener("change", validateForm);
+    timeSlotsContainer.addEventListener("click", validateForm);
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (!validateForm()) return;
+      submitBtn.disabled = true;
+      statusDiv.innerHTML = '<span style="color:blue;">Submitting...</span>';
 
       const fullname = document.getElementById("fullname").value.trim();
       const complaint = document.getElementById("complaint").value.trim();
@@ -153,23 +205,30 @@ require_role('user');
       const priority = document.getElementById("priority").value || "None";
       const date = document.getElementById("appointment-date").value;
 
-      if (!selectedSlot) {
-        alert("Please select a time slot!");
-        return;
-      }
-
-      // For demo: Just show all data in alert (Remove in real use)
-      alert(
-        "Submitting:\n" +
-        "Full Name: " + fullname + "\n" +
-        "Complaint: " + complaint + "\n" +
-        "Details: " + details + "\n" +
-        "Priority: " + priority + "\n" +
-        "Date: " + date + "\n" +
-        "Time Slot: " + selectedSlot
-      );
-
-      // TODO: Replace with your actual fetch request to backend here.
+      // Send data to backend
+      fetch("../actions/save-consultation.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullname, complaint, details, priority, date, slot: selectedSlot
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          statusDiv.innerHTML = '<span style="color:green;">Request submitted successfully!</span>';
+          form.reset();
+          selectedSlot = "";
+          renderSlots();
+        } else {
+          statusDiv.innerHTML = '<span style="color:red;">' + (data.message || 'Submission failed.') + '</span>';
+        }
+        submitBtn.disabled = false;
+      })
+      .catch(() => {
+        statusDiv.innerHTML = '<span style="color:red;">An error occurred. Please try again.</span>';
+        submitBtn.disabled = false;
+      });
     });
   </script>
 </body>
