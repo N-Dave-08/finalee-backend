@@ -36,11 +36,26 @@ function displayPatients(filter = "") {
 function showProfileModal(patient) {
   const modal = document.getElementById('profileModal');
   const details = document.getElementById('modalDetails');
+  let emergency = '';
+  if (patient.emergency_contact) {
+    const ec = patient.emergency_contact;
+    emergency = `
+      <hr style="margin:18px 0;">
+      <h3 style="margin-bottom:8px; color:#00cc00;">Emergency Contact</h3>
+      <p><strong>Name:</strong> ${ec.first_name || ''} ${ec.last_name || ''}</p>
+      <p><strong>Relationship:</strong> ${ec.relationship || ''}</p>
+      <p><strong>Contact:</strong> ${ec.contact_num || ''}</p>
+      <p><strong>Email:</strong> ${ec.email || ''}</p>
+    `;
+  } else {
+    emergency = '<hr style="margin:18px 0;"><h3 style="color:#00cc00;">Emergency Contact</h3><p style="color:#888;">No emergency contact info.</p>';
+  }
   details.innerHTML = `
     <p><strong>Name:</strong> ${patient.first_name} ${patient.last_name}</p>
     <p><strong>Gender:</strong> ${patient.gender}</p>
     <p><strong>Email:</strong> ${patient.email}</p>
     <p><strong>Contact:</strong> ${patient.contact_num}</p>
+    ${emergency}
   `;
   modal.style.display = 'block';
 }
