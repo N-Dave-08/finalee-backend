@@ -113,6 +113,7 @@ require_role('user');
     const prioritySelect = document.getElementById("priority");
 
     let selectedSlot = "";
+    let triedSubmit = false;
 
     dateInput.addEventListener("change", renderSlots);
     prioritySelect.addEventListener("change", renderSlots);
@@ -153,49 +154,115 @@ require_role('user');
     const submitBtn = document.getElementById("submitBtn");
     const statusDiv = document.getElementById("form-status");
 
+    function isValidFullName(name) {
+      return /^[A-Za-z ]{3,}$/.test(name) && name.trim().split(' ').length >= 2;
+    }
+
+    function isValidComplaint(complaint) {
+      return complaint.trim().length >= 3;
+    }
+
+    function isValidDetails(details) {
+      return details.trim().length >= 10;
+    }
+
+    function isValidDate(date) {
+      const today = new Date();
+      const selected = new Date(date);
+      today.setHours(0,0,0,0);
+      return selected >= today;
+    }
+
     function validateForm() {
       let valid = true;
-      // Clear previous errors
-      ["fullname", "complaint", "details", "date"].forEach(id => {
-        const el = document.getElementById(id + "-error");
-        if (el) el.innerText = "";
-      });
-      document.getElementById("slot-error").innerText = "";
 
-      if (!document.getElementById("fullname").value.trim()) {
-        document.getElementById("fullname-error").innerText = "Full name is required.";
-        valid = false;
+      // Full Name
+      const fullname = document.getElementById("fullname").value.trim();
+      if (triedSubmit || fullname) {
+        if (fullname && !isValidFullName(fullname)) {
+          document.getElementById("fullname-error").innerText = "Please enter your full name (at least two words, letters only).";
+          valid = false;
+        } else {
+          document.getElementById("fullname-error").innerText = "";
+        }
+      } else {
+        document.getElementById("fullname-error").innerText = "";
       }
-      if (!document.getElementById("complaint").value.trim()) {
-        document.getElementById("complaint-error").innerText = "Main complaint is required.";
-        valid = false;
+      if (!fullname) valid = false;
+
+      // Complaint
+      const complaint = document.getElementById("complaint").value.trim();
+      if (triedSubmit || complaint) {
+        if (complaint && !isValidComplaint(complaint)) {
+          document.getElementById("complaint-error").innerText = "Please enter a valid complaint (at least 3 characters).";
+          valid = false;
+        } else {
+          document.getElementById("complaint-error").innerText = "";
+        }
+      } else {
+        document.getElementById("complaint-error").innerText = "";
       }
-      if (!document.getElementById("details").value.trim()) {
-        document.getElementById("details-error").innerText = "Other details are required.";
-        valid = false;
+      if (!complaint) valid = false;
+
+      // Details
+      const details = document.getElementById("details").value.trim();
+      if (triedSubmit || details) {
+        if (details && !isValidDetails(details)) {
+          document.getElementById("details-error").innerText = "Please provide more details (at least 10 characters).";
+          valid = false;
+        } else {
+          document.getElementById("details-error").innerText = "";
+        }
+      } else {
+        document.getElementById("details-error").innerText = "";
       }
-      if (!dateInput.value) {
-        document.getElementById("date-error").innerText = "Date is required.";
-        valid = false;
+      if (!details) valid = false;
+
+      // Date
+      const date = document.getElementById("appointment-date").value;
+      if (triedSubmit || date) {
+        if (date && !isValidDate(date)) {
+          document.getElementById("date-error").innerText = "Please select a valid date (today or future).";
+          valid = false;
+        } else {
+          document.getElementById("date-error").innerText = "";
+        }
+      } else {
+        document.getElementById("date-error").innerText = "";
       }
-      if (!selectedSlot) {
-        document.getElementById("slot-error").innerText = "Please select a time slot!";
-        valid = false;
+      if (!date) valid = false;
+
+      // Time Slot
+      if (triedSubmit || selectedSlot) {
+        if (!selectedSlot) {
+          document.getElementById("slot-error").innerText = "";
+          valid = false;
+        } else {
+          document.getElementById("slot-error").innerText = "";
+        }
+      } else {
+        document.getElementById("slot-error").innerText = "";
       }
+      if (!selectedSlot) valid = false;
+
       submitBtn.disabled = !valid;
       return valid;
     }
 
-    ["fullname", "complaint", "details", "appointment-date"].forEach(id => {
-      document.getElementById(id).addEventListener("input", validateForm);
-    });
-    prioritySelect.addEventListener("change", validateForm);
-    dateInput.addEventListener("change", validateForm);
-    timeSlotsContainer.addEventListener("click", validateForm);
-
+    // On submit, set triedSubmit = true and validate
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      if (!validateForm()) return;
+      triedSubmit = true;
+      if (!validateForm()) {
+        // Focus first error
+        const firstError = document.querySelector('.error-message:not(:empty)');
+        if (firstError) {
+          const inputId = firstError.id.replace('-error', '');
+          const input = document.getElementById(inputId);
+          if (input) input.focus();
+        }
+        return;
+      }
       submitBtn.disabled = true;
       statusDiv.innerHTML = '<span style="color:blue;">Submitting...</span>';
 
@@ -218,18 +285,29 @@ require_role('user');
         if (data.success) {
           statusDiv.innerHTML = '<span style="color:green;">Request submitted successfully!</span>';
           form.reset();
+          triedSubmit = false;
           selectedSlot = "";
+          document.querySelectorAll(".slot.selected").forEach(s => s.classList.remove("selected"));
           renderSlots();
+          validateForm(); // Ensure button is disabled after reset
+          timeSlotsContainer.innerHTML = ""; // Clear the time slot UI
         } else {
           statusDiv.innerHTML = '<span style="color:red;">' + (data.message || 'Submission failed.') + '</span>';
         }
-        submitBtn.disabled = false;
       })
       .catch(() => {
         statusDiv.innerHTML = '<span style="color:red;">An error occurred. Please try again.</span>';
         submitBtn.disabled = false;
       });
     });
+
+    // After first submit, validate on input/change
+    ["fullname", "complaint", "details", "appointment-date"].forEach(id => {
+      document.getElementById(id).addEventListener("input", validateForm);
+    });
+    prioritySelect.addEventListener("change", validateForm);
+    dateInput.addEventListener("change", validateForm);
+    timeSlotsContainer.addEventListener("click", validateForm);
   </script>
 </body>
 </html>
