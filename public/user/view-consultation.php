@@ -1,6 +1,10 @@
 <?php
 require_once dirname(__DIR__, 2) . '/app/helpers/auth.php';
 require_role('user');
+require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
+session_start();
+$user_id = $_SESSION['user']['id'];
+$conn = get_db_connection();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,14 +43,29 @@ require_role('user');
           </tr>
         </thead>
         <tbody id="pending-table-body">
-          <tr>
-            <td>#03-011324345</td>
-            <td>Pregnant Check up</td>
-            <td>February 11, 2025</td>
-            <td>9:20-9:40 AM</td>
-            <td>Pending</td>
-            <td><button onclick="cancelAppointment(this)">Cancel</button></td>
-          </tr>
+<?php
+$sql = "SELECT id, complaint, preferred_date, time_slot, status FROM consultations WHERE user_id = ? AND status = 'Pending' ORDER BY created_at DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($result && $result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $ref = '#' . str_pad($row['id'], 2, '0', STR_PAD_LEFT) . '-' . date('mdY', strtotime($row['preferred_date']));
+    echo '<tr>';
+    echo '<td>' . htmlspecialchars($ref) . '</td>';
+    echo '<td>' . htmlspecialchars($row['complaint']) . '</td>';
+    echo '<td>' . htmlspecialchars(date('F d, Y', strtotime($row['preferred_date']))) . '</td>';
+    echo '<td>' . htmlspecialchars($row['time_slot']) . '</td>';
+    echo '<td>' . htmlspecialchars($row['status']) . '</td>';
+    echo '<td><button onclick="cancelAppointment(this)">Cancel</button></td>';
+    echo '</tr>';
+  }
+} else {
+  echo '<tr><td colspan="6">No pending consultations found.</td></tr>';
+}
+$stmt->close();
+?>
         </tbody>
       </table>
     </div>
@@ -63,13 +82,29 @@ require_role('user');
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>#02-01152025</td>
-            <td>Immunization</td>
-            <td>January 15, 2025</td>
-            <td>8:20-8:40 AM</td>
-            <td>Completed</td>
-          </tr>
+<?php
+$sql = "SELECT id, complaint, preferred_date, time_slot, status FROM consultations WHERE user_id = ? AND status = 'Completed' ORDER BY created_at DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+if ($result && $result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $ref = '#' . str_pad($row['id'], 2, '0', STR_PAD_LEFT) . '-' . date('mdY', strtotime($row['preferred_date']));
+    echo '<tr>';
+    echo '<td>' . htmlspecialchars($ref) . '</td>';
+    echo '<td>' . htmlspecialchars($row['complaint']) . '</td>';
+    echo '<td>' . htmlspecialchars(date('F d, Y', strtotime($row['preferred_date']))) . '</td>';
+    echo '<td>' . htmlspecialchars($row['time_slot']) . '</td>';
+    echo '<td>' . htmlspecialchars($row['status']) . '</td>';
+    echo '</tr>';
+  }
+} else {
+  echo '<tr><td colspan="5">No past consultations found.</td></tr>';
+}
+$stmt->close();
+$conn->close();
+?>
         </tbody>
       </table>
     </div>

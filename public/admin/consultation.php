@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__DIR__, 2) . '/app/helpers/auth.php';
 require_role('admin');
+require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,84 +47,25 @@ require_role('admin');
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Vince Lee</td>
-                <td>#01-01062025</td>
-                <td>Check-up for Elders</td>
-                <td>Pending</td>
-              </tr>
-              <tr>
-                <td>Jayson Stark</td>
-                <td>#02-01062025</td>
-                <td>Sick Check-up</td>
-                <td>Completed</td>
-              </tr>
-              <tr>
-                <td>Michael Jackstar</td>
-                <td>#03-01062025</td>
-                <td>Sick Check-up</td>
-                <td>Pending</td>
-              </tr>
-              <tr>
-                <td>Nick Felids</td>
-                <td>#04-01062025</td>
-                <td>Sick Check-up</td>
-                <td>Pending</td>
-              </tr>
-              <tr>
-                <td>Camille Sprats</td>
-                <td>#01-01072025</td>
-                <td>Sick Check-up</td>
-                <td>Pending</td>
-              </tr>
-              <tr>
-                <td>Guinevere Tan</td>
-                <td>#02-01072025</td>
-                <td>Sick Check-up</td>
-                <td>Pending</td>
-              </tr>
-              <tr>
-                <td>Nolan Gord</td>
-                <td>#03-01072025</td>
-                <td>Sick Check-up</td>
-                <td>Pending</td>
-              </tr>
-              <tr>
-                <td>Tony Foul</td>
-                <td>#01-01082025</td>
-                <td>Pap Smear</td>
-                <td>Pending</td>
-              </tr>
-              <tr>
-                <td>Chloe Cal</td>
-                <td>#02-01082025</td>
-                <td>Kids Medication</td>
-                <td>Pending</td>
-              </tr>
-              <tr>
-                <td>Kazz Smith</td>
-                <td>#03-01082025</td>
-                <td>Prenatal</td>
-                <td>Pending</td>
-              </tr>
-              <tr>
-                <td>Hev Ali</td>
-                <td>#04-01082025</td>
-                <td>Immunization</td>
-                <td>Pending</td>
-              </tr>
-              <tr>
-                <td>Malu Peeton</td>
-                <td>#01-01082025</td>
-                <td>Pregnant Check-up</td>
-                <td>Pending</td>
-              </tr>
-              <tr>
-                <td>Isma Glass</td>
-                <td>#06-01082025</td>
-                <td>Immunization</td>
-                <td>Pending</td>
-              </tr>
+<?php
+$conn = get_db_connection();
+$sql = "SELECT id, full_name, complaint, status, preferred_date FROM consultations ORDER BY created_at DESC";
+$result = $conn->query($sql);
+if ($result && $result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $ref = '#' . str_pad($row['id'], 2, '0', STR_PAD_LEFT) . '-' . date('mdY', strtotime($row['preferred_date']));
+    echo '<tr>';
+    echo '<td>' . htmlspecialchars($row['full_name']) . '</td>';
+    echo '<td>' . htmlspecialchars($ref) . '</td>';
+    echo '<td>' . htmlspecialchars($row['complaint']) . '</td>';
+    echo '<td>' . htmlspecialchars($row['status']) . '</td>';
+    echo '</tr>';
+  }
+} else {
+  echo '<tr><td colspan="4">No consultations found.</td></tr>';
+}
+$conn->close();
+?>
             </tbody>
           </table>
         </div>
