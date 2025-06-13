@@ -2,7 +2,6 @@
 require_once dirname(__DIR__, 2) . '/app/helpers/auth.php';
 require_role('user');
 require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
-session_start();
 $user_id = $_SESSION['user']['id'];
 $conn = get_db_connection();
 ?>
