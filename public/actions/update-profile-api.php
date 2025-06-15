@@ -1,7 +1,7 @@
 <?php
 session_name('finalee_session');
 session_start();
-file_put_contents(__DIR__ . '/session_debug.log', date('c') . ' ' . print_r($_SESSION, true), FILE_APPEND);
+// file_put_contents(__DIR__ . '/session_debug.log', date('c') . ' ' . print_r($_SESSION, true), FILE_APPEND); - show session logs
 require_once __DIR__ . '/../../app/controllers/ProfileController.php';
 // var_dump($_SESSION);
 if (!isset($_SESSION['user']['id'])) {

@@ -1,6 +1,17 @@
 function logout() {
-  alert("Logging out...");
-  localStorage.clear(); // Clear stored login info if using localStorage
-  window.location.href = "index.html";
+  fetch('actions/logout.php', { method: 'POST' })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.href = 'index.html';
+      } else {
+        alert('Logout failed!');
+      }
+    })
+    .catch(() => {
+      alert('Logout error.');
+    });
 }
 window.logout = logout;

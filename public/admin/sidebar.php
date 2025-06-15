@@ -15,6 +15,6 @@ function isActive($page, $activePage) {
     <button class="<?=isActive('patients.php', $activePage)?>" onclick="location.href='patients.php'">Patients</button>
     <button class="<?=isActive('medical-request.php', $activePage)?>" onclick="location.href='medical-request.php'">View Medical Request</button>
     <hr />
-    <button onclick="location.href='index.html'">LOGOUT</button>
+    <button onclick="logout()">LOGOUT</button>
   </nav>
 </aside> 

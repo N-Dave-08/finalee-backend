@@ -76,7 +76,7 @@ searchInput.addEventListener("input", e => {
 });
 
 // Fetch patients from API
-fetch("/actions/patients-api.php")
+fetch("actions/patients-api.php")
   .then(res => res.json())
   .then(data => {
     patients = data;

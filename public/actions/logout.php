@@ -27,6 +27,8 @@ if (ini_get("session.use_cookies")) {
     );
 }
 session_destroy();
-header('Location: /finalee/public/index.html');
+
+header('Content-Type: application/json');
+echo json_encode(['success' => true]);
 exit();
 ?> 
