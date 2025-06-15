@@ -1,7 +1,8 @@
 <?php
+session_name('finalee_session');
+session_start();
 
 function require_role($role) {
-    session_start();
     if (!isset($_SESSION['user'])) {
         header('Location: index.html');
         exit();
@@ -17,7 +18,6 @@ function require_role($role) {
 }
 
 function require_login() {
-    session_start();
     if (!isset($_SESSION['user'])) {
         header('Location: index.html');
         exit();

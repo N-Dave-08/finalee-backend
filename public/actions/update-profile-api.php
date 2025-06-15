@@ -1,6 +1,8 @@
 <?php
-require_once __DIR__ . '/../../app/controllers/ProfileController.php';
+session_name('finalee_session');
 session_start();
+file_put_contents(__DIR__ . '/session_debug.log', date('c') . ' ' . print_r($_SESSION, true), FILE_APPEND);
+require_once __DIR__ . '/../../app/controllers/ProfileController.php';
 // var_dump($_SESSION);
 if (!isset($_SESSION['user']['id'])) {
     http_response_code(401);

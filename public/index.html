@@ -8,6 +8,36 @@
   <link rel="icon" href="assets/images/newimus.png" sizes="32x32" type="image/png">
 </head>
 <body class="login-page">
+<script>
+  // Check if user is already logged in
+  fetch('actions/update-profile-api.php?ts=' + Date.now(), { credentials: 'include' })
+    .then(async res => {
+      console.log('API response status:', res.status);
+      let data = null;
+      try {
+        data = await res.json();
+      } catch (e) {
+        console.log('Failed to parse JSON:', e);
+      }
+      console.log('API response data:', data);
+      if (!res.ok) {
+        console.log('Not authenticated or other error');
+        return null;
+      }
+      return data;
+    })
+    .then(data => {
+      if (data && data.success && data.data && data.data.user) {
+        // If user is logged in, redirect based on role
+        if (data.data.user.role === 'admin') {
+          window.location.href = 'admin.php';
+        } else {
+          window.location.href = 'home.php';
+        }
+      }
+      // else: do nothing, stay on index.html
+    });
+</script>
   <div id="loginSection">
     <div class="scene">
       <div class="card-container" id="card">
