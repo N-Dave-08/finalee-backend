@@ -1,3 +1,7 @@
+<?php
+require_once dirname(__DIR__, 2) . '/app/helpers/auth.php';
+require_role('admin');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,30 +46,26 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Jayson Stark</td>
-                <td>#02-01062025</td>
-                <td>Sick Check-up</td>
-                <td>Completed</td>
-              </tr>
-              <tr>
-                <td>Old Patient 1</td>
-                <td>#01-01012024</td>
-                <td>Check-up for Elders</td>
-                <td>Expired</td>
-              </tr>
-              <tr>
-                <td>Old Patient 2</td>
-                <td>#02-15022024</td>
-                <td>Prenatal</td>
-                <td>Expired</td>
-              </tr>
-              <tr>
-                <td>Old Patient 3</td>
-                <td>#03-01032024</td>
-                <td>Immunization</td>
-                <td>Completed</td>
-              </tr>
+<?php
+require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
+$conn = get_db_connection();
+$sql = "SELECT id, full_name, complaint, status, preferred_date FROM consultations WHERE status = 'Completed' ORDER BY created_at DESC";
+$result = $conn->query($sql);
+if ($result && $result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $ref = '#' . str_pad($row['id'], 2, '0', STR_PAD_LEFT) . '-' . date('mdY', strtotime($row['preferred_date']));
+    echo '<tr>';
+    echo '<td>' . htmlspecialchars($row['full_name']) . '</td>';
+    echo '<td>' . htmlspecialchars($ref) . '</td>';
+    echo '<td>' . htmlspecialchars($row['complaint']) . '</td>';
+    echo '<td>' . htmlspecialchars($row['status']) . '</td>';
+    echo '</tr>';
+  }
+} else {
+  echo '<tr><td colspan="4">No archived consultations found.</td></tr>';
+}
+$conn->close();
+?>
             </tbody>
           </table>
         </div>

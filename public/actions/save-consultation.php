@@ -1,6 +1,9 @@
 <?php
 header('Content-Type: application/json');
 require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
+session_name('finalee_session');
+session_start();
+$user_id = $_SESSION['user']['id'];
 
 $conn = get_db_connection();
 
@@ -48,12 +51,12 @@ if (strtotime($date) < strtotime(date('Y-m-d'))) {
 }
 
 // Prepare and execute insert
-$stmt = $conn->prepare("INSERT INTO consultations (full_name, complaint, details, priority, preferred_date, time_slot, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO consultations (user_id, full_name, complaint, details, priority, preferred_date, time_slot, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 if (!$stmt) {
     echo json_encode(['success' => false, 'message' => 'Prepare failed: ' . $conn->error]);
     exit;
 }
-$stmt->bind_param('ssssssss', $fullname, $complaint, $details, $priority, $date, $slot, $status, $created_at);
+$stmt->bind_param('issssssss', $user_id, $fullname, $complaint, $details, $priority, $date, $slot, $status, $created_at);
 
 if ($stmt->execute()) {
     echo json_encode(['success' => true]);
