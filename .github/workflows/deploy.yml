@@ -1,0 +1,31 @@
+name: Deploy PHP to Hostinger via SFTP
+
+on:
+  push:
+    branches:
+      - main  # Change if your branch is different
+
+jobs:
+  deploy:
+    name: Deploy to Hostinger
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Upload via SFTP
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_PORT: ${{ secrets.SFTP_PORT }}
+          SFTP_TARGET: ${{ secrets.SFTP_TARGET }}
+        run: |
+          lftp -u "$SFTP_USERNAME","$SFTP_PASSWORD" -p $SFTP_PORT sftp://$SFTP_HOST <<EOF
+          mirror -R ./ $SFTP_TARGET --delete --verbose
+          bye
+EOF
