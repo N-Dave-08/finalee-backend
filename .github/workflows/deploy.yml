@@ -27,7 +27,7 @@ jobs:
           SFTP_PORT: ${{ secrets.SFTP_PORT }}
           SFTP_TARGET: ${{ secrets.SFTP_TARGET }}
         run: |
-          lftp -u "$SFTP_USERNAME","$SFTP_PASSWORD" -p $SFTP_PORT sftp://$SFTP_HOST -e "
+          lftp -d -u "$SFTP_USERNAME","$SFTP_PASSWORD" -p $SFTP_PORT sftp://$SFTP_HOST -e "
             mirror -R public_html $SFTP_TARGET --delete --verbose;
             bye
           "
