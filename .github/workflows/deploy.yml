@@ -3,7 +3,7 @@ name: Deploy PHP to Hostinger via SFTP
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:
