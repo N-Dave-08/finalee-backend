@@ -19,6 +19,35 @@ require_role('admin');
         Medical Request
       </h2>
     
+      <?php if (isset($_GET['success'])): ?>
+        <div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 10px;">Request submitted successfully!</div>
+      <?php elseif (isset($_GET['error'])): ?>
+        <div style="background: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin-bottom: 10px;">There was an error submitting your request. Please try again.</div>
+      <?php endif; ?>
+    
+      <form method="POST" action="../actions/submit_medical_request.php" style="margin-bottom: 20px; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px #eee;">
+        <h3>Request Medical Document</h3>
+        <label>Full Name:</label>
+        <input type="text" name="full_name" required style="margin-bottom: 8px; width: 100%;"><br>
+        <label>Contact Number:</label>
+        <input type="text" name="contact_number" required style="margin-bottom: 8px; width: 100%;"><br>
+        <label>Document Type:</label>
+        <select name="document_type" required style="margin-bottom: 8px; width: 100%;">
+          <option value="">Select</option>
+          <option value="Medical Certificate">Medical Certificate</option>
+          <option value="Check-up for Elders">Check-up for Elders</option>
+          <option value="Sick Check-up">Sick Check-up</option>
+          <option value="Pap Smear">Pap Smear</option>
+          <option value="Kids Medication">Kids Medication</option>
+          <option value="Prenatal">Prenatal</option>
+          <option value="Immunization">Immunization</option>
+          <option value="Pregnant Check-up">Pregnant Check-up</option>
+        </select><br>
+        <label>Date of Birth:</label>
+        <input type="date" name="date_of_birth" required style="margin-bottom: 8px; width: 100%;"><br>
+        <button type="submit" style="background: #00B300; color: #fff; padding: 8px 16px; border: none; border-radius: 4px;">Save</button>
+      </form>
+    
       <div style="background-color: #D0F5D8; padding: 20px; border-radius: 10px; font-family: Arial, sans-serif;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
           <div>

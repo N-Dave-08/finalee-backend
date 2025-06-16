@@ -273,7 +273,7 @@ require_role('user');
       const date = document.getElementById("appointment-date").value;
 
       // Send data to backend
-      fetch("../actions/save-consultation.php", {
+      fetch("/finalee/public/actions/save-consultation.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -7,11 +7,9 @@ $user_id = $_SESSION['user']['id'];
 
 $conn = get_db_connection();
 
-// Get POST data
 $raw = file_get_contents('php://input');
 $data = json_decode($raw, true);
 
-// Validate required fields
 $required = ['fullname', 'complaint', 'details', 'date', 'slot'];
 foreach ($required as $field) {
     if (empty($data[$field])) {

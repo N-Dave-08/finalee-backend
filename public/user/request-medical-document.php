@@ -26,7 +26,7 @@ require_role('user');
         Para humiling ng mga medikal na dokumento, punan ang online form o pumunta sa klinika/ospital at ibigay ang inyong mga detalye at ang mga dokumentong kailangan mo.</p>
       </div>
 
-      <form id="requestForm">
+      <form id="requestForm" method="POST" action="/finalee/public/actions/submit_medical_request.php">
         <div class="form-group">
           <label for="fullName">Full name:</label>
           <input type="text" id="fullName" name="fullName" required>
@@ -59,12 +59,6 @@ require_role('user');
       </form>
       
       <script>
-        document.getElementById("requestForm").addEventListener("submit", function (e) {
-          e.preventDefault(); // Prevent default form submission
-          alert("Form submitted successfully!");
-          window.location.href = "home.php"; // Redirect to home page
-        });
-
         function navigateTo(page) {
           window.location.href = page;
         }
