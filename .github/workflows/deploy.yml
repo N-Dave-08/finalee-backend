@@ -34,7 +34,10 @@ jobs:
           SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
         run: |
           echo "Testing SFTP connection to $SFTP_HOST on port $SFTP_PORT as $SFTP_USERNAME"
-          lftp -d -u "$SFTP_USERNAME","$SFTP_PASSWORD" -e "ls; bye" -p $SFTP_PORT sftp://$SFTP_HOST
+          lftp -d -u "$SFTP_USERNAME","$SFTP_PASSWORD" -e "
+            set sftp:connect-program 'ssh -a -x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null';
+            ls; bye
+          " -p $SFTP_PORT sftp://$SFTP_HOST
 
       - name: Deploy files to Hostinger
         env:
@@ -45,6 +48,7 @@ jobs:
           SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
         run: |
           lftp -d -u "$SFTP_USERNAME","$SFTP_PASSWORD" -e "
+            set sftp:connect-program 'ssh -a -x -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null';
             mirror -R app $SFTP_TARGET/app --delete --verbose;
             mirror -R config $SFTP_TARGET/config --delete --verbose;
             mirror -R public $SFTP_TARGET/public --delete --verbose;
