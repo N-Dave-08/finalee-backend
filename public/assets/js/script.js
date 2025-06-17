@@ -169,6 +169,31 @@ document.addEventListener('DOMContentLoaded', function () {
     window.location.href = page;
   }
 
+  function handleForgotPassword() {
+    const email = document.getElementById('forgotEmail').value.trim();
+    const msgDiv = document.getElementById('forgotMsg');
+    msgDiv.textContent = '';
+    if (!email) {
+      msgDiv.textContent = 'Please enter your email.';
+      msgDiv.style.color = 'red';
+      return;
+    }
+    fetch('actions/forgot-password.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `email=${encodeURIComponent(email)}`
+    })
+    .then(res => res.json())
+    .then(data => {
+      msgDiv.textContent = 'If this email is registered, a reset link has been sent.';
+      msgDiv.style.color = 'green';
+    })
+    .catch(() => {
+      msgDiv.textContent = 'An error occurred. Please try again later.';
+      msgDiv.style.color = 'red';
+    });
+  }
+
   // Expose globally
   window.logout = logout;
   window.flipToRegister = flipToRegister;
@@ -177,4 +202,5 @@ document.addEventListener('DOMContentLoaded', function () {
   window.closeForgot = closeForgot;
   window.navigateTo = navigateTo;
   window.handleRegister = handleRegister;
+  window.handleForgotPassword = handleForgotPassword;
 });

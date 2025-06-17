@@ -58,6 +58,30 @@ class UserModel {
         $stmt->close();
         return $user;
     }
+    public function findUserByEmail($email) {
+        $stmt = $this->conn->prepare('SELECT * FROM user WHERE email = ?');
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+        $stmt->close();
+        return $user;
+    }
+    public function setResetToken($userId, $token, $expiry) {
+        $stmt = $this->conn->prepare('UPDATE user SET reset_token = ?, reset_token_expiry = ? WHERE id = ?');
+        if (!$stmt) {
+            return ['success' => false, 'message' => $this->conn->error];
+        }
+        $stmt->bind_param('ssi', $token, $expiry, $userId);
+        $result = $stmt->execute();
+        $error = $stmt->error;
+        $stmt->close();
+        if ($result) {
+            return ['success' => true];
+        } else {
+            return ['success' => false, 'message' => $error];
+        }
+    }
     public function __destruct() {
         $this->conn->close();
     }

@@ -67,8 +67,9 @@
     <div id="forgotOverlay" style="display: none;">
       <div class="forgot-box">
         <h3>Forgot Password</h3>
-        <input type="email" placeholder="Enter your email" />
-        <button>Send Reset Link</button>
+        <input type="email" id="forgotEmail" placeholder="Enter your email" />
+        <button id="forgotBtn" onclick="handleForgotPassword()">Send Reset Link</button>
+        <div id="forgotMsg" style="margin-top:10px;"></div>
         <div class="link" onclick="closeForgot()">Close</div>
       </div>
     </div>
