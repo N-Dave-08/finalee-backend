@@ -83,7 +83,13 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
       })
-      .then(response => response.json())
+      .then(async response => {
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(`HTTP ${response.status} ${response.statusText}: ${text}`);
+        }
+        return response.json();
+      })
       .then(data => {
         if (data.success) {
           if (data.role === 'admin') {
@@ -99,8 +105,9 @@ document.addEventListener('DOMContentLoaded', function () {
           alert(data.message || 'Login failed');
         }
       })
-      .catch(() => {
-        alert('Error connecting to server.');
+      .catch(error => {
+        alert(`Login failed: ${error.message}`);
+        console.error('Login error:', error);
       });
     };
   }
