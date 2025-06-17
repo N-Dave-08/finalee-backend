@@ -1,6 +1,19 @@
 <?php
 require_once dirname(__DIR__, 2) . '/app/helpers/auth.php';
 require_role('user');
+require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
+
+$user_id = $_SESSION['user']['id'];
+$conn = get_db_connection();
+
+$sql = "SELECT * FROM medical_documents_requests WHERE user_id = ? ORDER BY date_requested DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$requests = $result->fetch_all(MYSQLI_ASSOC);
+$stmt->close();
+$conn->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,17 +52,19 @@ require_role('user');
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>#DOC-001</td>
-              <td>Medical Certificate</td>
-              <td>April 25, 2025</td>
-              <td>Ready</td>
-              <td>
-                <button onclick="viewDocument()">View</button>
-                <button onclick="printDocument()">Print</button>
-                <button onclick="downloadDocument()">Download</button>
-              </td>
-            </tr>
+            <?php foreach ($requests as $row): ?>
+              <tr>
+                <td><?= htmlspecialchars($row['reference_number']) ?></td>
+                <td><?= htmlspecialchars($row['document_type']) ?></td>
+                <td><?= date('F d, Y', strtotime($row['date_requested'])) ?></td>
+                <td><?= htmlspecialchars($row['status']) ?></td>
+                <td>
+                  <button onclick="viewDocument('<?= htmlspecialchars($row['reference_number']) ?>')">View</button>
+                  <button onclick="printDocument('<?= htmlspecialchars($row['reference_number']) ?>')">Print</button>
+                  <button onclick="downloadDocument('<?= htmlspecialchars($row['reference_number']) ?>')">Download</button>
+                </td>
+              </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>
@@ -97,19 +112,19 @@ require_role('user');
       else buttons[1].classList.add('active');
     }
 
-    function viewDocument() {
+    function viewDocument(referenceNumber) {
       alert("Viewing the document...");
     }
       
 
-    function printDocument() {
+    function printDocument(referenceNumber) {
       const printable = document.getElementById('printable-document');
       printable.style.display = 'block'; // Show the printable content
       window.print();
       printable.style.display = 'none';  // Hide again after printing
     }
 
-    function downloadDocument() {
+    function downloadDocument(referenceNumber) {
       const link = document.createElement('a');
       link.href = 'path_to_your_document.pdf'; // actual file path
       link.download = 'Medical_Document.pdf';

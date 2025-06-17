@@ -1,0 +1,53 @@
+<?php
+require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
+
+function redirect_with_error($type, $extra = '') {
+    header('Location: ../admin/medical-request.php?error=' . urlencode($type . ($extra ? (':' . $extra) : '')));
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_id']) && isset($_FILES['medical_doc'])) {
+    $request_id = intval($_POST['request_id']);
+    $file = $_FILES['medical_doc'];
+    $allowed_types = ['application/pdf', 'image/jpeg', 'image/png'];
+    $max_size = 5 * 1024 * 1024; // 5MB
+
+    // Validate file
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        redirect_with_error('upload_error', $file['error']);
+    }
+    if (!in_array($file['type'], $allowed_types)) {
+        redirect_with_error('type', $file['type']);
+    }
+    if ($file['size'] > $max_size) {
+        redirect_with_error('size', $file['size']);
+    }
+
+    // Ensure upload directory exists
+    $upload_dir = dirname(__DIR__, 2) . '/uploads/medical_docs/';
+    if (!is_dir($upload_dir)) {
+        if (!mkdir($upload_dir, 0777, true)) {
+            redirect_with_error('mkdir_failed');
+        }
+    }
+
+    // Generate unique file name
+    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $new_filename = 'meddoc_' . $request_id . '_' . time() . '.' . $ext;
+    $destination = $upload_dir . $new_filename;
+
+    if (move_uploaded_file($file['tmp_name'], $destination)) {
+        $conn = get_db_connection();
+        $stmt = $conn->prepare('UPDATE medical_documents_requests SET file_path = ? WHERE id = ?');
+        $stmt->bind_param('si', $new_filename, $request_id);
+        $stmt->execute();
+        $stmt->close();
+        $conn->close();
+        header('Location: ../admin/medical-request.php?success=upload');
+        exit();
+    } else {
+        redirect_with_error('move_failed');
+    }
+} else {
+    redirect_with_error('invalid_request');
+} 
