@@ -32,15 +32,11 @@ jobs:
           SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
           SFTP_PORT: ${{ secrets.SFTP_PORT }}
           SFTP_TARGET: ${{ secrets.SFTP_TARGET }}
-          SFTP_PRIVATE_KEY: ${{ secrets.SFTP_PRIVATE_KEY }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
         run: |
-          echo "$SFTP_PRIVATE_KEY" > private_key
-          chmod 600 private_key
-          lftp -d -u "$SFTP_USERNAME" -e "
-            set sftp:connect-program 'ssh -a -x -i ./private_key';
+          lftp -d -u "$SFTP_USERNAME","$SFTP_PASSWORD" -e "
             mirror -R app $SFTP_TARGET/app --delete --verbose;
             mirror -R config $SFTP_TARGET/config --delete --verbose;
             mirror -R public $SFTP_TARGET/public --delete --verbose;
             bye
           " -p $SFTP_PORT sftp://$SFTP_HOST
-          rm -f private_key
