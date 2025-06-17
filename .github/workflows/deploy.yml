@@ -28,15 +28,15 @@ jobs:
 
       - name: Deploy files to Hostinger
         env:
-          SFTP_HOST: ${{ secrets.SFTP_HOST }}
-          SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
-          SFTP_PORT: ${{ secrets.SFTP_PORT }}
-          SFTP_TARGET: ${{ secrets.SFTP_TARGET }}
-          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_HOST: 153.92.8.148
+          SFTP_USERNAME: u781192856
+          SFTP_PORT: 65002
+          SFTP_TARGET: /home/u781192856/domains/barangay-medicion.com
+          SFTP_PASSWORD: BARANGAY_medicion123
         run: |
-          lftp -d -u "$SFTP_USERNAME","$SFTP_PASSWORD" -e "
-            mirror -R app $SFTP_TARGET/app --delete --verbose;
-            mirror -R config $SFTP_TARGET/config --delete --verbose;
-            mirror -R public $SFTP_TARGET/public --delete --verbose;
+          lftp -d -u "u781192856","BARANGAY_medicion123" -e "
+            mirror -R app /home/u781192856/domains/barangay-medicion.com/app --delete --verbose;
+            mirror -R config /home/u781192856/domains/barangay-medicion.com/config --delete --verbose;
+            mirror -R public /home/u781192856/domains/barangay-medicion.com/public --delete --verbose;
             bye
-          " -p $SFTP_PORT sftp://$SFTP_HOST
+          " -p 153.92.8.148 sftp://153.92.8.148
