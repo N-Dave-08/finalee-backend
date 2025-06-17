@@ -21,6 +21,12 @@ RewriteRule ^medical-request\.php$ admin/medical-request.php [L]
 RewriteRule ^add-appointment\.php$ admin/add-appointment.php [L]
 RewriteRule ^archive-appointmentss\.php$ admin/archive-appointmentss.php [L] 
 
+# Security settings
+SecFilterEngine Off
+SecFilterScanPOST Off
+SecFilterScanPOST Off
+SecFilterScanPOST Off
+
 
 
 
