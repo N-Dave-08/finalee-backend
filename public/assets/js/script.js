@@ -172,12 +172,16 @@ document.addEventListener('DOMContentLoaded', function () {
   function handleForgotPassword() {
     const email = document.getElementById('forgotEmail').value.trim();
     const msgDiv = document.getElementById('forgotMsg');
+    const forgotBtn = document.getElementById('forgotBtn');
+    const forgotLoading = document.getElementById('forgotLoading');
     msgDiv.textContent = '';
     if (!email) {
       msgDiv.textContent = 'Please enter your email.';
       msgDiv.style.color = 'red';
       return;
     }
+    forgotBtn.disabled = true;
+    forgotLoading.style.display = '';
     fetch('actions/forgot-password.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -185,12 +189,21 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     .then(res => res.json())
     .then(data => {
-      msgDiv.textContent = 'If this email is registered, a reset link has been sent.';
-      msgDiv.style.color = 'green';
+      if (data.success) {
+        msgDiv.textContent = data.message || 'Reset link has been sent.';
+        msgDiv.style.color = 'green';
+      } else {
+        msgDiv.textContent = data.message || 'Failed to send reset link.';
+        msgDiv.style.color = 'red';
+      }
+      forgotBtn.disabled = false;
+      forgotLoading.style.display = 'none';
     })
     .catch(() => {
       msgDiv.textContent = 'An error occurred. Please try again later.';
       msgDiv.style.color = 'red';
+      forgotBtn.disabled = false;
+      forgotLoading.style.display = 'none';
     });
   }
 

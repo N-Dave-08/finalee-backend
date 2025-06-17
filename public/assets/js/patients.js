@@ -5,6 +5,7 @@ const searchInput = document.getElementById("searchInput");
 const archivedPatientList = document.getElementById("archivedPatientList");
 const toggleArchivedBtn = document.getElementById("toggleArchivedBtn");
 let showingArchived = false;
+const loading = document.getElementById("patientLoading");
 
 function displayPatients(filter = "") {
   patientList.innerHTML = "";
@@ -191,13 +192,17 @@ toggleArchivedBtn.addEventListener('click', function() {
 });
 
 // Fetch patients from API
+loading.style.display = "";
+patientList.innerHTML = "";
 fetch("actions/patients-api.php")
   .then(res => res.json())
   .then(data => {
     patients = data;
     displayPatients();
+    loading.style.display = "none";
   })
   .catch(err => {
     patientList.innerHTML = '<div style="color:red">Failed to load patients.</div>';
+    loading.style.display = "none";
   });
   

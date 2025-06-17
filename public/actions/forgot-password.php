@@ -50,10 +50,13 @@ if ($user) {
         $mail->Subject = $subject;
         $mail->Body = $body;
         $mail->send();
+        echo json_encode(['success' => true, 'message' => 'Reset link has been sent.']);
+        exit;
     } catch (Exception $e) {
-        // Optionally log $mail->ErrorInfo
+        echo json_encode(['success' => false, 'message' => 'Failed to send reset link.']);
+        exit;
     }
-}
-// Always respond with a generic message
-// (Do not reveal if the email exists or not)
-echo json_encode(['success' => true, 'message' => 'If this email is registered, a reset link has been sent.']); 
+} else {
+    echo json_encode(['success' => false, 'message' => 'Email not found.']);
+    exit;
+} 

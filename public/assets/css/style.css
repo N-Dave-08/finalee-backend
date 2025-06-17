@@ -291,3 +291,18 @@ body {
   justify-content: center;
   align-items: flex-start;
 }
+
+.loader {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #b2f0cb;
+  border-top: 3px solid #00c853;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}

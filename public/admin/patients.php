@@ -22,6 +22,9 @@ require_role('admin');
         <div class="search-container">
           <input type="text" id="searchInput" placeholder="🔍 Search" />
         </div>
+        <div id="patientLoading" style="display:none; text-align:center; margin:20px 0;">
+          <span class="loader"></span> Loading patients...
+        </div>
         <div class="patient-list" id="patientList">
           <!-- JS will insert patients here -->
         </div>
