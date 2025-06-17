@@ -177,21 +177,29 @@ require_role('user');
 
     document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
       e.preventDefault();
+      const current = document.getElementById('currentPassword').value;
       const newPass = document.getElementById('newPassword').value;
       const confirm = document.getElementById('confirmPassword').value;
 
-      if (newPass !== confirm) {
-        alert("New passwords do not match.");
-        return;
-      }
-
-      // Show success modal
-      document.getElementById('successModal').style.display = 'flex';
-
-      // Redirect after 2 seconds
-      setTimeout(function() {
-        window.location.href = "home.php"; // Change to your homepage
-      }, 2000);
+      fetch('/finalee/public/actions/change-password.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `current_password=${encodeURIComponent(current)}&new_password=${encodeURIComponent(newPass)}&confirm_password=${encodeURIComponent(confirm)}`
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById('successModal').style.display = 'flex';
+          setTimeout(function() {
+            window.location.href = "home.php";
+          }, 2000);
+        } else {
+          alert(data.message || 'Failed to change password.');
+        }
+      })
+      .catch(() => {
+        alert('An error occurred. Please try again.');
+      });
     });
   </script>
 
