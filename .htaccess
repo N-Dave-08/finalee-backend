@@ -1,0 +1,9 @@
+# Redirect all requests to the public folder, except for existing files/folders
+RewriteEngine On
+
+# If the request is for a real file or directory, serve it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Otherwise, redirect to public/
+RewriteRule ^(.*)$ public/$1 [L]
