@@ -17,12 +17,16 @@ require_role('admin');
       <div class="content-box">
         <div class="header">
           <h3>Patients List</h3>
+          <button id="toggleArchivedBtn" class="btn toggle-archived-btn" style="float:right;margin-top:-8px;">Show Archived</button>
         </div>
         <div class="search-container">
           <input type="text" id="searchInput" placeholder="🔍 Search" />
         </div>
         <div class="patient-list" id="patientList">
           <!-- JS will insert patients here -->
+        </div>
+        <div class="patient-list" id="archivedPatientList" style="display:none;">
+          <!-- JS will insert archived patients here -->
         </div>
       </div>
     </div>

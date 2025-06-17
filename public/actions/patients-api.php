@@ -11,7 +11,7 @@ $conn = (new ReflectionClass($userModel))->getProperty('conn');
 $conn->setAccessible(true);
 $db = $conn->getValue($userModel);
 
-$stmt = $db->prepare('SELECT id, first_name, last_name, gender, email, contact_num FROM user WHERE role = ?');
+$stmt = $db->prepare('SELECT id, username, first_name, last_name, gender, email, contact_num FROM user WHERE role = ? AND archived = 0');
 $role = 'user';
 $stmt->bind_param('s', $role);
 $stmt->execute();
