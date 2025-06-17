@@ -19,11 +19,16 @@ RewriteRule ^consultation\.php$ admin/consultation.php [L]
 RewriteRule ^patients\.php$ admin/patients.php [L]
 RewriteRule ^medical-request\.php$ admin/medical-request.php [L]
 RewriteRule ^add-appointment\.php$ admin/add-appointment.php [L]
-RewriteRule ^archive-appointmentss\.php$ admin/archive-appointmentss.php [L] 
+RewriteRule ^archive-appointmentss\.php$ admin/archive-appointmentss.php [L]
 
-# Security settings
-SecFilterEngine Off
-SecFilterScanPOST Off
+# Disable ModSecurity
+<IfModule mod_security.c>
+    SecFilterEngine Off
+    SecFilterScanPOST Off
+</IfModule>
+<IfModule mod_security2.c>
+    SecRuleEngine Off
+</IfModule>
 
 
 
