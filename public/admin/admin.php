@@ -1,6 +1,11 @@
 <?php
 require_once dirname(__DIR__, 2) . '/app/helpers/auth.php';
 require_role('admin');
+require_once dirname(__DIR__, 2) . '/app/models/UserModel.php';
+$userModel = new UserModel();
+$totalPatientsToday = $userModel->countUsersToday('user');
+$totalPatientsWeek = $userModel->countUsersThisWeek('user');
+$totalPatientsMonth = $userModel->countUsersThisMonth('user');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,10 +24,22 @@ require_role('admin');
       <h2>Choose Dashboard</h2>
 
       <div class="charts-grid">
-        <div class="chart" onclick="location.href='chart1.html'">Total Appointments Throughout the Day (Line Chart)</div>
-        <div class="chart" onclick="location.href='chart2.html'">Total Appointments (Weekdays Only) (Line Chart)</div>
-        <div class="chart" onclick="location.href='chart3.html'">Total Appointment in a Week (Bar Chart)</div>
-        <div class="chart" onclick="location.href='chart4.html'">Total Appointment in a Month (Bar Chart)</div>
+        <div class="chart">
+          <canvas id="chart1"></canvas>
+          <div class="chart-title">Total Appointments Throughout the Day (Line Chart)</div>
+        </div>
+        <div class="chart">
+          <canvas id="chart2"></canvas>
+          <div class="chart-title">Total Appointments (Weekdays Only) (Line Chart)</div>
+        </div>
+        <div class="chart">
+          <canvas id="chart3"></canvas>
+          <div class="chart-title">Total Appointment in a Week (Bar Chart)</div>
+        </div>
+        <div class="chart">
+          <canvas id="chart4"></canvas>
+          <div class="chart-title">Total Appointment in a Month (Bar Chart)</div>
+        </div>
       </div>
 
       <div class="summary-box" onclick="location.href='patients.html'">
@@ -30,21 +47,23 @@ require_role('admin');
         <div class="summary-values">
           <div>
             <p>Today</p>
-            <h2>26</h2>
+            <h2><?= htmlspecialchars($totalPatientsToday) ?></h2>
           </div>
           <div>
             <p>in a Week</p>
-            <h2>128</h2>
+            <h2><?= htmlspecialchars($totalPatientsWeek) ?></h2>
           </div>
           <div>
             <p>in a Month</p>
-            <h2>560</h2>
+            <h2><?= htmlspecialchars($totalPatientsMonth) ?></h2>
           </div>
         </div>
       </div>
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="assets/js/admin.js"></script>
   <script src="assets/js/common.js"></script>
 </body>
 </html>
