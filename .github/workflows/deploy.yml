@@ -39,6 +39,16 @@ jobs:
             ls; bye
           " -p $SFTP_PORT sftp://$SFTP_HOST
 
+      - name: Test SFTP with sftp command
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
+          SFTP_PORT: ${{ secrets.SFTP_PORT }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+        run: |
+          sudo apt-get update && sudo apt-get install -y sshpass
+          sshpass -p "$SFTP_PASSWORD" sftp -o StrictHostKeyChecking=no -P $SFTP_PORT $SFTP_USERNAME@$SFTP_HOST <<< "ls"
+
       - name: Deploy files to Hostinger
         env:
           SFTP_HOST: ${{ secrets.SFTP_HOST }}
