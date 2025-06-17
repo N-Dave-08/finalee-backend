@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 session_name('finalee_session');
 session_start();
-require_once __DIR__ . '/../app/controllers/AuthController.php';
+require_once __DIR__ . '/../../app/controllers/AuthController.php';
 
 header('Content-Type: application/json');
 
