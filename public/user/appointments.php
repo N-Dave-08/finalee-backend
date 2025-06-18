@@ -59,9 +59,11 @@ $conn->close();
                 <td><?= date('F d, Y', strtotime($row['date_requested'])) ?></td>
                 <td><?= htmlspecialchars($row['status']) ?></td>
                 <td>
-                  <button onclick="viewDocument('<?= htmlspecialchars($row['reference_number']) ?>')">View</button>
-                  <button onclick="printDocument('<?= htmlspecialchars($row['reference_number']) ?>')">Print</button>
-                  <button onclick="downloadDocument('<?= htmlspecialchars($row['reference_number']) ?>')">Download</button>
+                  <?php if (!empty($row['file_path'])): ?>
+                    <a href="/finalee/uploads/medical_docs/<?= htmlspecialchars($row['file_path']) ?>" target="_blank">View/Download</a>
+                  <?php else: ?>
+                    <span style="color: #888;">Not available</span>
+                  <?php endif; ?>
                 </td>
               </tr>
             <?php endforeach; ?>
