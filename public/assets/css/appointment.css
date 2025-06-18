@@ -44,6 +44,8 @@
     border-radius: 0 24px 24px 0;
     box-shadow: 2px 0 16px 0 rgba(0,0,0,0.07);
     position: relative;
+    overflow-y: auto;
+    max-height: 100vh;
   }
   
   .sidebar .logo {
@@ -220,6 +222,8 @@
       border-radius: 0 0 18px 18px;
       box-shadow: 0 2px 16px 0 rgba(0,0,0,0.15);
       position: static;
+      overflow-y: auto;
+      max-height: 60vh;
     }
     .main {
       width: 100%;
