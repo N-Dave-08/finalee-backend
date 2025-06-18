@@ -181,6 +181,16 @@ input[type="text"] {
     color: white;
   }
   
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .table-responsive table {
+    min-width: 600px;
+    /* Adjust as needed for your column count */
+  }
+  
 @media (max-width: 768px) {
   .sidebar {
     width: 80vw;

@@ -42,6 +42,7 @@ $conn->close();
           <button style="padding: 5px 10px;">Archive</button>
         </div>
     
+        <div class="table-responsive">
         <table border="1" width="100%" style="border-collapse: collapse; text-align: center;">
           <thead style="background-color: #2E8B57; color: white;">
             <tr>
@@ -74,6 +75,7 @@ $conn->close();
             <?php endforeach; ?>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
     

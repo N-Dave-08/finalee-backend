@@ -24,15 +24,16 @@ require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
         <h2 class="page-title">Appointment</h2>
 
         <div class="top-buttons">
-          <div class="date-sorting">
-            <label for="date">Date Sorting</label>
-            <input type="date" id="date">
-            <button type="button" onclick="submitDate()">Submit</button>
-          </div>
-
-          <div class="action-buttons">
-            <button class="add-btn" onclick="location.href='add-appointment.php'">Add Appointment</button>
-            <button class="archive-btn" onclick="location.href='archive-appointmentss.php'">Archive</button>
+          <div class="date-and-actions">
+            <div class="date-sorting">
+              <label for="date">Date Sorting</label>
+              <input type="date" id="date">
+              <button type="button" onclick="submitDate()">Submit</button>
+            </div>
+            <div class="action-buttons">
+              <button class="add-btn" onclick="location.href='add-appointment.php'">Add Appointment</button>
+              <button class="archive-btn" onclick="location.href='archive-appointmentss.php'">Archive</button>
+            </div>
           </div>
         </div>
 

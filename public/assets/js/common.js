@@ -74,4 +74,23 @@ function setupSidebarHamburger() {
   showHamburger();
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  var hamburger = document.getElementById('sidebar-toggle');
+  var sidebar = document.getElementById('sidebar');
+  if (hamburger && sidebar) {
+    hamburger.style.display = '';
+    hamburger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      sidebar.classList.toggle('active');
+    });
+    document.addEventListener('click', function(e) {
+      if (window.innerWidth <= 768 && sidebar.classList.contains('active')) {
+        if (!sidebar.contains(e.target) && e.target !== hamburger) {
+          sidebar.classList.remove('active');
+        }
+      }
+    });
+  }
+});
+
 document.addEventListener('DOMContentLoaded', setupSidebarHamburger);
