@@ -5,7 +5,7 @@ function logout() {
       if (data.success) {
         localStorage.clear();
         sessionStorage.clear();
-        window.location.href = 'index.html';
+        window.location.href = '/finalee';
       } else {
         alert('Logout failed!');
       }

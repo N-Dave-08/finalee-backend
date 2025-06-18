@@ -14,12 +14,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_id']) && isse
 
     // Validate file
     if ($file['error'] !== UPLOAD_ERR_OK) {
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+            echo json_encode(['success' => false, 'message' => 'Upload error: ' . $file['error']]);
+            exit();
+        }
         redirect_with_error('upload_error', $file['error']);
     }
     if (!in_array($file['type'], $allowed_types)) {
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+            echo json_encode(['success' => false, 'message' => 'Invalid file type.']);
+            exit();
+        }
         redirect_with_error('type', $file['type']);
     }
     if ($file['size'] > $max_size) {
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+            echo json_encode(['success' => false, 'message' => 'File too large.']);
+            exit();
+        }
         redirect_with_error('size', $file['size']);
     }
 
@@ -27,6 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_id']) && isse
     $upload_dir = dirname(__DIR__, 2) . '/uploads/medical_docs/';
     if (!is_dir($upload_dir)) {
         if (!mkdir($upload_dir, 0777, true)) {
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+                echo json_encode(['success' => false, 'message' => 'Failed to create upload directory.']);
+                exit();
+            }
             redirect_with_error('mkdir_failed');
         }
     }
@@ -43,11 +59,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_id']) && isse
         $stmt->execute();
         $stmt->close();
         $conn->close();
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+            echo json_encode(['success' => true, 'file_path' => $new_filename]);
+            exit();
+        }
         header('Location: ../admin/medical-request.php?success=upload');
         exit();
     } else {
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+            echo json_encode(['success' => false, 'message' => 'Failed to move uploaded file.']);
+            exit();
+        }
         redirect_with_error('move_failed');
     }
 } else {
+    if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
+        echo json_encode(['success' => false, 'message' => 'Invalid request.']);
+        exit();
+    }
     redirect_with_error('invalid_request');
 } 
