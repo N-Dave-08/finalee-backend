@@ -7,7 +7,12 @@ function isActive($pages, $activePage) {
     return $pages === $activePage ? 'active' : '';
 }
 ?>
-<aside class="sidebar">
+<button id="sidebar-toggle" class="sidebar-hamburger" aria-label="Open sidebar" style="display:none;position:fixed;top:18px;left:18px;z-index:1100;background:none;border:none;cursor:pointer;">
+  <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+  <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+  <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+</button>
+<aside class="sidebar" id="sidebar">
   <img src="assets/images/newimus.png" alt="Barangay Logo" class="logo" />
   <h2>BARANGAY CLINIC<br>ONLINE APPOINTMENT SYSTEM</h2>
   <p>Imus, Cavite</p>

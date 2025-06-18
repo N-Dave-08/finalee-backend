@@ -165,7 +165,7 @@ body:not(.login-page) {
 
 .sidebar {
   background: linear-gradient(135deg, #e0ffe6 0%, #b2f0cb 100%);
-  width: 240px;
+  width: 24rem;
   min-height: 100vh;
   padding: 32px 18px 24px 18px;
   box-sizing: border-box;
@@ -484,4 +484,20 @@ h1, h2 {
 
 .suggested-questions button:hover {
   background: #ddd;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 80vw;
+    min-width: unset;
+    max-width: 90vw;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    border-radius: 0 18px 18px 0;
+    box-shadow: 2px 0 16px 0 rgba(0,0,0,0.15);
+    transition: width 0.3s, left 0.3s;
+    overflow-y: auto;
+  }
 }

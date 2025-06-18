@@ -18,7 +18,7 @@ body {
 /* Sidebar */
 .sidebar {
   background-color: #d5f7dc;
-  width: 200px;
+  width: 24rem;
   padding: 20px 10px;
   text-align: center;
   display: flex;
@@ -176,6 +176,22 @@ body {
   border-radius: 5px;
   width: 100px;
   font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 80vw;
+    min-width: unset;
+    max-width: 90vw;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    border-radius: 0 18px 18px 0;
+    box-shadow: 2px 0 16px 0 rgba(0,0,0,0.15);
+    transition: width 0.3s, left 0.3s;
+    overflow-y: auto;
+  }
 }
 
   

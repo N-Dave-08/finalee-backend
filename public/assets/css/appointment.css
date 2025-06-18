@@ -33,7 +33,7 @@
   /* Sidebar */
   .sidebar {
     background: linear-gradient(135deg, #e0ffe6 0%, #b2f0cb 100%);
-    width: 240px;
+    width: 24rem;
     min-height: 100vh;
     padding: 32px 18px 24px 18px;
     box-sizing: border-box;
