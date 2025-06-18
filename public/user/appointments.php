@@ -41,6 +41,7 @@ $conn->close();
       </div>
 
       <div id="ready" class="tab-content active">
+        <div class="table-responsive">
         <table>
           <thead>
             <tr>
@@ -69,9 +70,11 @@ $conn->close();
             <?php endforeach; ?>
           </tbody>
         </table>
+        </div>
       </div>
 
       <div id="history" class="tab-content">
+        <div class="table-responsive">
         <table>
           <thead>
             <tr>
@@ -90,6 +93,7 @@ $conn->close();
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>

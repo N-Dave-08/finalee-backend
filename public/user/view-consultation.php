@@ -30,6 +30,7 @@ $conn = get_db_connection();
     </div>
 
     <div id="pending" class="tab-content active">
+      <div class="table-responsive">
       <table>
         <thead>
           <tr>
@@ -67,9 +68,11 @@ $stmt->close();
 ?>
         </tbody>
       </table>
+      </div>
     </div>
 
     <div id="past" class="tab-content">
+      <div class="table-responsive">
       <table>
         <thead>
           <tr>
@@ -106,6 +109,7 @@ $conn->close();
 ?>
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 
