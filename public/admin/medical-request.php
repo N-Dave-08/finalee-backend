@@ -2,6 +2,7 @@
 require_once dirname(__DIR__, 2) . '/app/helpers/auth.php';
 require_role('admin');
 require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
+require_once dirname(__DIR__, 2) . '/config/config.php';
 
 $conn = get_db_connection();
 $sql = "SELECT mdr.*, u.first_name, u.last_name FROM medical_documents_requests mdr LEFT JOIN user u ON mdr.user_id = u.id ORDER BY mdr.date_requested DESC";
@@ -68,7 +69,7 @@ $conn->close();
                       <button type="submit">Upload</button>
                     </form>
                   <?php else: ?>
-                    <a href="../uploads/medical_docs/<?= htmlspecialchars($row['file_path']) ?>" target="_blank">View/Download</a>
+                    <a href="<?= $baseUrl ?>/uploads/medical_docs/<?= htmlspecialchars($row['file_path']) ?>" target="_blank">View/Download</a>
                   <?php endif; ?>
                 </td>
               </tr>
@@ -112,7 +113,7 @@ $conn->close();
             showToast('Request submitted successfully!', true);
             // Optionally, update the row to show the download link
             const row = form.closest('tr');
-            row.querySelector('td:last-child').innerHTML = `<a href="../uploads/medical_docs/${data.file_path}" target="_blank">View/Download</a>`;
+            row.querySelector('td:last-child').innerHTML = `<a href="<?= $baseUrl ?>/uploads/medical_docs/${data.file_path}" target="_blank">View/Download</a>`;
           } else {
             showToast(data.message || 'There was an error submitting your request.', false);
           }

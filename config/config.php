@@ -9,3 +9,6 @@ const DB_HOST = 'srv1980.hstgr.io';
 const DB_USER = 'u781192856_brgymedicion'; 
 const DB_PASS = 'BARANGAY-medicion123';    
 const DB_NAME = 'u781192856_brgy_system_db';
+
+
+$baseUrl = '/finalee';

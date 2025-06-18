@@ -2,6 +2,7 @@
 require_once dirname(__DIR__, 2) . '/app/helpers/auth.php';
 require_role('user');
 require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
+require_once dirname(__DIR__, 2) . '/config/config.php';
 
 $user_id = $_SESSION['user']['id'];
 $conn = get_db_connection();
@@ -61,7 +62,7 @@ $conn->close();
                 <td><?= htmlspecialchars($row['status']) ?></td>
                 <td>
                   <?php if (!empty($row['file_path'])): ?>
-                    <a href="/finalee/uploads/medical_docs/<?= htmlspecialchars($row['file_path']) ?>" target="_blank">View/Download</a>
+                    <a href="<?= $baseUrl ?>/uploads/medical_docs/<?= htmlspecialchars($row['file_path']) ?>" target="_blank">View/Download</a>
                   <?php else: ?>
                     <span style="color: #888;">Not available</span>
                   <?php endif; ?>
