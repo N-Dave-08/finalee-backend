@@ -1,6 +1,30 @@
 <?php
 require_once dirname(__DIR__, 2) . '/app/helpers/auth.php';
 require_role('user');
+require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
+
+$user_id = $_SESSION['user']['id'];
+$conn = get_db_connection();
+
+// Fetch the next upcoming appointment for the logged-in user
+$sql = "SELECT id, complaint, preferred_date, time_slot, status FROM consultations WHERE user_id = ? AND status = 'Pending' AND preferred_date >= CURDATE() ORDER BY preferred_date ASC, id ASC LIMIT 1";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$appointment = $result->fetch_assoc();
+$stmt->close();
+$conn->close();
+
+// Prepare appointment details or fallback to N/A
+if ($appointment) {
+    $refNum = '#' . str_pad($appointment['id'], 2, '0', STR_PAD_LEFT) . '-' . date('mdY', strtotime($appointment['preferred_date']));
+    $timeBlock = $appointment['time_slot'] ? $appointment['time_slot'] : 'N/A';
+    $date = date('F d, Y', strtotime($appointment['preferred_date']));
+    $complaint = $appointment['complaint'] ? $appointment['complaint'] : 'N/A';
+} else {
+    $refNum = $timeBlock = $date = $complaint = 'N/A';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,10 +75,10 @@ require_role('user');
       <section class="appointment-box">
         <h4>Ang iyong susunod na appointment (Your next appointment)</h4>
         <div class="appointment-info">
-          <p><strong>Appointment Reference Number:</strong> <span id="refNum">N/A</span></p>
-          <p><strong>Time Block:</strong> <span id="timeBlock">N/A</span></p>
-          <p><strong>Consultation Date:</strong> <span id="date">N/A</span></p>
-          <p><strong>Main Complaint:</strong> <span id="complaint">N/A</span></p>
+          <p><strong>Appointment Reference Number:</strong> <span id="refNum"><?php echo htmlspecialchars($refNum); ?></span></p>
+          <p><strong>Time Block:</strong> <span id="timeBlock"><?php echo htmlspecialchars($timeBlock); ?></span></p>
+          <p><strong>Consultation Date:</strong> <span id="date"><?php echo htmlspecialchars($date); ?></span></p>
+          <p><strong>Main Complaint:</strong> <span id="complaint"><?php echo htmlspecialchars($complaint); ?></span></p>
         </div>
         <button class="book-btn" onclick="navigateTo('general-concern.php')">Book Now!</button>
       </section>

@@ -21,9 +21,9 @@ function isActive($page, $activePage) {
       <button class="<?=isActive('view-consultation.php', $activePage)?>" onclick="navigateTo('view-consultation.php')">VIEW CONSULTATION RESULT</button>
       <button class="<?=isActive('appointments.php', $activePage)?>" onclick="navigateTo('appointments.php')">VIEW APPOINTMENTS</button>
       <button class="<?=isActive('request-medical-document.php', $activePage)?>" onclick="navigateTo('request-medical-document.php')">REQUEST MEDICAL DOCUMENTS</button>
+      <button class="<?=isActive('change-password.php', $activePage)?>" onclick="navigateTo('change-password.php')">CHANGE PASSWORD</button>
       <button class="<?=isActive('broad-consent.php', $activePage)?>" onclick="navigateTo('broad-consent.php')">VIEW BROAD CONSENT</button>
       <button class="<?=isActive('privacy-notice.php', $activePage)?>" onclick="navigateTo('privacy-notice.php')">VIEW DATA PRIVACY NOTICE</button>
-      <button class="<?=isActive('change-password.php', $activePage)?>" onclick="navigateTo('change-password.php')">CHANGE PASSWORD</button>
       <button onclick="logout()">LOGOUT</button>
     </nav>
   <?php endif; ?>
