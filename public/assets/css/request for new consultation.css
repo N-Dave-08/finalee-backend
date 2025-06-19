@@ -7,11 +7,18 @@
   
   body {
     background-color: #f4f4f4;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  html, body {
+    height: 100vh;
+    overflow: hidden;
   }
   
   .container {
+    height: 100vh;
     display: flex;
-    height: 140vh;
   }
   
   /* Sidebar */
@@ -28,6 +35,9 @@
     border-radius: 0 24px 24px 0;
     box-shadow: 2px 0 16px 0 rgba(0,0,0,0.07);
     position: relative;
+    height: 100vh;
+    overflow-y: auto;
+    border: none;
   }
   
   .sidebar .logo {
@@ -61,18 +71,10 @@
   }
   
   .sidebar nav button {
-    font-size: 15px;
-    padding: 12px 0;
-    border: none;
-    background: #f8f8f8;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
-    width: 100%;
-    color: #222;
-    font-weight: 500;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
-    letter-spacing: 0.2px;
+    font-size: 13px;
+    padding: 8px 0;
+    border-radius: 7px;
+    border: none !important;
   }
   
   .sidebar nav button:hover {
@@ -294,5 +296,20 @@
       transition: width 0.3s, left 0.3s;
       overflow-y: auto;
     }
+  }
+  
+  .sidebar-legal-section {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 2px solid #b2f0cb;
+  }
+  
+  .sidebar-legal-section button {
+    width: 100%;
+    border: none !important;
+  }
+  
+  .sidebar-legal-section button + button {
+    margin-top: 16px;
   }
   

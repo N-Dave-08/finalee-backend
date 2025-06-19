@@ -6,14 +6,16 @@
   font-family: Arial, sans-serif;
 }
 
-body {
+html, body {
+  height: 100vh;
+  overflow: hidden;
   background: linear-gradient(to bottom, #b6ffb6, #b6ffb6 60%, #00ff00);
 }
 
 /* Container */
 .container {
+  height: 100vh;
   display: flex;
-  height: 140vh;
 }
 
 /* Close button */
@@ -50,6 +52,8 @@ body {
   border-radius: 0 24px 24px 0;
   box-shadow: 2px 0 16px 0 rgba(0,0,0,0.07);
   position: relative;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 .sidebar .logo {
@@ -83,11 +87,11 @@ body {
 }
 
 .sidebar nav button {
-  font-size: 15px;
-  padding: 12px 0;
+  font-size: 13px;
+  padding: 8px 0;
+  border-radius: 7px;
   border: none;
   background: #f8f8f8;
-  border-radius: 10px;
   cursor: pointer;
   transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.1s;
   width: 100%;
@@ -383,4 +387,14 @@ input[type="date"] {
   margin-bottom: 2px;
   min-height: 18px;
   letter-spacing: 0.2px;
+}
+
+.sidebar-legal-section {
+  margin-top: 36px;
+  padding-top: 18px;
+  border-top: 2px solid #b2f0cb;
+}
+
+.sidebar-legal-section button + button {
+  margin-top: 12px;
 }
