@@ -30,7 +30,7 @@ $conn->close();
 
     <!-- MAIN CONTENT -->
     <div class="main">
-      <h2>REQUEST MEDICAL DOCUMENTS</h2>
+      <h2>Appointments</h2>
 
       <div class="info-box">
         <p>Pumili ng dokumentong nais i-download o i-print.<br><i>Select a document you want to download or print.</i></p>
