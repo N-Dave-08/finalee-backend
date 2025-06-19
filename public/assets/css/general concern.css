@@ -8,13 +8,12 @@
 
 html, body {
   height: 100vh;
-  overflow: hidden;
   background: linear-gradient(to bottom, #b6ffb6, #b6ffb6 60%, #00ff00);
 }
 
 /* Container */
 .container {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
 }
 
@@ -127,6 +126,8 @@ html, body {
   flex-grow: 1;
   padding: 30px;
   background: #fff;
+  overflow-y: auto;
+  max-height: 100vh;
 }
 
 .welcome h3 {

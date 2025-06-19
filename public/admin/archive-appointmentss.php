@@ -49,7 +49,7 @@ require_role('admin');
 <?php
 require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
 $conn = get_db_connection();
-$sql = "SELECT id, full_name, complaint, status, preferred_date FROM consultations WHERE status = 'Completed' ORDER BY created_at DESC";
+$sql = "SELECT id, full_name, complaint, status, preferred_date FROM appointments WHERE status = 'Completed' ORDER BY created_at DESC";
 $result = $conn->query($sql);
 if ($result && $result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
