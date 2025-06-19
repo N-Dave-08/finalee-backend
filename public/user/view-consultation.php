@@ -169,7 +169,7 @@ $stmt->close();
         </thead>
         <tbody>
 <?php
-$sql = "SELECT id, complaint, preferred_date, time_slot, status FROM consultations WHERE user_id = ? AND (status = 'Completed' OR status = 'Canceled') ORDER BY created_at DESC";
+$sql = "SELECT id, complaint, preferred_date, time_slot, status FROM consultations WHERE user_id = ? AND (status = 'Completed' OR status = 'Canceled' OR status = 'Scheduled') ORDER BY created_at DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('i', $user_id);
 $stmt->execute();

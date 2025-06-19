@@ -62,7 +62,7 @@ if ($result && $result->num_rows > 0) {
     echo '<td>' . htmlspecialchars($row['complaint']) . '</td>';
     echo '<td>' . htmlspecialchars($row['status']) . '</td>';
     echo '<td>';
-    if ($row['status'] === 'Pending') {
+    if ($row['status'] !== 'Completed') {
       echo '<button class="complete-btn" data-id="' . $row['id'] . '">Mark as Complete</button>';
     }
     echo '</td>';
@@ -129,9 +129,7 @@ $conn->close();
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          const row = pendingBtn.closest('tr');
-          row.querySelector('td:nth-child(4)').innerText = 'Completed';
-          pendingBtn.remove();
+          window.location.reload();
         } else {
           alert('Failed to update status');
         }

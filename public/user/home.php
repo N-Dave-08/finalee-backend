@@ -6,8 +6,8 @@ require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
 $user_id = $_SESSION['user']['id'];
 $conn = get_db_connection();
 
-// Fetch the next upcoming appointment for the logged-in user
-$sql = "SELECT id, complaint, preferred_date, time_slot, status FROM consultations WHERE user_id = ? AND status = 'Pending' AND preferred_date >= CURDATE() ORDER BY preferred_date ASC, id ASC LIMIT 1";
+// Fetch the next upcoming scheduled appointment for the logged-in user
+$sql = "SELECT id, complaint, preferred_date, time_slot, status FROM appointments WHERE user_id = ? AND status = 'Scheduled' AND preferred_date >= CURDATE() ORDER BY preferred_date ASC, id ASC LIMIT 1";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('i', $user_id);
 $stmt->execute();

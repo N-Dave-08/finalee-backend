@@ -7,12 +7,28 @@ require_once dirname(__DIR__, 2) . '/config/config.php';
 $user_id = $_SESSION['user']['id'];
 $conn = get_db_connection();
 
+// Fetch all appointments for the user
+$appointments = [];
+$sql = "SELECT * FROM appointments WHERE user_id = ? ORDER BY preferred_date DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('i', $user_id);
+$stmt->execute();
+$appt_result = $stmt->get_result();
+while ($row = $appt_result->fetch_assoc()) {
+    $appointments[] = $row;
+}
+$stmt->close();
+
+// Fetch all medical documents for the user
+$docs = [];
 $sql = "SELECT * FROM medical_documents_requests WHERE user_id = ? ORDER BY date_requested DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param('i', $user_id);
 $stmt->execute();
-$result = $stmt->get_result();
-$requests = $result->fetch_all(MYSQLI_ASSOC);
+$doc_result = $stmt->get_result();
+while ($row = $doc_result->fetch_assoc()) {
+    $docs[] = $row;
+}
 $stmt->close();
 $conn->close();
 ?>
@@ -46,26 +62,24 @@ $conn->close();
         <table>
           <thead>
             <tr>
-              <th>Document Reference Number</th>
-              <th>Document Type</th>
-              <th>Date Requested</th>
+              <th>Reference #</th>
+              <th>Complaint</th>
+              <th>Date</th>
+              <th>Time Slot</th>
               <th>Status</th>
-              <th>Options</th>
+              <th>Document</th>
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($requests as $row): ?>
+            <?php foreach ($appointments as $appt): ?>
               <tr>
-                <td><?= htmlspecialchars($row['reference_number']) ?></td>
-                <td><?= htmlspecialchars($row['document_type']) ?></td>
-                <td><?= date('F d, Y', strtotime($row['date_requested'])) ?></td>
-                <td><?= htmlspecialchars($row['status']) ?></td>
+                <td><?= '#APPT-' . str_pad($appt['id'], 3, '0', STR_PAD_LEFT) ?></td>
+                <td><?= htmlspecialchars($appt['complaint']) ?></td>
+                <td><?= date('F d, Y', strtotime($appt['preferred_date'])) ?></td>
+                <td><?= htmlspecialchars($appt['time_slot']) ?></td>
+                <td><?= htmlspecialchars($appt['status']) ?></td>
                 <td>
-                  <?php if (!empty($row['file_path'])): ?>
-                    <a href="<?= $baseUrl ?>/uploads/medical_docs/<?= htmlspecialchars($row['file_path']) ?>" target="_blank">View/Download</a>
-                  <?php else: ?>
-                    <span style="color: #888;">Not available</span>
-                  <?php endif; ?>
+                  <a href="<?= $baseUrl ?>/public/user/view_appointment_doc.php?id=<?= $appt['id'] ?>" target="_blank" class="view-doc-btn">View</a>
                 </td>
               </tr>
             <?php endforeach; ?>

@@ -63,7 +63,10 @@ if ($result && $result->num_rows > 0) {
     echo '<td class="status-cell">' . htmlspecialchars($row['status']) . '</td>';
     echo '<td>';
     if ($row['status'] === 'Pending') {
-      echo '<button class="complete-btn" data-id="' . $row['id'] . '">Mark as Completed</button>';
+      echo '<button class="set-appointment-btn enhanced-btn" 
+        data-id="' . $row['id'] . '" 
+        data-name="' . htmlspecialchars($row['full_name']) . '" 
+        data-complaint="' . htmlspecialchars($row['complaint']) . '"><span style="margin-right:6px;">📅</span>Set Appointment</button> ';
     }
     echo '</td>';
     echo '</tr>';
@@ -86,35 +89,133 @@ $conn->close();
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.4);
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.35);
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
+      z-index: 2000;
     }
     .modal-box {
       background: #fff;
-      padding: 24px 32px;
-      border-radius: 10px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+      padding: 28px 20px 20px 20px;
+      border-radius: 18px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+      width: 100%;
+      max-width: 420px;
+      box-sizing: border-box;
+      position: relative;
+      animation: modalPop .25s cubic-bezier(.4,2,.6,1) 1;
+      margin: auto;
+    }
+    @keyframes modalPop {
+      0% { transform: scale(0.95); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .modal-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+      color: #222;
       text-align: center;
-      min-width: 300px;
     }
-    .modal-box button {
-      margin: 0 10px;
-      padding: 8px 18px;
-      border-radius: 6px;
+    .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
       border: none;
-      font-size: 15px;
+      font-size: 1.7rem;
+      color: #888;
       cursor: pointer;
+      transition: color 0.2s;
     }
-    .modal-confirm {
+    .modal-close:hover {
+      color: #c0392b;
+    }
+    .modal-box label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #222;
+    }
+    .modal-box input[type="text"],
+    .modal-box input[type="date"],
+    .modal-box select {
+      width: 100%;
+      padding: 9px 11px;
+      margin-bottom: 18px;
+      border: 1px solid #bdbdbd;
+      border-radius: 7px;
+      font-size: 15px;
+      background: #f8f8f8;
+      transition: border 0.2s;
+    }
+    .modal-box input[type="text"]:focus,
+    .modal-box input[type="date"]:focus,
+    .modal-box select:focus {
+      border: 1.5px solid #43a047;
+      outline: none;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .modal-box button[type="submit"] {
       background: #43a047;
       color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 10px 24px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
     }
-    .modal-cancel {
-      background: #ccc;
-      color: #222;
+    .modal-box button[type="submit"]:hover {
+      background: #388e3c;
+    }
+    .modal-box button[type="button"] {
+      background: #e0e0e0;
+      color: #333;
+      border: none;
+      border-radius: 7px;
+      padding: 10px 20px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .modal-box button[type="button"]:hover {
+      background: #bdbdbd;
+    }
+    @media (max-width: 500px) {
+      .modal-box {
+        width: 96vw;
+        max-width: 98vw;
+        padding: 12px 2vw 12px 2vw;
+      }
+    }
+    .enhanced-btn {
+      background: #43a047;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 2px 8px rgba(67,160,71,0.08);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .enhanced-btn:hover {
+      background: #388e3c;
+      box-shadow: 0 4px 16px rgba(67,160,71,0.15);
     }
   </style>
   <div id="confirmModal" class="modal-overlay" style="display:none;">
@@ -124,6 +225,48 @@ $conn->close();
       <button class="modal-cancel" id="modalCancelBtn">Cancel</button>
     </div>
   </div>
+  <div id="setAppointmentModal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <button type="button" class="modal-close" onclick="document.getElementById('setAppointmentModal').style.display='none'">&times;</button>
+      <div class="modal-title">Set Appointment</div>
+      <form id="setAppointmentForm" method="POST" action="admin/set_appointment.php">
+        <input type="hidden" name="consultation_id" id="consultation_id">
+        <div>
+          <label>Full Name:</label>
+          <input type="text" id="modal_full_name" disabled>
+        </div>
+        <div>
+          <label>Complaint:</label>
+          <input type="text" id="modal_complaint" disabled>
+        </div>
+        <div>
+          <label>Appointment Date:</label>
+          <input type="date" name="preferred_date" required>
+        </div>
+        <div>
+          <label>Priority:</label>
+          <select name="priority" id="modal_priority">
+            <option value="">-- Select if applicable --</option>
+            <option value="None">None</option>
+            <option value="Elderly">Senior Citizen</option>
+            <option value="PWD">Person with Disability (PWD)</option>
+            <option value="Pregnant">Pregnant Woman</option>
+          </select>
+        </div>
+        <div>
+          <label>Time Slot:</label>
+          <select name="time_slot" id="modal_time_slot" required>
+            <!-- Options will be populated by JS -->
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="submit">Set Appointment</button>
+          <button type="button" onclick="document.getElementById('setAppointmentModal').style.display='none'">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="toast" style="display:none; position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:12px 24px; border-radius:6px; z-index:3000; font-size:16px; min-width:200px; text-align:center;"></div>
   <script>
     function submitDate() {
       const selectedDate = document.getElementById('date').value;
@@ -171,6 +314,65 @@ $conn->close();
         modal.style.display = 'none';
         pendingBtn = null;
       });
+      document.querySelectorAll('.set-appointment-btn').forEach(btn => {
+        btn.onclick = function() {
+          document.getElementById('consultation_id').value = this.dataset.id;
+          document.getElementById('modal_full_name').value = this.dataset.name;
+          document.getElementById('modal_complaint').value = this.dataset.complaint;
+          document.getElementById('setAppointmentModal').style.display = 'block';
+          document.getElementById('modal_priority').value = '';
+          updateTimeSlotOptions();
+        }
+      });
+
+      const regularSlots = [
+        "08:00 – 08:20 AM", "08:20 – 08:40 AM", "08:40 – 09:00 AM",
+        "09:00 – 09:20 AM", "09:20 – 09:40 AM", "09:40 – 10:00 AM"
+      ];
+      const prioritySlots = [
+        "10:00 – 10:20 AM", "10:20 – 10:40 AM", "10:40 – 11:00 AM", "11:00 – 11:20 AM"
+      ];
+      function updateTimeSlotOptions() {
+        const priority = document.getElementById('modal_priority').value;
+        const select = document.getElementById('modal_time_slot');
+        select.innerHTML = '';
+        const slots = (priority && priority !== 'None') ? prioritySlots : regularSlots;
+        slots.forEach(slot => {
+          const opt = document.createElement('option');
+          opt.value = slot;
+          opt.textContent = slot;
+          select.appendChild(opt);
+        });
+      }
+      document.getElementById('modal_priority').addEventListener('change', updateTimeSlotOptions);
+
+      document.getElementById('setAppointmentForm').onsubmit = function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        fetch('admin/set_appointment.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+          showToast(data.message, data.success ? 'success' : 'error');
+          if (data.success) {
+            document.getElementById('setAppointmentModal').style.display = 'none';
+            setTimeout(() => window.location.reload(), 1200);
+          }
+        })
+        .catch(() => {
+          showToast('An error occurred.', 'error');
+        });
+      };
+      function showToast(msg, type) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.style.background = type === 'success' ? '#43a047' : '#c0392b';
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 2000);
+      }
     });
   </script>
 </body>
