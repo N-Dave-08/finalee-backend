@@ -54,8 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['request_id']) && isse
 
     if (move_uploaded_file($file['tmp_name'], $destination)) {
         $conn = get_db_connection();
-        $stmt = $conn->prepare('UPDATE medical_documents_requests SET file_path = ? WHERE id = ?');
-        $stmt->bind_param('si', $new_filename, $request_id);
+        $stmt = $conn->prepare('UPDATE medical_documents_requests SET file_path = ?, status = ? WHERE id = ?');
+        $status = 'For Pick Up';
+        $stmt->bind_param('ssi', $new_filename, $status, $request_id);
         $stmt->execute();
         $stmt->close();
         $conn->close();

@@ -100,12 +100,26 @@ $conn->close();
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>#DOC-0005</td>
-              <td>Consultation Summary</td>
-              <td>March 15, 2025</td>
-              <td>Completed</td>
-            </tr>
+            <?php if (count($docs) > 0): ?>
+              <?php foreach ($docs as $doc): ?>
+                <tr>
+                  <td><?= htmlspecialchars($doc['reference_number'] ?? ('#DOC-' . str_pad($doc['id'], 3, '0', STR_PAD_LEFT))) ?></td>
+                  <td><?= htmlspecialchars($doc['document_type']) ?></td>
+                  <td><?= isset($doc['date_requested']) ? date('F d, Y', strtotime($doc['date_requested'])) : '' ?></td>
+                  <td>
+                    <?php
+                      if ($doc['status'] === 'Pending' && !empty($doc['file_path'])) {
+                        echo 'For Pick Up';
+                      } else {
+                        echo htmlspecialchars($doc['status']);
+                      }
+                    ?>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            <?php else: ?>
+              <tr><td colspan="4">No document requests found.</td></tr>
+            <?php endif; ?>
           </tbody>
         </table>
         </div>
