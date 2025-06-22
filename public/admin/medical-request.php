@@ -57,7 +57,7 @@ $conn->close();
           <tbody style="background-color: #C6FBC6;">
             <?php foreach ($requests as $row): ?>
               <tr data-request-id="<?= $row['id'] ?>">
-                <td><?= htmlspecialchars(($row['first_name'] ?? '') . ' ' . ($row['last_name'] ?? $row['full_name'])) ?></td>
+                <td><?= htmlspecialchars($row['full_name'] ?? (($row['first_name'] ?? '') . ' ' . ($row['last_name'] ?? ''))) ?></td>
                 <td><?= htmlspecialchars($row['reference_number']) ?></td>
                 <td><?= htmlspecialchars($row['document_type']) ?></td>
                 <td><?= htmlspecialchars($row['status']) ?></td>

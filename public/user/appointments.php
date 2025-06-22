@@ -97,6 +97,7 @@ $conn->close();
               <th>Document Type</th>
               <th>Date Requested</th>
               <th>Status</th>
+              <th>File</th>
             </tr>
           </thead>
           <tbody>
@@ -115,10 +116,17 @@ $conn->close();
                       }
                     ?>
                   </td>
+                  <td>
+                    <?php if (!empty($doc['file_path'])): ?>
+                      <a href="<?= $baseUrl ?>/uploads/medical_docs/<?= htmlspecialchars($doc['file_path']) ?>" target="_blank">View/Download</a>
+                    <?php else: ?>
+                      N/A
+                    <?php endif; ?>
+                  </td>
                 </tr>
               <?php endforeach; ?>
             <?php else: ?>
-              <tr><td colspan="4">No document requests found.</td></tr>
+              <tr><td colspan="5">No document requests found.</td></tr>
             <?php endif; ?>
           </tbody>
         </table>
