@@ -14,18 +14,42 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('placeOfBirth').value = user.place_of_birth || '';
         document.getElementById('gender').value = user.gender || '';
         document.getElementById('email').value = user.email || '';
-        document.getElementById('contactNumber').value = user.contact_num || '';
+        // Set contact number, stripping leading '63' if present
+        let contactNum = user.contact_num || '';
+        if (contactNum.startsWith('63') && contactNum.length === 12) {
+          contactNum = contactNum.slice(2);
+        }
+        document.getElementById('contactNumber').value = contactNum;
         document.getElementById('emergencyLastName').value = emergency.last_name || '';
         document.getElementById('emergencyFirstName').value = emergency.first_name || '';
         document.getElementById('emergencyMiddleName').value = emergency.middle_name || '';
         document.getElementById('relationship').value = emergency.relationship || '';
-        document.getElementById('emergencyContactNumber').value = emergency.contact_num || '';
+        // Set emergency contact number, stripping leading '63' if present
+        let emergencyContactNum = emergency.contact_num || '';
+        if (emergencyContactNum.startsWith('63') && emergencyContactNum.length === 12) {
+          emergencyContactNum = emergencyContactNum.slice(2);
+        }
+        document.getElementById('emergencyContactNumber').value = emergencyContactNum;
         document.getElementById('emergencyEmail').value = emergency.email || '';
       }
     });
   if (form) {
     form.addEventListener('submit', function (event) {
       event.preventDefault();
+      let contactNum = document.getElementById('contactNumber').value.replace(/^63/, '');
+      if (/^\d{10}$/.test(contactNum)) {
+        contactNum = '63' + contactNum;
+      }
+
+      let emergencyContactNum = document.getElementById('emergencyContactNumber').value.replace(/^63/, '');
+      if (/^\d{10}$/.test(emergencyContactNum)) {
+        emergencyContactNum = '63' + emergencyContactNum;
+      }
+
+      // Debug log for contact numbers
+      console.log('Contact Number to submit:', contactNum);
+      console.log('Emergency Contact Number to submit:', emergencyContactNum);
+
       const user = {
         last_name: document.getElementById('lastName').value,
         first_name: document.getElementById('firstName').value,
@@ -34,14 +58,14 @@ document.addEventListener('DOMContentLoaded', function () {
         place_of_birth: document.getElementById('placeOfBirth').value,
         gender: document.getElementById('gender').value,
         email: document.getElementById('email').value,
-        contact_num: document.getElementById('contactNumber').value
+        contact_num: contactNum
       };
       const emergency = {
         last_name: document.getElementById('emergencyLastName').value,
         first_name: document.getElementById('emergencyFirstName').value,
         middle_name: document.getElementById('emergencyMiddleName').value,
         relationship: document.getElementById('relationship').value,
-        contact_num: document.getElementById('emergencyContactNumber').value,
+        contact_num: emergencyContactNum,
         email: document.getElementById('emergencyEmail').value
       };
       fetch('actions/update-profile-api.php', {

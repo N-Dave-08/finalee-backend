@@ -47,6 +47,25 @@ if (strtotime($date) < strtotime(date('Y-m-d'))) {
     echo json_encode(['success' => false, 'message' => 'Date must be today or in the future.']);
     exit;
 }
+// Check for duplicate appointment or consultation (global, block if not cancelled)
+$stmt_check = $conn->prepare("SELECT id FROM appointments WHERE preferred_date = ? AND time_slot = ? AND status != 'Cancelled' LIMIT 1");
+$stmt_check->bind_param('ss', $date, $slot);
+$stmt_check->execute();
+$result_check = $stmt_check->get_result();
+if ($result_check->num_rows > 0) {
+    echo json_encode(['success' => false, 'message' => 'An appointment already exists for this date and time.']);
+    exit;
+}
+$stmt_check->close();
+$stmt_check2 = $conn->prepare("SELECT id FROM consultations WHERE preferred_date = ? AND time_slot = ? AND status != 'Cancelled' LIMIT 1");
+$stmt_check2->bind_param('ss', $date, $slot);
+$stmt_check2->execute();
+$result_check2 = $stmt_check2->get_result();
+if ($result_check2->num_rows > 0) {
+    echo json_encode(['success' => false, 'message' => 'An appointment already exists for this date and time.']);
+    exit;
+}
+$stmt_check2->close();
 
 // Prepare and execute insert
 $stmt = $conn->prepare("INSERT INTO consultations (user_id, full_name, complaint, details, priority, preferred_date, time_slot, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");

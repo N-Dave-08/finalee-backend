@@ -335,3 +335,25 @@ body {
   border-top: 2px solid #b2f0cb;
 }
 
+.phone-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.phone-prefix {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #333;
+  font-size: 1em;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.phone-input-wrapper input {
+  width: 100%;
+  padding-left: 48px; /* Adjust to fit the prefix width */
+  box-sizing: border-box;
+}
+

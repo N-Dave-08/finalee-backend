@@ -56,7 +56,19 @@ require_role('user');
           </div>
           <div class="input-group">
             <label for="contactNumber">Contact Number:</label>
-            <input type="tel" id="contactNumber" name="contactNumber" />
+            <div class="phone-input-wrapper">
+              <span class="phone-prefix">+63</span>
+              <input
+                type="tel"
+                id="contactNumber"
+                name="contactNumber"
+                maxlength="10"
+                pattern="[0-9]{10}"
+                required
+                autocomplete="off"
+                placeholder="9123456789"
+              />
+            </div>
           </div>
 
           <h2>Contact of Emergency</h2>

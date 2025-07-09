@@ -16,16 +16,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // $remarks = trim($_POST['remarks'] ?? ''); //
 
     if ($full_name && $complaint && $preferred_date) {
-        $insert = $conn->prepare("INSERT INTO appointments (full_name, complaint, preferred_date, status, created_at) VALUES (?, ?, ?, ?, NOW())");
-        $insert->bind_param('ssss', $full_name, $complaint, $preferred_date, $status);
-        if ($insert->execute()) {
-            $success = true;
-            header('Location: appointmentss.php');
-            exit;
+        // Check for duplicate appointment (global, by date only)
+        $stmt_check = $conn->prepare("SELECT id FROM appointments WHERE preferred_date = ? LIMIT 1");
+        $stmt_check->bind_param('s', $preferred_date);
+        $stmt_check->execute();
+        $result_check = $stmt_check->get_result();
+        if ($result_check->num_rows > 0) {
+            $error = 'An appointment already exists for this date.';
         } else {
-            $error = 'Database error: ' . $insert->error;
+            $insert = $conn->prepare("INSERT INTO appointments (full_name, complaint, preferred_date, status, created_at) VALUES (?, ?, ?, ?, NOW())");
+            $insert->bind_param('ssss', $full_name, $complaint, $preferred_date, $status);
+            if ($insert->execute()) {
+                $success = true;
+                header('Location: appointmentss.php');
+                exit;
+            } else {
+                $error = 'Database error: ' . $insert->error;
+            }
+            $insert->close();
         }
-        $insert->close();
+        $stmt_check->close();
     } else {
         $error = 'Please fill in all required fields.';
     }

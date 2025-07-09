@@ -1,4 +1,6 @@
 <?php
+use Vonage\Client;
+use Vonage\Client\Credentials\Basic;
 require_once '../../app/helpers/db.php';
 
 header('Content-Type: application/json');
@@ -16,6 +18,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $consultation = $stmt->get_result()->fetch_assoc();
 
     if ($consultation) {
+        // Check for duplicate appointment (global)
+        $stmt_check = $conn->prepare("SELECT id FROM appointments WHERE preferred_date = ? AND time_slot = ? LIMIT 1");
+        $stmt_check->bind_param("ss", $preferred_date, $time_slot);
+        $stmt_check->execute();
+        $result_check = $stmt_check->get_result();
+        if ($result_check->num_rows > 0) {
+            echo json_encode(['success' => false, 'message' => 'An appointment already exists for this date and time.']);
+            exit;
+        }
+        $stmt_check->close();
+
         // Insert into appointments
         $stmt2 = $conn->prepare("INSERT INTO appointments (consultation_id, user_id, full_name, complaint, preferred_date, time_slot, status, created_at)
             VALUES (?, ?, ?, ?, ?, ?, 'Scheduled', NOW())");
@@ -29,6 +42,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $time_slot
         );
         $stmt2->execute();
+
+        // Fetch user's phone number
+        $stmt_phone = $conn->prepare("SELECT contact_num FROM user WHERE id = ? LIMIT 1");
+        $stmt_phone->bind_param("i", $consultation['user_id']);
+        $stmt_phone->execute();
+        $result_phone = $stmt_phone->get_result();
+        $user_phone = null;
+        if ($row = $result_phone->fetch_assoc()) {
+            $user_phone = $row['contact_num'];
+        }
+        $stmt_phone->close();
+
+        // Send SMS notification using Vonage
+        if (!empty($user_phone)) {
+            require_once '../../vendor/autoload.php';
+            require_once '../../config/config.php';
+
+            $basic  = new Basic(VONAGE_API_KEY, VONAGE_API_SECRET);
+            $client = new Client($basic);
+
+            $message_body = "Your appointment is set for $preferred_date at $time_slot. Complaint: {$consultation['complaint']}";
+            try {
+                $response = $client->sms()->send(
+                    new \Vonage\SMS\Message\SMS($user_phone, VONAGE_VIRTUAL_NUMBER, $message_body)
+                );
+                $smsResponse = $response->current();
+                if ($smsResponse->getStatus() != 0) {
+                    $errorMsg = $smsResponse->getStatus() . ': ' . $smsResponse->getErrorText();
+                    error_log('Vonage SMS error: ' . $errorMsg);
+                    echo json_encode(['success' => false, 'message' => 'SMS sending failed: ' . $errorMsg]);
+                    exit;
+                }
+            } catch (Exception $e) {
+                error_log('Vonage SMS error: ' . $e->getMessage());
+                echo json_encode(['success' => false, 'message' => 'SMS sending failed: ' . $e->getMessage()]);
+                exit;
+            }
+        }
 
         // Update consultation status
         $stmt3 = $conn->prepare("UPDATE consultations SET appointment_status = 'Appointed', status = 'Scheduled' WHERE id = ?");
