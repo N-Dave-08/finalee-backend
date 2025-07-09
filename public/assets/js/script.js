@@ -47,8 +47,8 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       // Debug log for contact numbers
-      console.log('Contact Number to submit:', contactNum);
-      console.log('Emergency Contact Number to submit:', emergencyContactNum);
+      // console.log('Contact Number to submit:', contactNum);
+      // console.log('Emergency Contact Number to submit:', emergencyContactNum);
 
       const user = {
         last_name: document.getElementById('lastName').value,

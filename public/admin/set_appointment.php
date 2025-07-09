@@ -62,10 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $basic  = new Basic(VONAGE_API_KEY, VONAGE_API_SECRET);
             $client = new Client($basic);
 
-            $message_body = "Your appointment is set for $preferred_date at $time_slot. Complaint: {$consultation['complaint']}";
+            $formatted_time_slot = str_replace(['–', '?'], '-', $time_slot);
+            $message_body = "Your Appointment is set for $preferred_date at $formatted_time_slot\n\nComplaint: {$consultation['complaint']}\n\nLocation: Barangay Medicion 2-D Health Center, Imus. Cavite\n\nPlease arrive 10 minutes early";
             try {
                 $response = $client->sms()->send(
-                    new \Vonage\SMS\Message\SMS($user_phone, VONAGE_VIRTUAL_NUMBER, $message_body)
+                    new \Vonage\SMS\Message\SMS($user_phone, "MEDICION", $message_body)
                 );
                 $smsResponse = $response->current();
                 if ($smsResponse->getStatus() != 0) {
