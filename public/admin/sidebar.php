@@ -13,7 +13,7 @@ function isActive($pages, $activePage) {
   <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
 </button>
 <aside class="sidebar" id="sidebar">
-  <img src="assets/images/newimus.png" alt="Barangay Logo" class="logo" />
+  <img src="/finalee/public/assets/images/newimus.png" alt="Barangay Logo" class="logo" />
   <h2>BARANGAY CLINIC<br>ONLINE APPOINTMENT SYSTEM</h2>
   <p>Imus, Cavite</p>
   <nav>
@@ -21,6 +21,7 @@ function isActive($pages, $activePage) {
     <button class="<?=isActive(['appointmentss.php', 'archive-appointmentss.php'], $activePage)?>" onclick="location.href='appointmentss.php'">Appointments</button>
     <button class="<?=isActive('consultation.php', $activePage)?>" onclick="location.href='consultation.php'">Consultation</button>
     <button class="<?=isActive('patients.php', $activePage)?>" onclick="location.href='patients.php'">Patients</button>
+    <button class="<?=isActive('medicine-inventory.php', $activePage)?>" onclick="location.href='/finalee/admin/medicine-inventory.php'">Medicine Inventory</button>
     <button class="<?=isActive('medical-request.php', $activePage)?>" onclick="location.href='medical-request.php'">View Medical Request</button>
     <hr />
     <button onclick="logout()">LOGOUT</button>

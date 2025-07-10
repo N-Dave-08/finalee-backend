@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Add Appointment</title>
-  <link rel="stylesheet" href="assets/css/appointmentss.css" />
+  <link rel="stylesheet" href="../assets/css/appointmentss.css" />
 </head>
 <body>
   <div class="dashboard-container">
@@ -190,4 +190,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               
 </body>
 </html>
-<script src="assets/js/common.js"></script>
+<script src="../assets/js/appointmentss.js"></script>
+<script src="../assets/js/common.js"></script>

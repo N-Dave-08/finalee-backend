@@ -1,4 +1,4 @@
-fetch('actions/consultation-stats.php')
+fetch('../actions/consultation-stats.php')
   .then(res => res.json())
   .then(data => {
     renderChart1(data.byHour);

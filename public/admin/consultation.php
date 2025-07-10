@@ -9,7 +9,7 @@ require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="assets/css/appointmentss.css" />
+  <link rel="stylesheet" href="../assets/css/appointmentss.css" />
 </head>
 <body>
   <div class="dashboard-container">
@@ -84,7 +84,7 @@ $conn->close();
     </div>
   </div>
 
-  <script src="assets/js/common.js"></script>
+  <script src="../assets/js/common.js"></script>
   <style>
     .modal-overlay {
       position: fixed;
@@ -326,11 +326,14 @@ $conn->close();
       });
 
       const regularSlots = [
-        "08:00 – 08:20 AM", "08:20 – 08:40 AM", "08:40 – 09:00 AM",
-        "09:00 – 09:20 AM", "09:20 – 09:40 AM", "09:40 – 10:00 AM"
+        "08:00 – 09:00 AM", "09:00 – 10:00 AM", "10:00 – 11:00 AM",
+        "11:00 – 12:00 PM", "01:00 – 02:00 PM", "02:00 – 03:00 PM",
+        "03:00 – 04:00 PM", "04:00 – 05:00 PM"
       ];
       const prioritySlots = [
-        "10:00 – 10:20 AM", "10:20 – 10:40 AM", "10:40 – 11:00 AM", "11:00 – 11:20 AM"
+        "08:00 – 09:00 AM", "09:00 – 10:00 AM", "10:00 – 11:00 AM",
+        "11:00 – 12:00 PM", "01:00 – 02:00 PM", "02:00 – 03:00 PM",
+        "03:00 – 04:00 PM", "04:00 – 05:00 PM"
       ];
       function updateTimeSlotOptions() {
         const priority = document.getElementById('modal_priority').value;

@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function logout() {
-    window.location.href = "actions/logout.php";
+    window.location.href = "/finalee/public/actions/logout.php";
   }
 
   function flipToRegister() {

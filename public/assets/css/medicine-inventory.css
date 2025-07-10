@@ -1,0 +1,129 @@
+/* Green-themed custom table styles */
+
+.container {
+    max-width: 1100px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    padding: 32px 24px 24px 24px;
+}
+
+h2 {
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #2c3e50;
+}
+
+.custom-btn {
+    background: #27ae60;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background 0.2s;
+}
+.custom-btn.green {
+    background: #27ae60;
+}
+.custom-btn:hover {
+    background: #219150;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #eaffea;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.custom-table th, .custom-table td {
+    border: 1px solid #b2e6b2;
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 15px;
+}
+.custom-table th {
+    background: #27ae60;
+    color: #fff;
+    font-weight: 600;
+}
+.custom-table tbody tr:nth-child(even) {
+    background: #d4ffd4;
+}
+.custom-table tbody tr:hover {
+    background: #b2e6b2;
+}
+
+/* Status color coding */
+.custom-table td.status-in-stock {
+    color: #27ae60;
+    font-weight: 700;
+}
+.custom-table td.status-low-stock {
+    color: #f39c12;
+    font-weight: 700;
+}
+.custom-table td.status-out-of-stock {
+    color: #e74c3c;
+    font-weight: 700;
+}
+
+/* Custom Modal Styles */
+.custom-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background: rgba(0,0,0,0.3);
+}
+.custom-modal-content {
+    background: #fff;
+    margin: 60px auto;
+    padding: 30px 30px 20px 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.12);
+}
+.custom-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 28px;
+    color: #888;
+    cursor: pointer;
+}
+#medicineForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+#medicineForm label {
+    font-weight: 600;
+    color: #2c3e50;
+}
+#medicineForm input, #medicineForm select {
+    border: 1px solid #b2e6b2;
+    border-radius: 6px;
+    padding: 7px 10px;
+    font-size: 15px;
+    outline: none;
+}
+#medicineForm input:focus, #medicineForm select:focus {
+    border-color: #27ae60;
+}
+#medicineForm .custom-btn {
+    margin-top: 10px;
+} 

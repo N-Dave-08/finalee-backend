@@ -1,5 +1,5 @@
 function logout() {
-  fetch('actions/logout.php', { method: 'POST' })
+  fetch('/finalee/public/actions/logout.php', { method: 'POST' })
     .then(res => res.json())
     .then(data => {
       if (data.success) {

@@ -96,4 +96,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 echo json_encode(['success' => false, 'message' => 'Invalid request.']);
 exit;
-?> 
+?>
+
+<link rel="stylesheet" href="../assets/css/appointmentss.css" />
+<script src="../assets/js/appointmentss.js"></script>
+<script src="../assets/js/common.js"></script> 

@@ -8,7 +8,7 @@ require_role('admin');
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Archived Appointments</title>
-  <link rel="stylesheet" href="assets/css/appointmentss.css" />
+  <link rel="stylesheet" href="../assets/css/appointmentss.css" />
 </head>
 <body>
   <div class="dashboard-container">
@@ -74,7 +74,8 @@ $conn->close();
     </div>
   </div>
 
-  <script src="assets/js/common.js"></script>
+  <script src="../assets/js/appointmentss.js"></script>
+  <script src="../assets/js/common.js"></script>
   <script>
     function submitDate() {
       const selectedDate = document.getElementById('date').value;

@@ -41,14 +41,38 @@ require_role('user');
       <!-- Consultation Form -->
       <form class="consultation-form" id="consultationForm" novalidate>
         <div class="form-group">
-          <label for="fullname">Buong Pangalan*<br><span>(Full Name)</span></label>
-          <input type="text" id="fullname" placeholder="e.g., Juan Dela Cruz" required />
-          <div class="error-message" id="fullname-error"></div>
+          <label>Buong Pangalan*<br><span>(Full Name)</span></label>
+          <?php
+            // Session is already started by auth.php or a global include
+            $user_fullname = '';
+            if (isset($_SESSION['user']['id'])) {
+              require_once dirname(__DIR__, 2) . '/app/models/UserModel.php';
+              $userModel = new UserModel();
+              $user = $userModel->findUserById($_SESSION['user']['id']);
+              if ($user) {
+                $user_fullname = htmlspecialchars(trim($user['first_name'] . ' ' . $user['middle_name'] . ' ' . $user['last_name']));
+              }
+            }
+          ?>
+          <div id="fullname-display" style="font-weight:bold; padding:6px 0;">
+            <?php echo $user_fullname ?: 'Unknown User'; ?>
+          </div>
+          <input type="hidden" id="fullname" value="<?php echo $user_fullname; ?>" />
         </div>
 
         <div class="form-group">
           <label for="complaint">Ano ang karamdaman na gusto mong ipakonsulta?*<br><span>(What is your main complaint?)</span></label>
-          <input type="text" id="complaint" placeholder="e.g., Immunization" required />
+          <select id="complaint" required>
+            <option value="">-- Select a concern --</option>
+            <option value="Check up for Elders">Check up for Elders</option>
+            <option value="Sick Check-up">Sick Check-up</option>
+            <option value="Kids Medication">Kids Medication</option>
+            <option value="Immunization">Immunization</option>
+            <option value="Family Planning">Family Planning</option>
+            <option value="Pap Smear">Pap Smear</option>
+            <option value="Pregnant Check-up">Pregnant Check-up</option>
+            <option value="Prenatal">Prenatal</option>
+          </select>
           <div class="error-message" id="complaint-error"></div>
         </div>
 
@@ -100,12 +124,15 @@ require_role('user');
     };
 
     const regularSlots = [
-      "08:00 – 08:20 AM", "08:20 – 08:40 AM", "08:40 – 09:00 AM",
-      "09:00 – 09:20 AM", "09:20 – 09:40 AM", "09:40 – 10:00 AM"
+      "08:00 – 09:00 AM", "09:00 – 10:00 AM", "10:00 – 11:00 AM",
+      "11:00 – 12:00 PM", "01:00 – 02:00 PM", "02:00 – 03:00 PM",
+      "03:00 – 04:00 PM", "04:00 – 05:00 PM"
     ];
 
     const prioritySlots = [
-      "10:00 – 10:20 AM", "10:20 – 10:40 AM", "10:40 – 11:00 AM", "11:00 – 11:20 AM"
+      "08:00 – 09:00 AM", "09:00 – 10:00 AM", "10:00 – 11:00 AM",
+      "11:00 – 12:00 PM", "01:00 – 02:00 PM", "02:00 – 03:00 PM",
+      "03:00 – 04:00 PM", "04:00 – 05:00 PM"
     ];
 
     const dateInput = document.getElementById("appointment-date");
@@ -159,7 +186,7 @@ require_role('user');
     }
 
     function isValidComplaint(complaint) {
-      return complaint.trim().length >= 3;
+      return complaint && complaint !== "";
     }
 
     function isValidDetails(details) {
@@ -176,25 +203,16 @@ require_role('user');
     function validateForm() {
       let valid = true;
 
-      // Full Name
+      // Full Name (no longer user input, just check if present)
       const fullname = document.getElementById("fullname").value.trim();
-      if (triedSubmit || fullname) {
-        if (fullname && !isValidFullName(fullname)) {
-          document.getElementById("fullname-error").innerText = "Please enter your full name (at least two words, letters only).";
-          valid = false;
-        } else {
-          document.getElementById("fullname-error").innerText = "";
-        }
-      } else {
-        document.getElementById("fullname-error").innerText = "";
-      }
       if (!fullname) valid = false;
+      document.getElementById("fullname-error")?.remove(); // Remove error message if present
 
       // Complaint
       const complaint = document.getElementById("complaint").value.trim();
       if (triedSubmit || complaint) {
         if (complaint && !isValidComplaint(complaint)) {
-          document.getElementById("complaint-error").innerText = "Please enter a valid complaint (at least 3 characters).";
+          document.getElementById("complaint-error").innerText = "Please select a valid concern.";
           valid = false;
         } else {
           document.getElementById("complaint-error").innerText = "";
@@ -302,7 +320,7 @@ require_role('user');
     });
 
     // After first submit, validate on input/change
-    ["fullname", "complaint", "details", "appointment-date"].forEach(id => {
+    ["complaint", "details", "appointment-date"].forEach(id => {
       document.getElementById(id).addEventListener("input", validateForm);
     });
     prioritySelect.addEventListener("change", validateForm);
