@@ -13,7 +13,7 @@ $totalPatientsMonth = $userModel->countUsersThisMonth('user');
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="../assets/css/admin.css" />
+  <link rel="stylesheet" href="/finalee/public/assets/css/admin.css" />
 </head>
 <body>
   <div class="dashboard-container">
@@ -63,8 +63,8 @@ $totalPatientsMonth = $userModel->countUsersThisMonth('user');
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="../assets/js/admin.js"></script>
-  <script src="../assets/js/common.js"></script>
+  <script src="/finalee/public/assets/js/admin.js"></script>
+  <script src="/finalee/public/assets/js/common.js"></script>
 </body>
 </html>
 
