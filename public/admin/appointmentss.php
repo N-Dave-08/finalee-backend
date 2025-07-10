@@ -9,7 +9,7 @@ require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="../assets/css/appointmentss.css" />
+  <link rel="stylesheet" href="/finalee/public/assets/css/appointmentss.css" />
 </head>
 <body>
   <div class="dashboard-container">
@@ -81,8 +81,8 @@ $conn->close();
     </div>
   </div>
 
-  <script src="../assets/js/appointmentss.js"></script>
-  <script src="../assets/js/common.js"></script>
+  <script src="/finalee/public/assets/js/appointmentss.js"></script>
+  <script src="/finalee/public/assets/js/common.js"></script>
   <script>
     function submitDate() {
       const selectedDate = document.getElementById('date').value;

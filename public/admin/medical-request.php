@@ -21,7 +21,7 @@ $conn->close();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="../assets/css/med.css" />
+  <link rel="stylesheet" href="/finalee/public/assets/css/med.css" />
 </head>
 <body>
   <div class="dashboard-container">
@@ -80,7 +80,7 @@ $conn->close();
       </div>
     </div>
     
-    <script src="../assets/js/common.js"></script>
+    <script src="/finalee/public/assets/js/common.js"></script>
     <script>
     // Toast function
     function showToast(message, success = true) {

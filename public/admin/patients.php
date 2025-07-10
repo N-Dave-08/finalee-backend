@@ -8,7 +8,7 @@ require_role('admin');
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Patients List</title>
-  <link rel="stylesheet" href="../assets/css/patients.css" />
+  <link rel="stylesheet" href="/finalee/public/assets/css/patients.css" />
 </head>
 <body>
   <div class="dashboard-container">
@@ -44,7 +44,7 @@ require_role('admin');
     </div>
   </div>
 
-  <script src="../assets/js/patients.js"></script>
-  <script src="../assets/js/common.js"></script>
+  <script src="/finalee/public/assets/js/patients.js"></script>
+  <script src="/finalee/public/assets/js/common.js"></script>
 </body>
 </html>

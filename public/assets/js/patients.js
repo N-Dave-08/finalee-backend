@@ -47,7 +47,7 @@ function displayPatients(filter = "") {
       const id = this.getAttribute('data-id');
       const patient = patients.find(p => p.id == id);
       if (confirm(`Are you sure you want to archive @${patient.username}?`)) {
-        fetch('../actions/archive-patient.php', {
+        fetch('/finalee/public/actions/archive-patient.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: `id=${encodeURIComponent(id)}`
@@ -144,7 +144,7 @@ function displayArchivedPatients(filter = "") {
       const id = this.getAttribute('data-id');
       const patient = archivedPatients.find(p => p.id == id);
       if (confirm(`Are you sure you want to unarchive @${patient.username}?`)) {
-        fetch('../actions/unarchive-patient.php', {
+        fetch('/finalee/public/actions/unarchive-patient.php', {
           method: 'POST',
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: `id=${encodeURIComponent(id)}`
@@ -173,7 +173,7 @@ toggleArchivedBtn.addEventListener('click', function() {
     archivedPatientList.style.display = '';
     toggleArchivedBtn.textContent = 'Show Active';
     // Fetch archived patients only once or refresh if needed
-    fetch('../actions/archived-patients-api.php')
+    fetch('/finalee/public/actions/archived-patients-api.php')
       .then(res => res.json())
       .then(data => {
         archivedPatients = data;
@@ -194,7 +194,7 @@ toggleArchivedBtn.addEventListener('click', function() {
 // Fetch patients from API
 loading.style.display = "";
 patientList.innerHTML = "";
-fetch("../actions/patients-api.php")
+fetch("/finalee/public/actions/patients-api.php")
   .then(res => res.json())
   .then(data => {
     patients = data;
