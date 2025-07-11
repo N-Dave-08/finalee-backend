@@ -77,8 +77,8 @@ require_role('user');
         </div>
 
         <div class="form-group">
-          <label for="details">Karagdagang detalye*<br><span>(Other details)</span></label>
-          <textarea id="details" placeholder="Please provide more information..." required></textarea>
+          <label for="details">Karagdagang detalye<br><span>(Other details)</span></label>
+          <textarea id="details" placeholder="Please provide more information..."></textarea>
           <div class="error-message" id="details-error"></div>
         </div>
 
@@ -124,15 +124,27 @@ require_role('user');
     };
 
     const regularSlots = [
-      "08:00 – 09:00 AM", "09:00 – 10:00 AM", "10:00 – 11:00 AM",
-      "11:00 – 12:00 PM", "01:00 – 02:00 PM", "02:00 – 03:00 PM",
-      "03:00 – 04:00 PM", "04:00 – 05:00 PM"
+      "08:00 – 08:20 AM", "08:20 – 08:40 AM", "08:40 – 09:00 AM",
+      "09:00 – 09:20 AM", "09:20 – 09:40 AM", "09:40 – 10:00 AM",
+      "10:00 – 10:20 AM", "10:20 – 10:40 AM", "10:40 – 11:00 AM",
+      "11:00 – 11:20 AM", "11:20 – 11:40 AM", "11:40 – 12:00 PM",
+      // Lunch break: 12:00 PM – 01:00 PM (no slots)
+      "01:00 – 01:20 PM", "01:20 – 01:40 PM", "01:40 – 02:00 PM",
+      "02:00 – 02:20 PM", "02:20 – 02:40 PM", "02:40 – 03:00 PM",
+      "03:00 – 03:20 PM", "03:20 – 03:40 PM", "03:40 – 04:00 PM",
+      "04:00 – 04:20 PM", "04:20 – 04:40 PM", "04:40 – 05:00 PM"
     ];
 
     const prioritySlots = [
-      "08:00 – 09:00 AM", "09:00 – 10:00 AM", "10:00 – 11:00 AM",
-      "11:00 – 12:00 PM", "01:00 – 02:00 PM", "02:00 – 03:00 PM",
-      "03:00 – 04:00 PM", "04:00 – 05:00 PM"
+      "08:00 – 08:20 AM", "08:20 – 08:40 AM", "08:40 – 09:00 AM",
+      "09:00 – 09:20 AM", "09:20 – 09:40 AM", "09:40 – 10:00 AM",
+      "10:00 – 10:20 AM", "10:20 – 10:40 AM", "10:40 – 11:00 AM",
+      "11:00 – 11:20 AM", "11:20 – 11:40 AM", "11:40 – 12:00 PM",
+      // Lunch break: 12:00 PM – 01:00 PM (no slots)
+      "01:00 – 01:20 PM", "01:20 – 01:40 PM", "01:40 – 02:00 PM",
+      "02:00 – 02:20 PM", "02:20 – 02:40 PM", "02:40 – 03:00 PM",
+      "03:00 – 03:20 PM", "03:20 – 03:40 PM", "03:40 – 04:00 PM",
+      "04:00 – 04:20 PM", "04:20 – 04:40 PM", "04:40 – 05:00 PM"
     ];
 
     const dateInput = document.getElementById("appointment-date");
@@ -190,7 +202,8 @@ require_role('user');
     }
 
     function isValidDetails(details) {
-      return details.trim().length >= 10;
+      // Details are now optional, always return true
+      return true;
     }
 
     function isValidDate(date) {
@@ -224,17 +237,8 @@ require_role('user');
 
       // Details
       const details = document.getElementById("details").value.trim();
-      if (triedSubmit || details) {
-        if (details && !isValidDetails(details)) {
-          document.getElementById("details-error").innerText = "Please provide more details (at least 10 characters).";
-          valid = false;
-        } else {
-          document.getElementById("details-error").innerText = "";
-        }
-      } else {
-        document.getElementById("details-error").innerText = "";
-      }
-      if (!details) valid = false;
+      // No validation needed for details since it's optional
+      document.getElementById("details-error").innerText = "";
 
       // Date
       const date = document.getElementById("appointment-date").value;
