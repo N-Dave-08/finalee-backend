@@ -46,7 +46,14 @@ $conn->close();
 
     <!-- MAIN CONTENT -->
     <div class="main">
-      <h2>Appointments</h2>
+      <div class="appointments-header">
+        <button id="sidebar-toggle" class="sidebar-hamburger" aria-label="Open sidebar">
+          <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+          <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+          <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+        </button>
+        <h2>Appointments</h2>
+      </div>
 
       <div class="info-box">
         <p>Pumili ng dokumentong nais i-download o i-print.<br><i>Select a document you want to download or print.</i></p>

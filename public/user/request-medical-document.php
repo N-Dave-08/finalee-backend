@@ -18,7 +18,14 @@ require_role('user');
     <?php $activePage = 'request-medical-document.php'; include 'sidebar.php'; ?>
 
     <main class="content">
-      <h2>REQUEST MEDICAL DOCUMENTS</h2>
+      <div class="page-header-flex">
+        <button id="sidebar-toggle" class="sidebar-hamburger" aria-label="Open sidebar">
+          <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+          <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+          <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+        </button>
+        <h2 style="margin:0;">REQUEST MEDICAL DOCUMENTS</h2>
+      </div>
       <div class="info-box">
         <p><strong>What to do?</strong><br>
         To request medical documents, fill out the online form or visit the clinic/hospital and provide your details along with the documents you need.</p>

@@ -101,8 +101,15 @@ $conn = get_db_connection();
   <div class="container">
     <?php $activePage = 'view-consultation.php'; include 'sidebar.php'; ?>
 
-  <div class="main">
-    <h2>VIEW CONSULTATION RESULT</h2>
+    <div class="main-content">
+      <div class="page-header-flex">
+        <button id="sidebar-toggle" class="sidebar-hamburger" aria-label="Open sidebar">
+          <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+          <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+          <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+        </button>
+        <h2 style="margin:0;">VIEW CONSULTATION RESULT</h2>
+      </div>
     <div class="description-box">
       <p><strong>Pending Request Consultation</strong> refers to requests or consultations that are still awaiting action, decision, or resolution, while <strong>Past Request Consultation</strong> refers to those that have already been completed or resolved.</p>
       <p>Ang <strong>Pending Request Consultation</strong> ay tumutukoy sa mga kahilingan o konsultasyon na naghihintay pa ng aksyon, desisyon, o resolusyon, habang ang <strong>Past Request Consultation</strong> ay tumutukoy sa mga kahilingan o konsultasyon na natapos na o nararesolba na.</p>

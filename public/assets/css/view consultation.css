@@ -182,6 +182,46 @@
     margin-top: 12px;
   }
 
+  .page-header-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .page-header-flex h2 {
+    flex: 1;
+    text-align: center;
+    margin: 0;
+    font-size: 2rem;
+  }
+  .sidebar-hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1100;
+  }
+
+  @media (max-width: 900px) {
+    .page-header-flex {
+      justify-content: center;
+      padding-left: 40px;
+      padding-right: 16px;
+    }
+    .sidebar-hamburger {
+      display: block;
+    }
+    .page-header-flex h2 {
+      font-size: 1.3rem;
+      margin-left: 0;
+    }
+  }
+
   @media (max-width: 768px) {
     .container {
       flex-direction: column;

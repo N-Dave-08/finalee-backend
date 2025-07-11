@@ -4,11 +4,13 @@ function isActive($page, $activePage) {
     return $page === $activePage ? 'active' : '';
 }
 ?>
+<?php if (!in_array($activePage, ['appointments.php', 'view-consultation.php', 'request-medical-document.php'])): ?>
 <button id="sidebar-toggle" class="sidebar-hamburger" aria-label="Open sidebar" style="display:none;position:fixed;top:18px;left:18px;z-index:1100;background:none;border:none;cursor:pointer;">
   <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
   <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
   <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
 </button>
+<?php endif; ?>
 <aside class="sidebar" id="sidebar">
   <?php if ($activePage !== 'update-profile.php' && $activePage !== 'change-password.php'): ?>
     <img src="assets/images/newimus.png" alt="Barangay Logo" class="logo" />

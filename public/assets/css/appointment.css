@@ -263,3 +263,42 @@
   .sidebar-legal-section button + button {
     margin-top: 12px;
   }
+
+  .appointments-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .appointments-header h2 {
+    flex: 1;
+    text-align: center;
+    margin: 0;
+    font-size: 2rem;
+  }
+  .sidebar-hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1100;
+  }
+  @media (max-width: 900px) {
+    .appointments-header {
+      justify-content: center;
+      padding-left: 40px;
+      padding-right: 16px;
+    }
+    .sidebar-hamburger {
+      display: block;
+    }
+    .appointments-header h2 {
+      font-size: 1.3rem;
+      margin-left: 0;
+    }
+  }
