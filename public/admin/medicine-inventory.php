@@ -13,6 +13,7 @@
 <body>
     <div class="dashboard-container">
         <?php include 'sidebar.php'; ?>
+        <div class="sidebar-edge-indicator" id="sidebarEdgeIndicator" style="display:none;"></div>
         <main class="main-content">
             <h2>Medicine Inventory</h2>
             <button class="custom-btn" id="addMedicineBtn">Add Medicine</button>
@@ -59,5 +60,31 @@
     </div>
 
     <script src="../assets/js/medicine-inventory.js"></script>
+    <script>
+      function updateSidebarEdgeIndicator() {
+        var sidebar = document.getElementById('sidebar');
+        var edge = document.getElementById('sidebarEdgeIndicator');
+        if (!sidebar || !edge) return;
+        if (window.innerWidth <= 900 && !sidebar.classList.contains('open') && !sidebar.classList.contains('active')) {
+          edge.style.display = 'block';
+        } else {
+          edge.style.display = 'none';
+        }
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        var sidebar = document.getElementById('sidebar');
+        var edge = document.getElementById('sidebarEdgeIndicator');
+        if (edge && sidebar) {
+          edge.addEventListener('click', function(e) {
+            sidebar.classList.add('open');
+            edge.style.display = 'none';
+          });
+          window.addEventListener('resize', updateSidebarEdgeIndicator);
+          updateSidebarEdgeIndicator();
+          sidebar.addEventListener('transitionend', updateSidebarEdgeIndicator);
+        }
+      });
+      document.addEventListener('click', function() { setTimeout(updateSidebarEdgeIndicator, 10); });
+    </script>
 </body>
 </html> 

@@ -14,6 +14,7 @@ require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
 <body>
   <div class="dashboard-container">
     <?php include 'sidebar.php'; ?>
+    <div class="sidebar-edge-indicator" id="sidebarEdgeIndicator" style="display:none;"></div>
   
     <!-- Main Content -->
     <div class="main-content">
@@ -278,6 +279,16 @@ $conn->close();
       }
     }
 
+    function updateSidebarEdgeIndicator() {
+      var sidebar = document.getElementById('sidebar');
+      var edge = document.getElementById('sidebarEdgeIndicator');
+      if (!sidebar || !edge) return;
+      if (window.innerWidth <= 900 && !sidebar.classList.contains('open') && !sidebar.classList.contains('active')) {
+        edge.style.display = 'block';
+      } else {
+        edge.style.display = 'none';
+      }
+    }
     document.addEventListener('DOMContentLoaded', function() {
       let pendingBtn = null;
       const modal = document.getElementById('confirmModal');
@@ -388,7 +399,20 @@ $conn->close();
         toast.style.display = 'block';
         setTimeout(() => { toast.style.display = 'none'; }, 2000);
       }
+
+      var sidebar = document.getElementById('sidebar');
+      var edge = document.getElementById('sidebarEdgeIndicator');
+      if (edge && sidebar) {
+        edge.addEventListener('click', function(e) {
+          sidebar.classList.add('open');
+          edge.style.display = 'none';
+        });
+        window.addEventListener('resize', updateSidebarEdgeIndicator);
+        updateSidebarEdgeIndicator();
+        sidebar.addEventListener('transitionend', updateSidebarEdgeIndicator);
+      }
     });
+    document.addEventListener('click', function() { setTimeout(updateSidebarEdgeIndicator, 10); });
   </script>
 </body>
 </html>

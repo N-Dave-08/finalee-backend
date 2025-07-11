@@ -190,5 +190,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               
 </body>
 </html>
-<script src="../assets/js/appointmentss.js"></script>
+<!-- <script src="../assets/js/appointmentss.js"></script> -->
 <script src="../assets/js/common.js"></script>

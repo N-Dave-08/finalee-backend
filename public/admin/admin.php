@@ -18,6 +18,8 @@ $totalPatientsMonth = $userModel->countUsersThisMonth('user');
 <body>
   <div class="dashboard-container">
     <?php include 'sidebar.php'; ?>
+    <div class="sidebar-edge-indicator" id="sidebarEdgeIndicator" style="display:none;"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <main class="main-content">
       <h1>Dashboard</h1>
@@ -65,6 +67,47 @@ $totalPatientsMonth = $userModel->countUsersThisMonth('user');
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="/finalee/public/assets/js/admin.js"></script>
   <script src="/finalee/public/assets/js/common.js"></script>
+  <script>
+    // Show the green edge indicator only on mobile
+    function updateSidebarEdgeIndicator() {
+      var sidebar = document.getElementById('sidebar');
+      var edge = document.getElementById('sidebarEdgeIndicator');
+      var overlay = document.getElementById('sidebarOverlay');
+      if (!sidebar || !edge || !overlay) return;
+      if (window.innerWidth <= 900 && !sidebar.classList.contains('open') && !sidebar.classList.contains('active')) {
+        edge.style.display = 'block';
+        overlay.style.display = 'none';
+      } else {
+        edge.style.display = 'none';
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var sidebar = document.getElementById('sidebar');
+      var edge = document.getElementById('sidebarEdgeIndicator');
+      var overlay = document.getElementById('sidebarOverlay');
+      if (edge && sidebar) {
+        edge.addEventListener('click', function(e) {
+          sidebar.classList.add('open');
+          edge.style.display = 'none';
+          overlay.style.display = 'block';
+        });
+        window.addEventListener('resize', updateSidebarEdgeIndicator);
+        updateSidebarEdgeIndicator();
+        // Also hide edge when sidebar is opened by other means
+        sidebar.addEventListener('transitionend', updateSidebarEdgeIndicator);
+      }
+      if (overlay && sidebar) {
+        overlay.addEventListener('click', function() {
+          sidebar.classList.remove('open');
+          sidebar.classList.remove('active');
+          overlay.style.display = 'none';
+          setTimeout(updateSidebarEdgeIndicator, 300);
+        });
+      }
+    });
+    // Also update on sidebar open/close
+    document.addEventListener('click', function() { setTimeout(updateSidebarEdgeIndicator, 10); });
+  </script>
 </body>
 </html>
 

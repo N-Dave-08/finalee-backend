@@ -7,11 +7,13 @@ function isActive($pages, $activePage) {
     return $pages === $activePage ? 'active' : '';
 }
 ?>
-<button id="sidebar-toggle" class="sidebar-hamburger" aria-label="Open sidebar" style="display:none;position:fixed;top:18px;left:18px;z-index:1100;background:none;border:none;cursor:pointer;">
-  <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
-  <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
-  <span style="display:block;width:28px;height:4px;background:#333;margin:6px 0;border-radius:2px;"></span>
+<?php if ($activePage !== 'admin.php' && $activePage !== 'medicine-inventory.php'): ?>
+<button id="sidebar-toggle" class="sidebar-hamburger" aria-label="Open sidebar">
+  <span></span>
+  <span></span>
+  <span></span>
 </button>
+<?php endif; ?>
 <aside class="sidebar" id="sidebar">
   <img src="/finalee/public/assets/images/newimus.png" alt="Barangay Logo" class="logo" />
   <h2>BARANGAY CLINIC<br>ONLINE APPOINTMENT SYSTEM</h2>

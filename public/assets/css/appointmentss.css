@@ -241,4 +241,24 @@
       align-items: flex-start;
     }
   }
-  
+
+@media (max-width: 900px) {
+  .sidebar-edge-indicator {
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 100vh;
+    background: #43b047;
+    border-radius: 0 8px 8px 0;
+    z-index: 1048;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .sidebar.open ~ .sidebar-edge-indicator,
+  .sidebar.active ~ .sidebar-edge-indicator {
+    display: none;
+  }
+}
+  }

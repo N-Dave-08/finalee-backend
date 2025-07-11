@@ -178,29 +178,50 @@ body {
   font-weight: bold;
 }
 
-@media (max-width: 768px) {
+/* Hamburger menu button styles */
+.sidebar-hamburger {
+  display: none;
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 1100;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+.sidebar-hamburger span {
+  display: block;
+  width: 28px;
+  height: 4px;
+  background: #333;
+  margin: 6px 0;
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+@media (max-width: 900px) {
   .sidebar {
     width: 80vw;
     min-width: unset;
     max-width: 90vw;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
-    z-index: 1000;
+    z-index: 1050;
     border-radius: 0 18px 18px 0;
     box-shadow: 2px 0 16px 0 rgba(0,0,0,0.15);
     overflow-y: auto;
+    height: 100vh;
     background: linear-gradient(135deg, #e0ffe6 0%, #b2f0cb 100%);
-    /* Animation properties */
-    transform: translateX(-100%);
-    opacity: 0;
+    transform: translateX(-110%);
     transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.2s;
-    display: block;
-    pointer-events: none;
-  }
-  .sidebar.active {
-    transform: translateX(0);
     opacity: 1;
+    pointer-events: none;
+    display: block;
+  }
+  .sidebar.active, .sidebar.open {
+    transform: translateX(0);
     pointer-events: auto;
   }
   .sidebar-hamburger {
@@ -227,6 +248,46 @@ body {
     flex-direction: column;
     gap: 10px;
     align-items: center;
+  }
+}
+
+/* Green sidebar edge indicator for admin.php (dashboard) */
+@media (max-width: 900px) {
+  .sidebar-edge-indicator {
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 100vh;
+    background: #43b047;
+    border-radius: 0 8px 8px 0;
+    z-index: 1048;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .sidebar.open ~ .sidebar-edge-indicator,
+  .sidebar.active ~ .sidebar-edge-indicator {
+    display: none;
+  }
+}
+
+/* Sidebar overlay for mobile (admin.php) */
+@media (max-width: 900px) {
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.3);
+    z-index: 1049;
+    transition: opacity 0.2s;
+  }
+  .sidebar.open ~ .sidebar-overlay,
+  .sidebar.active ~ .sidebar-overlay {
+    display: block;
   }
 }
 

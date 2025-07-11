@@ -13,12 +13,13 @@ require_role('admin');
 <body>
   <div class="dashboard-container">
     <?php include 'sidebar.php'; ?>
+    <div class="sidebar-edge-indicator" id="sidebarEdgeIndicator" style="display:none;"></div>
     <div class="main-content">
       <h2 class="section-title">Patients</h2>
       <div class="content-box">
-        <div class="header">
-          <h3>Patients List</h3>
-          <button id="toggleArchivedBtn" class="btn toggle-archived-btn" style="float:right;margin-top:-8px;">Show Archived</button>
+        <div class="header" style="display: flex; align-items: center; justify-content: space-between;">
+          <h3 style="margin: 0;">Patients List</h3>
+          <button id="toggleArchivedBtn" class="btn toggle-archived-btn">Show Archived</button>
         </div>
         <div class="search-container">
           <input type="text" id="searchInput" placeholder="🔍 Search" />
@@ -46,5 +47,31 @@ require_role('admin');
 
   <script src="/finalee/public/assets/js/patients.js"></script>
   <script src="/finalee/public/assets/js/common.js"></script>
+  <script>
+    function updateSidebarEdgeIndicator() {
+      var sidebar = document.getElementById('sidebar');
+      var edge = document.getElementById('sidebarEdgeIndicator');
+      if (!sidebar || !edge) return;
+      if (window.innerWidth <= 900 && !sidebar.classList.contains('open') && !sidebar.classList.contains('active')) {
+        edge.style.display = 'block';
+      } else {
+        edge.style.display = 'none';
+      }
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      var sidebar = document.getElementById('sidebar');
+      var edge = document.getElementById('sidebarEdgeIndicator');
+      if (edge && sidebar) {
+        edge.addEventListener('click', function(e) {
+          sidebar.classList.add('open');
+          edge.style.display = 'none';
+        });
+        window.addEventListener('resize', updateSidebarEdgeIndicator);
+        updateSidebarEdgeIndicator();
+        sidebar.addEventListener('transitionend', updateSidebarEdgeIndicator);
+      }
+    });
+    document.addEventListener('click', function() { setTimeout(updateSidebarEdgeIndicator, 10); });
+  </script>
 </body>
 </html>
