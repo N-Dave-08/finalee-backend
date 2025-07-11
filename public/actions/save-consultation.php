@@ -10,7 +10,7 @@ $conn = get_db_connection();
 $raw = file_get_contents('php://input');
 $data = json_decode($raw, true);
 
-$required = ['fullname', 'complaint', 'details', 'date', 'slot'];
+$required = ['fullname', 'complaint', 'date', 'slot'];
 foreach ($required as $field) {
     if (empty($data[$field])) {
         echo json_encode(['success' => false, 'message' => ucfirst($field) . ' is required.']);
@@ -38,10 +38,7 @@ if (strlen($complaint) < 3) {
     exit;
 }
 // Details: at least 10 characters
-if (strlen($details) < 10) {
-    echo json_encode(['success' => false, 'message' => 'Details must be at least 10 characters.']);
-    exit;
-}
+// (Removed: details can be blank)
 // Date: today or future
 if (strtotime($date) < strtotime(date('Y-m-d'))) {
     echo json_encode(['success' => false, 'message' => 'Date must be today or in the future.']);
