@@ -18,11 +18,11 @@ require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
   
     <!-- Main Content -->
     <div class="main-content">
-      <h1>Appointment</h1>
+      <h1>Consultations</h1>
       <hr>
 
       <div class="content-container">
-        <h2 class="page-title">Appointment</h2>
+        <h2 class="page-title">Consultations</h2>
 
         <div class="top-buttons">
           <div class="date-and-actions">
@@ -52,7 +52,7 @@ require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
             <tbody>
 <?php
 $conn = get_db_connection();
-$sql = "SELECT id, full_name, complaint, status, preferred_date FROM consultations WHERE status != 'Completed' ORDER BY created_at DESC";
+$sql = "SELECT id, full_name, complaint, status, preferred_date, time_slot FROM consultations WHERE status != 'Completed' ORDER BY created_at DESC";
 $result = $conn->query($sql);
 if ($result && $result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
@@ -67,7 +67,9 @@ if ($result && $result->num_rows > 0) {
       echo '<button class="set-appointment-btn enhanced-btn" 
         data-id="' . $row['id'] . '" 
         data-name="' . htmlspecialchars($row['full_name']) . '" 
-        data-complaint="' . htmlspecialchars($row['complaint']) . '"><span style="margin-right:6px;">📅</span>Set Appointment</button> ';
+        data-complaint="' . htmlspecialchars($row['complaint']) . '"
+        data-preferred_date="' . htmlspecialchars($row['preferred_date']) . '"
+        data-time_slot="' . htmlspecialchars($row['time_slot']) . '"><span style="margin-right:6px;">📅</span>Set Appointment</button> ';
     }
     echo '</td>';
     echo '</tr>';
@@ -241,6 +243,14 @@ $conn->close();
           <input type="text" id="modal_complaint" disabled>
         </div>
         <div>
+          <label>Preferred Date (User):</label>
+          <small id="modal_preferred_date" style="display:block; margin-bottom:8px; color:#555; font-size:13px;"></small>
+        </div>
+        <div>
+          <label>Preferred Time Slot (User):</label>
+          <small id="modal_user_time_slot" style="display:block; margin-bottom:18px; color:#555; font-size:13px;"></small>
+        </div>
+        <div>
           <label>Appointment Date:</label>
           <input type="date" name="preferred_date" required>
         </div>
@@ -330,6 +340,8 @@ $conn->close();
           document.getElementById('consultation_id').value = this.dataset.id;
           document.getElementById('modal_full_name').value = this.dataset.name;
           document.getElementById('modal_complaint').value = this.dataset.complaint;
+          document.getElementById('modal_preferred_date').textContent = this.dataset.preferred_date || '';
+          document.getElementById('modal_user_time_slot').textContent = this.dataset.time_slot || '';
           document.getElementById('setAppointmentModal').style.display = 'block';
           document.getElementById('modal_priority').value = '';
           updateTimeSlotOptions();

@@ -45,6 +45,8 @@ require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
                 <th>Name</th>
                 <th>Ref #. Date</th>
                 <th>Complaint</th>
+                <th>Date</th>
+                <th>Time Slot</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -52,7 +54,7 @@ require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
             <tbody>
 <?php
 $conn = get_db_connection();
-$sql = "SELECT id, full_name, complaint, status, preferred_date FROM appointments WHERE status != 'Completed' ORDER BY created_at DESC";
+$sql = "SELECT id, full_name, complaint, status, preferred_date, time_slot FROM appointments WHERE status != 'Completed' ORDER BY created_at DESC";
 $result = $conn->query($sql);
 if ($result && $result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
@@ -61,6 +63,8 @@ if ($result && $result->num_rows > 0) {
     echo '<td>' . htmlspecialchars($row['full_name']) . '</td>';
     echo '<td>' . htmlspecialchars($ref) . '</td>';
     echo '<td>' . htmlspecialchars($row['complaint']) . '</td>';
+    echo '<td>' . htmlspecialchars($row['preferred_date']) . '</td>';
+    echo '<td>' . htmlspecialchars($row['time_slot']) . '</td>';
     echo '<td>' . htmlspecialchars($row['status']) . '</td>';
     echo '<td>';
     if ($row['status'] !== 'Completed') {
