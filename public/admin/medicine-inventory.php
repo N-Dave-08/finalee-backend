@@ -51,7 +51,11 @@
           <label for="medicineDosage">Dosage</label>
           <input type="text" id="medicineDosage" name="dosage" required>
           <label for="medicineQuantity">Quantity</label>
-          <input type="number" id="medicineQuantity" name="quantity" min="0" required>
+          <div style="display: flex; align-items: center; gap: 5px;">
+            <button type="button" id="decrementQuantity" style="width:32px; height:32px; font-size:18px;">-</button>
+            <input type="number" id="medicineQuantity" name="quantity" min="0" required style="flex:1 1 60px; text-align:center;">
+            <button type="button" id="incrementQuantity" style="width:32px; height:32px; font-size:18px;">+</button>
+          </div>
           <label for="medicineExpiry">Expiry Date</label>
           <input type="date" id="medicineExpiry" name="expiry_date" required>
           <button type="submit" class="custom-btn green">Save</button>

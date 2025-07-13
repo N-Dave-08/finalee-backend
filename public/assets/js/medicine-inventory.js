@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('medicineForm');
     const modalTitle = document.getElementById('medicineModalLabel');
     const medicineIdInput = document.getElementById('medicineId');
+    const quantityInput = document.getElementById('medicineQuantity');
+    const incrementBtn = document.getElementById('incrementQuantity');
+    const decrementBtn = document.getElementById('decrementQuantity');
 
     // Modal open/close logic
     function openModal() {
@@ -119,6 +122,17 @@ document.addEventListener('DOMContentLoaded', function () {
             loadMedicines();
         });
     });
+
+    if (incrementBtn && decrementBtn && quantityInput) {
+        incrementBtn.addEventListener('click', function() {
+            let val = parseInt(quantityInput.value) || 0;
+            quantityInput.value = val + 1;
+        });
+        decrementBtn.addEventListener('click', function() {
+            let val = parseInt(quantityInput.value) || 0;
+            if (val > 0) quantityInput.value = val - 1;
+        });
+    }
 
     // Initial load
     loadMedicines();
