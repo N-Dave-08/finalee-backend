@@ -55,6 +55,13 @@
 <!-- Register Form -->
 <div class="form-card back-card" id="registerForm">
   <h2>Register</h2>
+  <input type="text" id="regFirstName" placeholder="First Name" />
+  <input type="text" id="regLastName" placeholder="Last Name" />
+  <input type="text" id="regMiddleName" placeholder="Middle Name" />
+  <div style="display:flex;align-items:center;margin-bottom:8px;">
+    <span style="margin-right:4px;">+63</span>
+    <input type="tel" id="regContactNumber" placeholder="Contact Number (9123456789)" maxlength="10" pattern="[0-9]{10}" style="flex:1;" />
+  </div>
   <input type="text" id="regUsername" placeholder="Username" />
   <input type="email" id="regEmail" placeholder="Email" />
   <input type="password" id="regPassword" placeholder="Password" />

@@ -34,12 +34,20 @@ body:not(.login-page) {
 }
 
 .card-container {
-  width: 350px;
-  height: 420px;
+  width: 480px;
+  height: 600px;
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.8s ease-in-out;
-  perspective: 1000px; /* Added here for better 3D effect */
+  perspective: 1000px;
+  max-width: 100%;
+}
+@media (max-width: 600px) {
+  .card-container {
+    width: 100%;
+    height: auto;
+    min-height: 420px;
+  }
 }
 
 .form-card {

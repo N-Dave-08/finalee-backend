@@ -18,13 +18,13 @@ class UserModel {
         $stmt->close();
         return $user;
     }
-    public function createUser($username, $password, $email = null, $role = 'user') {
+    public function createUser($username, $password, $email = null, $role = 'user', $first_name = '', $middle_name = '', $last_name = '', $contact_num = '') {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $this->conn->prepare('INSERT INTO user (username, password, email, role) VALUES (?, ?, ?, ?)');
+        $stmt = $this->conn->prepare('INSERT INTO user (username, password, email, role, first_name, middle_name, last_name, contact_num) VALUES (?, ?, ?, ?, ?, ?, ?, ?)');
         if (!$stmt) {
             return ['success' => false, 'message' => $this->conn->error];
         }
-        $stmt->bind_param('ssss', $username, $hashedPassword, $email, $role);
+        $stmt->bind_param('ssssssss', $username, $hashedPassword, $email, $role, $first_name, $middle_name, $last_name, $contact_num);
         $result = $stmt->execute();
         $error = $stmt->error;
         $stmt->close();

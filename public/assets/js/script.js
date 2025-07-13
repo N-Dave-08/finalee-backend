@@ -138,11 +138,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ==== Register Function ====
   function handleRegister() {
+    const lastName = document.getElementById('regLastName').value.trim();
+    const firstName = document.getElementById('regFirstName').value.trim();
+    const middleName = document.getElementById('regMiddleName').value.trim();
+    let contactNumber = document.getElementById('regContactNumber').value.trim();
+    if (/^\d{10}$/.test(contactNumber)) {
+      contactNumber = '63' + contactNumber;
+    }
     const username = document.getElementById('regUsername').value.trim();
     const email = document.getElementById('regEmail').value.trim();
     const password = document.getElementById('regPassword').value;
 
-    if (!username || !email || !password) {
+    if (!lastName || !firstName || !username || !email || !password || !contactNumber) {
       alert("Please fill in all fields.");
       return;
     }
@@ -153,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&email=${encodeURIComponent(email)}`
+      body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&email=${encodeURIComponent(email)}&firstName=${encodeURIComponent(firstName)}&middleName=${encodeURIComponent(middleName)}&lastName=${encodeURIComponent(lastName)}&contactNumber=${encodeURIComponent(contactNumber)}`
     })
     .then(response => response.json())
     .then(data => {

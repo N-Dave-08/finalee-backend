@@ -28,7 +28,7 @@ class AuthController {
         }
     }
 
-    public function register($username, $password, $email = null, $role = 'user') {
+    public function register($username, $password, $email = null, $role = 'user', $first_name = '', $middle_name = '', $last_name = '', $contact_num = '') {
         $userModel = new UserModel();
         // Check if user already exists
         $existing = $userModel->findUser($username);
@@ -39,7 +39,7 @@ class AuthController {
             ];
         }
         // Create user
-        $result = $userModel->createUser($username, $password, $email, $role);
+        $result = $userModel->createUser($username, $password, $email, $role, $first_name, $middle_name, $last_name, $contact_num);
         if ($result['success']) {
             return [
                 'success' => true,
