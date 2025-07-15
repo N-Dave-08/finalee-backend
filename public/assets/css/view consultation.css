@@ -8,17 +8,19 @@
   body {
     background: linear-gradient(to bottom, #b6ffb6, #b6ffb6 60%, #00ff00);
     height: 100vh;
-    overflow: hidden;
+    /* overflow: hidden; */ /* REMOVED to allow scrolling */
   }
   
   html, body {
     height: 100vh;
-    overflow: hidden;
+    /* overflow: hidden; */ /* REMOVED to allow scrolling */
   }
   
   .container {
-    height: 100vh;
+    /* height: 100vh; */ /* REMOVED to allow scrolling */
     display: flex;
+    min-height: 100vh; /* ADDED to ensure full height but allow scrolling */
+    flex-direction: row;
   }
 
   /* Sidebar */
@@ -109,6 +111,8 @@
   .main {
     flex-grow: 1;
     padding: 30px;
+    overflow-y: auto; /* ADDED to allow vertical scrolling */
+    max-height: none; /* ADDED to remove any height restrictions */
   }
   .main h2 {
     margin-bottom: 20px;
@@ -153,7 +157,7 @@
   }
   .table-responsive {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: auto; /* ENSURE horizontal scrolling on small screens */
     -webkit-overflow-scrolling: touch;
   }
   table {
@@ -225,7 +229,8 @@
   @media (max-width: 768px) {
     .container {
       flex-direction: column;
-      height: auto;
+      min-height: 100vh;
+      height: auto; /* ADDED to allow content to grow */
     }
     .sidebar {
       width: 100%;
@@ -240,6 +245,8 @@
     .main {
       width: 100%;
       padding: 10px;
+      overflow-y: auto; /* ADDED for scrollable content on mobile */
+      max-height: none; /* ADDED to remove any height restrictions */
     }
     .description-box {
       padding: 12px;
@@ -251,6 +258,7 @@
       margin-left: -10px;
       margin-right: -10px;
       width: calc(100% + 20px);
+      overflow-x: auto; /* ENSURE horizontal scrolling on mobile */
     }
     table {
       min-width: 480px;

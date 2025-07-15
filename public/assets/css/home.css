@@ -8,7 +8,7 @@
 /* Apply background image only for login screen */
 body.login-page {
   height: 100vh;
-  background-image: url("bgimus.jpg");
+  background-image: url('../images/bgimus.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
