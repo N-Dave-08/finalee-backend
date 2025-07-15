@@ -98,7 +98,7 @@ require_role('user');
           <div class="date-time">
             <div>
               <label for="appointment-date">Select Date</label>
-              <input type="date" id="appointment-date" required />
+              <input type="date" id="appointment-date" required min="<?php echo date('Y-m-d'); ?>"/>
               <div class="error-message" id="date-error"></div>
             </div>
             <div id="time-slots" class="time-slots"></div>

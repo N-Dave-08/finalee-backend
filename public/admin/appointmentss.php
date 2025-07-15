@@ -45,7 +45,6 @@ require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
                 <th>Name</th>
                 <th>Ref #. Date</th>
                 <th>Complaint</th>
-                <th>Date</th>
                 <th>Time Slot</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -63,7 +62,6 @@ if ($result && $result->num_rows > 0) {
     echo '<td>' . htmlspecialchars($row['full_name']) . '</td>';
     echo '<td>' . htmlspecialchars($ref) . '</td>';
     echo '<td>' . htmlspecialchars($row['complaint']) . '</td>';
-    echo '<td>' . htmlspecialchars($row['preferred_date']) . '</td>';
     echo '<td>' . htmlspecialchars($row['time_slot']) . '</td>';
     echo '<td>' . htmlspecialchars($row['status']) . '</td>';
     echo '<td>';
@@ -74,7 +72,7 @@ if ($result && $result->num_rows > 0) {
     echo '</tr>';
   }
 } else {
-  echo '<tr><td colspan="4">No appointments found.</td></tr>';
+  echo '<tr><td colspan="5">No appointments found.</td></tr>';
 }
 $conn->close();
 ?>

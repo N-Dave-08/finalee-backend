@@ -12,10 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $full_name = trim($_POST['full_name'] ?? '');
     $complaint = trim($_POST['document'] ?? '');
     $preferred_date = trim($_POST['date'] ?? '');
+    $time_slot = trim($_POST['time_slot'] ?? '');
     $status = 'Pending';
     // $remarks = trim($_POST['remarks'] ?? ''); //
 
-    if ($full_name && $complaint && $preferred_date) {
+    if ($full_name && $complaint && $preferred_date && $time_slot) {
         // Check for duplicate appointment (global, by date only)
         $stmt_check = $conn->prepare("SELECT id FROM appointments WHERE preferred_date = ? LIMIT 1");
         $stmt_check->bind_param('s', $preferred_date);
@@ -24,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result_check->num_rows > 0) {
             $error = 'An appointment already exists for this date.';
         } else {
-            $insert = $conn->prepare("INSERT INTO appointments (full_name, complaint, preferred_date, status, created_at) VALUES (?, ?, ?, ?, NOW())");
-            $insert->bind_param('ssss', $full_name, $complaint, $preferred_date, $status);
+            $insert = $conn->prepare("INSERT INTO appointments (full_name, complaint, preferred_date, time_slot, status, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
+            $insert->bind_param('sssss', $full_name, $complaint, $preferred_date, $time_slot, $status);
             if ($insert->execute()) {
                 $success = true;
                 header('Location: appointmentss.php');
@@ -47,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Add Appointment</title>
-  <link rel="stylesheet" href="../assets/css/appointmentss.css" />
+  <link rel="stylesheet" href="/finalee/public/assets/css/appointmentss.css" />
 </head>
 <body>
   <div class="dashboard-container">
@@ -149,6 +150,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     width: 200px;
                   ">
                 </div>
+               <!-- Time Slot Section -->
+               <div style="margin-bottom: 20px;">
+                 <label for="time_slot" style="font-weight: bold;">Time Slot</label><br><br>
+                 <select id="time_slot" name="time_slot" required style="
+                   width: 220px;
+                   padding: 10px;
+                   border-radius: 10px;
+                   border: 2px solid #4CAF50;
+                   background-color: #eaffea;
+                   color: #333;
+                   font-size: 16px;
+                 ">
+                   <option value="">-- Select Time Slot --</option>
+                   <option>08:00 – 08:20 AM</option>
+                   <option>08:20 – 08:40 AM</option>
+                   <option>08:40 – 09:00 AM</option>
+                   <option>09:00 – 09:20 AM</option>
+                   <option>09:20 – 09:40 AM</option>
+                   <option>09:40 – 10:00 AM</option>
+                   <option>10:00 – 10:20 AM</option>
+                   <option>10:20 – 10:40 AM</option>
+                   <option>10:40 – 11:00 AM</option>
+                   <option>11:00 – 11:20 AM</option>
+                   <option>11:20 – 11:40 AM</option>
+                   <option>11:40 – 12:00 PM</option>
+                   <option>01:00 – 01:20 PM</option>
+                   <option>01:20 – 01:40 PM</option>
+                   <option>01:40 – 02:00 PM</option>
+                   <option>02:00 – 02:20 PM</option>
+                   <option>02:20 – 02:40 PM</option>
+                   <option>02:40 – 03:00 PM</option>
+                   <option>03:00 – 03:20 PM</option>
+                   <option>03:20 – 03:40 PM</option>
+                   <option>03:40 – 04:00 PM</option>
+                   <option>04:00 – 04:20 PM</option>
+                   <option>04:20 – 04:40 PM</option>
+                   <option>04:40 – 05:00 PM</option>
+                 </select>
+               </div>
               
                 <!-- Remarks Section -->
                 <div style="margin-bottom: 20px;">
@@ -191,4 +231,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 </html>
 <!-- <script src="../assets/js/appointmentss.js"></script> -->
-<script src="../assets/js/common.js"></script>
+<script src="/finalee/public/assets/js/common.js"></script>
