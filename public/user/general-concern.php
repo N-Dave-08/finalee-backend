@@ -118,11 +118,6 @@ require_role('user');
       window.location.href = url;
     }
 
-    const bookedTimeSlots = {
-      "2025-01-15": ["08:00 – 08:20 AM", "09:00 – 09:20 AM"],
-      "2025-01-16": ["09:40 – 10:00 AM"]
-    };
-
     const regularSlots = [
       "08:00 – 08:20 AM", "08:20 – 08:40 AM", "08:40 – 09:00 AM",
       "09:00 – 09:20 AM", "09:20 – 09:40 AM", "09:40 – 10:00 AM",
@@ -153,41 +148,48 @@ require_role('user');
 
     let selectedSlot = "";
     let triedSubmit = false;
+    let latestBookedSlots = [];
 
-    dateInput.addEventListener("change", renderSlots);
-    prioritySelect.addEventListener("change", renderSlots);
+    async function fetchBookedSlots(date) {
+      if (!date) return [];
+      try {
+        const res = await fetch(`/finalee/public/actions/get-booked-slots.php?date=${encodeURIComponent(date)}`);
+        const data = await res.json();
+        if (data.success && Array.isArray(data.booked)) {
+          return data.booked;
+        }
+      } catch (e) {}
+      return [];
+    }
 
-    function renderSlots() {
+    async function renderSlots() {
+      console.log('renderSlots called'); // Debugging line
       const selectedDate = dateInput.value;
       if (!selectedDate) return;
 
       timeSlotsContainer.innerHTML = "";
       selectedSlot = "";
 
-      const booked = bookedTimeSlots[selectedDate] || [];
-      const isPriority = prioritySelect.value !== "None" && prioritySelect.value !== "";
-      const slots = isPriority ? prioritySlots : regularSlots;
-
-      slots.forEach(slot => {
+      // Fetch booked slots from backend
+      const booked = await fetchBookedSlots(selectedDate);
+      latestBookedSlots = booked;
+      // Only show slots that are in the booked array
+      booked.forEach(slot => {
         const div = document.createElement("div");
-        div.classList.add("slot");
+        div.classList.add("slot", "green");
         div.textContent = slot;
-
-        if (booked.includes(slot)) {
-          div.classList.add("red");
-          div.style.pointerEvents = "none";
-        } else {
-          div.classList.add("green");
-          div.addEventListener("click", () => {
-            document.querySelectorAll(".slot.green").forEach(s => s.classList.remove("selected"));
-            div.classList.add("selected");
-            selectedSlot = slot;
-          });
-        }
-
+        div.addEventListener("click", () => {
+          document.querySelectorAll(".slot.green").forEach(s => s.classList.remove("selected"));
+          div.classList.add("selected");
+          selectedSlot = slot;
+        });
         timeSlotsContainer.appendChild(div);
       });
     }
+
+    // Attach event listeners after defining renderSlots
+    dateInput.addEventListener("change", renderSlots);
+    prioritySelect.addEventListener("change", renderSlots);
 
     const form = document.getElementById("consultationForm");
     const submitBtn = document.getElementById("submitBtn");

@@ -348,34 +348,27 @@ $conn->close();
         }
       });
 
-      const regularSlots = [
-        "08:00 – 08:20 AM", "08:20 – 08:40 AM", "08:40 – 09:00 AM",
-        "09:00 – 09:20 AM", "09:20 – 09:40 AM", "09:40 – 10:00 AM",
-        "10:00 – 10:20 AM", "10:20 – 10:40 AM", "10:40 – 11:00 AM",
-        "11:00 – 11:20 AM", "11:20 – 11:40 AM", "11:40 – 12:00 PM",
-        // Lunch break: 12:00 PM – 01:00 PM (no slots)
-        "01:00 – 01:20 PM", "01:20 – 01:40 PM", "01:40 – 02:00 PM",
-        "02:00 – 02:20 PM", "02:20 – 02:40 PM", "02:40 – 03:00 PM",
-        "03:00 – 03:20 PM", "03:20 – 03:40 PM", "03:40 – 04:00 PM",
-        "04:00 – 04:20 PM", "04:20 – 04:40 PM", "04:40 – 05:00 PM"
-      ];
-      const prioritySlots = [
-        "08:00 – 08:20 AM", "08:20 – 08:40 AM", "08:40 – 09:00 AM",
-        "09:00 – 09:20 AM", "09:20 – 09:40 AM", "09:40 – 10:00 AM",
-        "10:00 – 10:20 AM", "10:20 – 10:40 AM", "10:40 – 11:00 AM",
-        "11:00 – 11:20 AM", "11:20 – 11:40 AM", "11:40 – 12:00 PM",
-        // Lunch break: 12:00 PM – 01:00 PM (no slots)
-        "01:00 – 01:20 PM", "01:20 – 01:40 PM", "01:40 – 02:00 PM",
-        "02:00 – 02:20 PM", "02:20 – 02:40 PM", "02:40 – 03:00 PM",
-        "03:00 – 03:20 PM", "03:20 – 03:40 PM", "03:40 – 04:00 PM",
-        "04:00 – 04:20 PM", "04:20 – 04:40 PM", "04:40 – 05:00 PM"
-      ];
-      function updateTimeSlotOptions() {
+      async function fetchBookedSlots(date) {
+        if (!date) return [];
+        try {
+          const res = await fetch('/finalee/public/actions/get-booked-slots.php?date=' + encodeURIComponent(date));
+          const data = await res.json();
+          if (data.success && Array.isArray(data.booked)) {
+            return data.booked;
+          }
+        } catch (e) {}
+        return [];
+      }
+      async function updateTimeSlotOptions() {
         const priority = document.getElementById('modal_priority').value;
         const select = document.getElementById('modal_time_slot');
+        const dateInput = document.querySelector('input[name="preferred_date"]');
         select.innerHTML = '';
-        const slots = (priority && priority !== 'None') ? prioritySlots : regularSlots;
-        slots.forEach(slot => {
+        const date = dateInput.value;
+        // Fetch booked slots for the selected date
+        const bookedSlots = await fetchBookedSlots(date);
+        // Only show slots that are in the booked array
+        bookedSlots.forEach(slot => {
           const opt = document.createElement('option');
           opt.value = slot;
           opt.textContent = slot;
@@ -383,6 +376,7 @@ $conn->close();
         });
       }
       document.getElementById('modal_priority').addEventListener('change', updateTimeSlotOptions);
+      document.querySelector('input[name="preferred_date"]').addEventListener('change', updateTimeSlotOptions);
 
       document.getElementById('setAppointmentForm').onsubmit = function(e) {
         e.preventDefault();
