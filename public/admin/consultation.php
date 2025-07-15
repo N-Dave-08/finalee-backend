@@ -252,7 +252,7 @@ $conn->close();
         </div>
         <div>
           <label>Appointment Date:</label>
-          <input type="date" name="preferred_date" required>
+          <input type="date" name="preferred_date" required id="modal_preferred_date_input">
         </div>
         <div>
           <label>Priority:</label>
@@ -367,12 +367,24 @@ $conn->close();
         const date = dateInput.value;
         // Fetch booked slots for the selected date
         const bookedSlots = await fetchBookedSlots(date);
-        // Only show slots that are in the booked array
-        bookedSlots.forEach(slot => {
-          const opt = document.createElement('option');
-          opt.value = slot;
-          opt.textContent = slot;
-          select.appendChild(opt);
+        // Show only available (not booked) slots
+        const allSlots = [
+          "08:00 – 08:20 AM", "08:20 – 08:40 AM", "08:40 – 09:00 AM",
+          "09:00 – 09:20 AM", "09:20 – 09:40 AM", "09:40 – 10:00 AM",
+          "10:00 – 10:20 AM", "10:20 – 10:40 AM", "10:40 – 11:00 AM",
+          "11:00 – 11:20 AM", "11:20 – 11:40 AM", "11:40 – 12:00 PM",
+          "01:00 – 01:20 PM", "01:20 – 01:40 PM", "01:40 – 02:00 PM",
+          "02:00 – 02:20 PM", "02:20 – 02:40 PM", "02:40 – 03:00 PM",
+          "03:00 – 03:20 PM", "03:20 – 03:40 PM", "03:40 – 04:00 PM",
+          "04:00 – 04:20 PM", "04:20 – 04:40 PM", "04:40 – 05:00 PM"
+        ];
+        allSlots.forEach(slot => {
+          if (!bookedSlots.includes(slot)) {
+            const opt = document.createElement('option');
+            opt.value = slot;
+            opt.textContent = slot;
+            select.appendChild(opt);
+          }
         });
       }
       document.getElementById('modal_priority').addEventListener('change', updateTimeSlotOptions);
@@ -416,6 +428,11 @@ $conn->close();
         window.addEventListener('resize', updateSidebarEdgeIndicator);
         updateSidebarEdgeIndicator();
         sidebar.addEventListener('transitionend', updateSidebarEdgeIndicator);
+      }
+      // Set min date for appointment date input
+      const dateInput = document.getElementById('modal_preferred_date_input');
+      if (dateInput) {
+        dateInput.min = new Date().toISOString().split('T')[0];
       }
     });
     document.addEventListener('click', function() { setTimeout(updateSidebarEdgeIndicator, 10); });

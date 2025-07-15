@@ -163,7 +163,6 @@ require_role('user');
     }
 
     async function renderSlots() {
-      console.log('renderSlots called'); // Debugging line
       const selectedDate = dateInput.value;
       if (!selectedDate) return;
 
@@ -173,17 +172,23 @@ require_role('user');
       // Fetch booked slots from backend
       const booked = await fetchBookedSlots(selectedDate);
       latestBookedSlots = booked;
-      // Only show slots that are in the booked array
-      booked.forEach(slot => {
-        const div = document.createElement("div");
-        div.classList.add("slot", "green");
-        div.textContent = slot;
-        div.addEventListener("click", () => {
-          document.querySelectorAll(".slot.green").forEach(s => s.classList.remove("selected"));
-          div.classList.add("selected");
-          selectedSlot = slot;
-        });
-        timeSlotsContainer.appendChild(div);
+
+      // Use regularSlots or prioritySlots as needed
+      const slots = prioritySelect.value && prioritySelect.value !== "None" ? prioritySlots : regularSlots;
+
+      slots.forEach(slot => {
+        if (!booked.includes(slot)) {
+          const div = document.createElement("div");
+          div.classList.add("slot", "green");
+          div.textContent = slot;
+          div.addEventListener("click", () => {
+            document.querySelectorAll(".slot.green").forEach(s => s.classList.remove("selected"));
+            div.classList.add("selected");
+            selectedSlot = slot;
+            validateForm();
+          });
+          timeSlotsContainer.appendChild(div);
+        }
       });
     }
 
