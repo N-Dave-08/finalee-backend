@@ -52,17 +52,48 @@ require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
             <tbody>
 <?php
 $conn = get_db_connection();
+// Fetch all pending consultations grouped by date and slot to find high-demand slots
+$high_demand = [];
+$req_map = [];
+$sql_hd = "SELECT preferred_date, time_slot, COUNT(*) as cnt FROM consultations WHERE status = 'Pending' GROUP BY preferred_date, time_slot HAVING cnt >= 2";
+$res_hd = $conn->query($sql_hd);
+if ($res_hd && $res_hd->num_rows > 0) {
+  while ($row = $res_hd->fetch_assoc()) {
+    $key = $row['preferred_date'] . '|' . $row['time_slot'];
+    $high_demand[$key] = true;
+  }
+}
+// Pre-fetch all requesters for high-demand slots
+if (!empty($high_demand)) {
+  $keys = array_keys($high_demand);
+  foreach ($keys as $k) {
+    list($d, $s) = explode('|', $k);
+    $stmt = $conn->prepare("SELECT full_name, complaint, status FROM consultations WHERE preferred_date = ? AND time_slot = ? AND status = 'Pending'");
+    $stmt->bind_param('ss', $d, $s);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $req_map[$k] = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+  }
+}
 $sql = "SELECT id, full_name, complaint, status, preferred_date, time_slot FROM consultations WHERE status != 'Completed' ORDER BY created_at DESC";
 $result = $conn->query($sql);
 if ($result && $result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     $ref = '#' . str_pad($row['id'], 2, '0', STR_PAD_LEFT) . '-' . date('mdY', strtotime($row['preferred_date']));
-    echo '<tr>';
-    echo '<td>' . htmlspecialchars($row['full_name']) . '</td>';
+    $key = $row['preferred_date'] . '|' . $row['time_slot'];
+    $is_high = isset($high_demand[$key]);
+    echo '<tr' . ($is_high ? ' style="background:#fffbe6;"' : '') . '>';
+    echo '<td>' . htmlspecialchars($row['full_name']);
+    if ($is_high) echo ' <span title="High demand slot" style="color:#e67e22;font-size:18px;">⚠️</span>';
+    echo '</td>';
     echo '<td>' . htmlspecialchars($ref) . '</td>';
     echo '<td>' . htmlspecialchars($row['complaint']) . '</td>';
     echo '<td class="status-cell">' . htmlspecialchars($row['status']) . '</td>';
     echo '<td>';
+    if ($is_high) {
+      echo '<button class="view-requesters-btn" data-key="' . htmlspecialchars($key) . '">View Requesters</button> ';
+    }
     if ($row['status'] === 'Pending') {
       echo '<button class="set-appointment-btn enhanced-btn" 
         data-id="' . $row['id'] . '" 
@@ -278,6 +309,13 @@ $conn->close();
     </div>
   </div>
   <div id="toast" style="display:none; position:fixed; bottom:30px; left:50%; transform:translateX(-50%); background:#333; color:#fff; padding:12px 24px; border-radius:6px; z-index:3000; font-size:16px; min-width:200px; text-align:center;"></div>
+  <div id="requestersModal" class="modal-overlay" style="display:none;z-index:3001;">
+    <div class="modal-box" style="max-width:500px;">
+      <button type="button" class="modal-close" onclick="document.getElementById('requestersModal').style.display='none'">&times;</button>
+      <div class="modal-title">Requesters for Slot</div>
+      <div id="requestersList"></div>
+    </div>
+  </div>
   <script>
     function submitDate() {
       const selectedDate = document.getElementById('date').value;

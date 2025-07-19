@@ -149,17 +149,19 @@ require_role('user');
     let selectedSlot = "";
     let triedSubmit = false;
     let latestBookedSlots = [];
+    let latestPendingCounts = {};
+    let highDemandWarningDiv = null;
 
-    async function fetchBookedSlots(date) {
-      if (!date) return [];
+    async function fetchBookedSlotsAndPendingCounts(date) {
+      if (!date) return { booked: [], pending_counts: {} };
       try {
         const res = await fetch(`/finalee/public/actions/get-booked-slots.php?date=${encodeURIComponent(date)}`);
         const data = await res.json();
-        if (data.success && Array.isArray(data.booked)) {
-          return data.booked;
+        if (data.success && Array.isArray(data.booked) && typeof data.pending_counts === 'object') {
+          return { booked: data.booked, pending_counts: data.pending_counts };
         }
       } catch (e) {}
-      return [];
+      return { booked: [], pending_counts: {} };
     }
 
     async function renderSlots() {
@@ -168,10 +170,12 @@ require_role('user');
 
       timeSlotsContainer.innerHTML = "";
       selectedSlot = "";
+      if (highDemandWarningDiv) highDemandWarningDiv.remove();
 
-      // Fetch booked slots from backend
-      const booked = await fetchBookedSlots(selectedDate);
+      // Fetch booked slots and pending counts from backend
+      const { booked, pending_counts } = await fetchBookedSlotsAndPendingCounts(selectedDate);
       latestBookedSlots = booked;
+      latestPendingCounts = pending_counts;
 
       // Use regularSlots or prioritySlots as needed
       const slots = prioritySelect.value && prioritySelect.value !== "None" ? prioritySlots : regularSlots;
@@ -181,10 +185,36 @@ require_role('user');
           const div = document.createElement("div");
           div.classList.add("slot", "green");
           div.textContent = slot;
+          // Mark high demand slots
+          if ((pending_counts[slot] || 0) >= 1) {
+            div.classList.add("high-demand");
+            div.title = "This slot is in high demand. Others have also requested this time.";
+            const badge = document.createElement("span");
+            badge.textContent = "⚠️";
+            badge.style.marginLeft = "8px";
+            badge.title = "High demand";
+            div.appendChild(badge);
+          }
           div.addEventListener("click", () => {
             document.querySelectorAll(".slot.green").forEach(s => s.classList.remove("selected"));
             div.classList.add("selected");
             selectedSlot = slot;
+            // Show warning if high demand
+            if ((pending_counts[slot] || 0) >= 1) {
+              if (!highDemandWarningDiv) {
+                highDemandWarningDiv = document.createElement("div");
+                highDemandWarningDiv.style.color = "#c0392b";
+                highDemandWarningDiv.style.marginTop = "8px";
+                highDemandWarningDiv.style.fontWeight = "bold";
+                highDemandWarningDiv.textContent = "This slot is in high demand. Others have also requested this time. You may not get this slot if another user is prioritized.";
+                timeSlotsContainer.parentNode.appendChild(highDemandWarningDiv);
+              } else {
+                highDemandWarningDiv.textContent = "This slot is in high demand. Others have also requested this time. You may not get this slot if another user is prioritized.";
+                highDemandWarningDiv.style.display = "block";
+              }
+            } else if (highDemandWarningDiv) {
+              highDemandWarningDiv.style.display = "none";
+            }
             validateForm();
           });
           timeSlotsContainer.appendChild(div);

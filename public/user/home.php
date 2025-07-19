@@ -14,6 +14,18 @@ $stmt->execute();
 $result = $stmt->get_result();
 $appointment = $result->fetch_assoc();
 $stmt->close();
+
+// Fetch any 'Slot Unavailable' consultations for this user
+$unavail = [];
+$sql_unavail = "SELECT preferred_date, time_slot FROM consultations WHERE user_id = ? AND status = 'Slot Unavailable' ORDER BY created_at DESC";
+$stmt_unavail = $conn->prepare($sql_unavail);
+$stmt_unavail->bind_param('i', $user_id);
+$stmt_unavail->execute();
+$res_unavail = $stmt_unavail->get_result();
+while ($row = $res_unavail->fetch_assoc()) {
+    $unavail[] = $row;
+}
+$stmt_unavail->close();
 $conn->close();
 
 // Prepare appointment details or fallback to N/A
@@ -64,6 +76,15 @@ if ($appointment) {
 
     <!-- MAIN CONTENT -->
     <main class="main-content">
+<?php if (!empty($unavail)): ?>
+  <div style="background:#fff3cd;color:#856404;padding:16px 20px;border-radius:8px;margin-bottom:18px;font-size:1.1em;border:1px solid #ffeeba;">
+    <b>Notice:</b> One or more of your requested consultation slots became unavailable.<br>
+    <?php foreach ($unavail as $u): ?>
+      <div style="margin-left:12px;">• <b>Date:</b> <?php echo htmlspecialchars($u['preferred_date']); ?>, <b>Time:</b> <?php echo htmlspecialchars($u['time_slot']); ?></div>
+    <?php endforeach; ?>
+    <div style="margin-top:8px;">Please <a href="general-concern.php" style="color:#155724;text-decoration:underline;">book a new slot</a>.</div>
+  </div>
+<?php endif; ?>
       <section class="welcome">
         <h3>Hello, <?php echo htmlspecialchars($_SESSION['user']['username']); ?>!</h3>
         <div class="help-box">

@@ -87,6 +87,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt3->bind_param("i", $consultation_id);
         $stmt3->execute();
 
+        // Mark all other pending consultations for this slot as 'Slot Unavailable'
+        $stmt4 = $conn->prepare("UPDATE consultations SET status = 'Slot Unavailable' WHERE preferred_date = ? AND time_slot = ? AND status = 'Pending' AND id != ?");
+        $stmt4->bind_param("ssi", $preferred_date, $time_slot, $consultation_id);
+        $stmt4->execute();
+        $stmt4->close();
+
         echo json_encode(['success' => true, 'message' => 'Appointment set successfully.']);
         exit;
     } else {
