@@ -394,6 +394,10 @@ $conn->close();
         e.preventDefault();
         const form = e.target;
         const formData = new FormData(form);
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Setting...';
         fetch('admin/set_appointment.php', {
           method: 'POST',
           body: formData
@@ -404,10 +408,15 @@ $conn->close();
           if (data.success) {
             document.getElementById('setAppointmentModal').style.display = 'none';
             setTimeout(() => window.location.reload(), 1200);
+          } else {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
           }
         })
         .catch(() => {
           showToast('An error occurred.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
         });
       };
       function showToast(msg, type) {
