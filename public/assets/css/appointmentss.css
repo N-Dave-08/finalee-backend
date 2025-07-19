@@ -8,7 +8,6 @@
   body {
     background-color: #f4f4f4;
     height: 100vh;
-    overflow: hidden;
   }
   
   .dashboard-container {
@@ -107,6 +106,8 @@
   .main-content {
     flex: 1; 
     padding: 20px;
+    overflow-y: auto; /* Add this to allow scrolling in main content */
+    max-height: 100vh;
   }
 
   
