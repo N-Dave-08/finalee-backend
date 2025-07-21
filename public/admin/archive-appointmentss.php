@@ -8,7 +8,7 @@ require_role('admin');
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Archived Appointments</title>
-  <link rel="stylesheet" href="../assets/css/appointmentss.css" />
+  <link rel="stylesheet" href="public/assets/css/appointmentss.css" />
 </head>
 <body>
   <div class="dashboard-container">
@@ -23,15 +23,16 @@ require_role('admin');
         <h2 class="page-title">Archived Appointments</h2>
 
         <div class="top-buttons">
-          <div class="date-sorting">
-            <label for="date">Date Sorting</label>
-            <input type="date" id="date">
-            <button type="button" onclick="submitDate()">Submit</button>
-          </div>
-
-          <div class="action-buttons">
-            <button class="add-btn" onclick="location.href='add-appointment.php'">Add Appointment</button>
-            <button class="archive-btn" onclick="location.href='appointmentss.php'">Back to Appointments</button>
+          <div class="date-and-actions">
+            <div class="date-sorting">
+              <label for="date">Date Sorting</label>
+              <input type="date" id="date">
+              <button type="button" onclick="submitDate()">Submit</button>
+            </div>
+            <div class="action-buttons">
+              <button class="add-btn" onclick="location.href='add-appointment.php'">Add Appointment</button>
+              <button class="archive-btn" onclick="location.href='appointmentss.php'">Back to Appointments</button>
+            </div>
           </div>
         </div>
 
@@ -42,6 +43,7 @@ require_role('admin');
                 <th>Name</th>
                 <th>Ref #. Date</th>
                 <th>Complaint</th>
+                <th>Time Slot</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -49,7 +51,7 @@ require_role('admin');
 <?php
 require_once dirname(__DIR__, 2) . '/app/helpers/db.php';
 $conn = get_db_connection();
-$sql = "SELECT id, full_name, complaint, status, preferred_date FROM appointments WHERE status = 'Completed' ORDER BY created_at DESC";
+$sql = "SELECT id, full_name, complaint, status, preferred_date, time_slot FROM appointments WHERE status = 'Completed' ORDER BY created_at DESC";
 $result = $conn->query($sql);
 if ($result && $result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
@@ -58,11 +60,12 @@ if ($result && $result->num_rows > 0) {
     echo '<td>' . htmlspecialchars($row['full_name']) . '</td>';
     echo '<td>' . htmlspecialchars($ref) . '</td>';
     echo '<td>' . htmlspecialchars($row['complaint']) . '</td>';
+    echo '<td>' . htmlspecialchars($row['time_slot']) . '</td>';
     echo '<td>' . htmlspecialchars($row['status']) . '</td>';
     echo '</tr>';
   }
 } else {
-  echo '<tr><td colspan="4">No archived consultations found.</td></tr>';
+  echo '<tr><td colspan="5">No archived consultations found.</td></tr>';
 }
 $conn->close();
 ?>
@@ -75,7 +78,7 @@ $conn->close();
   </div>
 
   <!-- <script src="../assets/js/appointmentss.js"></script> -->
-  <script src="../assets/js/common.js"></script>
+  <script src="public/assets/js/common.js"></script>
   <script>
     function submitDate() {
       const selectedDate = document.getElementById('date').value;
