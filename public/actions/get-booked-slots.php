@@ -25,13 +25,15 @@ while ($row = $res->fetch_assoc()) {
 }
 $stmt->close();
 
-// Fetch from appointments
-$stmt2 = $conn->prepare("SELECT time_slot FROM appointments WHERE preferred_date = ? AND status != 'Cancelled'");
+// Fetch from consultations (treat as booked if status is Pending, Scheduled, or Completed)
+$stmt2 = $conn->prepare("SELECT time_slot FROM consultations WHERE preferred_date = ? AND status IN ('Pending', 'Scheduled', 'Completed')");
 $stmt2->bind_param('s', $date);
 $stmt2->execute();
 $res2 = $stmt2->get_result();
 while ($row = $res2->fetch_assoc()) {
-    $booked[] = $row['time_slot'];
+    // Normalize to en dash with single spaces for robust matching
+    $normalized = preg_replace('/\s*-\s*/u', ' – ', $row['time_slot']);
+    $booked[] = $normalized;
 }
 $stmt2->close();
 
