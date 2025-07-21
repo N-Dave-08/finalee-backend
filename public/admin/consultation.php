@@ -100,7 +100,7 @@ if ($result && $result->num_rows > 0) {
         data-name="' . htmlspecialchars($row['full_name']) . '" 
         data-complaint="' . htmlspecialchars($row['complaint']) . '"
         data-preferred_date="' . htmlspecialchars($row['preferred_date']) . '"
-        data-time_slot="' . htmlspecialchars($row['time_slot']) . '"><span style="margin-right:6px;">📅</span>Set Appointment</button> ';
+        data-time_slot="' . htmlspecialchars($row['time_slot']) . '"><span style="margin-right:6px;">✅</span>Approve Appointment</button> ';
     }
     echo '</td>';
     echo '</tr>';
@@ -192,6 +192,12 @@ $conn->close();
       border: 1.5px solid #43a047;
       outline: none;
     }
+    .modal-box input[readonly],
+    .modal-box select[disabled] {
+      background-color: #f8f9fa !important;
+      color: #6c757d;
+      cursor: not-allowed;
+    }
     .modal-actions {
       display: flex;
       justify-content: flex-end;
@@ -262,7 +268,10 @@ $conn->close();
   <div id="setAppointmentModal" class="modal-overlay" style="display:none;">
     <div class="modal-box">
       <button type="button" class="modal-close" onclick="document.getElementById('setAppointmentModal').style.display='none'">&times;</button>
-      <div class="modal-title">Set Appointment</div>
+      <div class="modal-title">Approve Appointment</div>
+      <div style="text-align: center; margin-bottom: 20px; color: #666; font-size: 14px;">
+        This will approve the user's preferred date and time slot as their appointment.
+      </div>
       <form id="setAppointmentForm" method="POST" action="admin/set_appointment.php">
         <input type="hidden" name="consultation_id" id="consultation_id">
         <div>
@@ -282,8 +291,8 @@ $conn->close();
           <small id="modal_user_time_slot" style="display:block; margin-bottom:18px; color:#555; font-size:13px;"></small>
         </div>
         <div>
-          <label>Appointment Date:</label>
-          <input type="date" name="preferred_date" required id="modal_preferred_date_input">
+          <label>Appointment Date (User's Preferred):</label>
+          <input type="date" name="preferred_date" required id="modal_preferred_date_input" readonly>
         </div>
         <div>
           <label>Priority:</label>
@@ -296,13 +305,13 @@ $conn->close();
           </select>
         </div>
         <div>
-          <label>Time Slot:</label>
-          <select name="time_slot" id="modal_time_slot" required>
+          <label>Time Slot (User's Preferred):</label>
+          <select name="time_slot" id="modal_time_slot" required disabled>
             <!-- Options will be populated by JS -->
           </select>
         </div>
         <div class="modal-actions">
-          <button type="submit">Set Appointment</button>
+          <button type="submit">Approve Appointment</button>
           <button type="button" onclick="document.getElementById('setAppointmentModal').style.display='none'">Cancel</button>
         </div>
       </form>
@@ -380,9 +389,39 @@ $conn->close();
           document.getElementById('modal_complaint').value = this.dataset.complaint;
           document.getElementById('modal_preferred_date').textContent = this.dataset.preferred_date || '';
           document.getElementById('modal_user_time_slot').textContent = this.dataset.time_slot || '';
+          
+          // Auto-fill and lock the appointment date and time slot with user's preferred values
+          const preferredDate = this.dataset.preferred_date || '';
+          const preferredTimeSlot = this.dataset.time_slot || '';
+          
+          document.getElementById('modal_preferred_date_input').value = preferredDate;
+          document.getElementById('modal_preferred_date_input').readOnly = true;
+          document.getElementById('modal_preferred_date_input').style.backgroundColor = '#f0f0f0';
+          
+          // Set the time slot dropdown to user's preferred slot and add hidden input
+          const timeSlotSelect = document.getElementById('modal_time_slot');
+          timeSlotSelect.innerHTML = '';
+          const opt = document.createElement('option');
+          opt.value = preferredTimeSlot;
+          opt.textContent = preferredTimeSlot;
+          opt.selected = true;
+          timeSlotSelect.appendChild(opt);
+          timeSlotSelect.disabled = true;
+          timeSlotSelect.style.backgroundColor = '#f0f0f0';
+          
+          // Add a hidden input to ensure the time_slot value is submitted
+          let hiddenTimeSlot = document.getElementById('hidden_time_slot');
+          if (!hiddenTimeSlot) {
+            hiddenTimeSlot = document.createElement('input');
+            hiddenTimeSlot.type = 'hidden';
+            hiddenTimeSlot.name = 'time_slot';
+            hiddenTimeSlot.id = 'hidden_time_slot';
+            document.getElementById('setAppointmentForm').appendChild(hiddenTimeSlot);
+          }
+          hiddenTimeSlot.value = preferredTimeSlot;
+          
           document.getElementById('setAppointmentModal').style.display = 'block';
           document.getElementById('modal_priority').value = '';
-          updateTimeSlotOptions();
         }
       });
 
@@ -425,8 +464,7 @@ $conn->close();
           }
         });
       }
-      document.getElementById('modal_priority').addEventListener('change', updateTimeSlotOptions);
-      document.querySelector('input[name="preferred_date"]').addEventListener('change', updateTimeSlotOptions);
+      // Removed event listeners since we're auto-approving user's preferred date and time
 
       document.getElementById('setAppointmentForm').onsubmit = function(e) {
         e.preventDefault();
@@ -435,7 +473,7 @@ $conn->close();
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Setting...';
+        submitBtn.textContent = 'Approving...';
         fetch('admin/set_appointment.php', {
           method: 'POST',
           body: formData

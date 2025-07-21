@@ -93,7 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt4->execute();
         $stmt4->close();
 
-        echo json_encode(['success' => true, 'message' => 'Appointment set successfully.']);
+        echo json_encode(['success' => true, 'message' => 'Appointment approved successfully.']);
         exit;
     } else {
         echo json_encode(['success' => false, 'message' => 'Consultation not found.']);

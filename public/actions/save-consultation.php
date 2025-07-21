@@ -55,6 +55,17 @@ if ($result_check->num_rows > 0) {
 }
 $stmt_check->close();
 
+// Check if user already has a pending consultation for this date and time slot
+$stmt_user_check = $conn->prepare("SELECT id FROM consultations WHERE user_id = ? AND preferred_date = ? AND time_slot = ? AND status = 'Pending' LIMIT 1");
+$stmt_user_check->bind_param('iss', $user_id, $date, $slot);
+$stmt_user_check->execute();
+$result_user_check = $stmt_user_check->get_result();
+if ($result_user_check->num_rows > 0) {
+    echo json_encode(['success' => false, 'message' => 'You already have a pending consultation for this date and time slot.']);
+    exit;
+}
+$stmt_user_check->close();
+
 // Prepare and execute insert
 $stmt = $conn->prepare("INSERT INTO consultations (user_id, full_name, complaint, details, priority, preferred_date, time_slot, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 if (!$stmt) {

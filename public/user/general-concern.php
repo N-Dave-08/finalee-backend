@@ -185,36 +185,11 @@ require_role('user');
           const div = document.createElement("div");
           div.classList.add("slot", "green");
           div.textContent = slot;
-          // Mark high demand slots
-          if ((pending_counts[slot] || 0) >= 1) {
-            div.classList.add("high-demand");
-            div.title = "This slot is in high demand. Others have also requested this time.";
-            const badge = document.createElement("span");
-            badge.textContent = "⚠️";
-            badge.style.marginLeft = "8px";
-            badge.title = "High demand";
-            div.appendChild(badge);
-          }
+          // Remove high demand badge and warning logic
           div.addEventListener("click", () => {
             document.querySelectorAll(".slot.green").forEach(s => s.classList.remove("selected"));
             div.classList.add("selected");
             selectedSlot = slot;
-            // Show warning if high demand
-            if ((pending_counts[slot] || 0) >= 1) {
-              if (!highDemandWarningDiv) {
-                highDemandWarningDiv = document.createElement("div");
-                highDemandWarningDiv.style.color = "#c0392b";
-                highDemandWarningDiv.style.marginTop = "8px";
-                highDemandWarningDiv.style.fontWeight = "bold";
-                highDemandWarningDiv.textContent = "This slot is in high demand. Others have also requested this time. You may not get this slot if another user is prioritized.";
-                timeSlotsContainer.parentNode.appendChild(highDemandWarningDiv);
-              } else {
-                highDemandWarningDiv.textContent = "This slot is in high demand. Others have also requested this time. You may not get this slot if another user is prioritized.";
-                highDemandWarningDiv.style.display = "block";
-              }
-            } else if (highDemandWarningDiv) {
-              highDemandWarningDiv.style.display = "none";
-            }
             validateForm();
           });
           timeSlotsContainer.appendChild(div);
