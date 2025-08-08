@@ -103,6 +103,7 @@ require_role('user');
             </div>
             <div id="time-slots" class="time-slots"></div>
             <div class="error-message" id="slot-error"></div>
+            <div id="last-updated" style="font-size: 12px; color: #666; margin-top: 10px; text-align: center;"></div>
           </div>
         </div>
 
@@ -180,26 +181,111 @@ require_role('user');
       // Use regularSlots or prioritySlots as needed
       const slots = prioritySelect.value && prioritySelect.value !== "None" ? prioritySlots : regularSlots;
 
+      // Get current time for real-time availability
+      const now = new Date();
+      const selectedDateTime = new Date(selectedDate);
+      const isToday = now.toDateString() === selectedDateTime.toDateString();
+      const currentTime = now.getHours() * 60 + now.getMinutes(); // Current time in minutes
+      
+      // Debug: Log current time for troubleshooting
+      console.log('Current time (minutes):', currentTime, 'Current time (HH:MM):', now.getHours() + ':' + now.getMinutes().toString().padStart(2, '0'));
+
       slots.forEach(slot => {
-        if (!booked.includes(slot)) {
-          const div = document.createElement("div");
+        const div = document.createElement("div");
+        const isBooked = booked.includes(slot);
+        
+        // Check if slot is in the past (for today only)
+        let isPastTime = false;
+        if (isToday) {
+          const slotStartTime = getSlotStartTime(slot);
+          // Mark as past time if current time is past the slot start time
+          // Add a 5-minute buffer to prevent booking slots that are about to start
+          isPastTime = currentTime >= (slotStartTime - 5);
+          
+          // Debug: Log slot time comparison for troubleshooting
+          console.log('Slot:', slot, 'Slot start time (minutes):', slotStartTime, 'Current time (minutes):', currentTime, 'Is past time:', isPastTime);
+        }
+        
+        if (isBooked || isPastTime) {
+          // Unavailable slot - gray with "Unavailable" text
+          div.classList.add("slot", "unavailable");
+          const reason = isPastTime ? "Past Time" : "Booked";
+          div.innerHTML = `<span class="slot-time">${slot}</span><span class="unavailable-text">❌ ${reason}</span>`;
+          div.style.cursor = "not-allowed";
+        } else {
+          // Available slot - green and clickable
           div.classList.add("slot", "green");
           div.textContent = slot;
-          // Remove high demand badge and warning logic
           div.addEventListener("click", () => {
             document.querySelectorAll(".slot.green").forEach(s => s.classList.remove("selected"));
             div.classList.add("selected");
             selectedSlot = slot;
             validateForm();
           });
-          timeSlotsContainer.appendChild(div);
         }
+        
+        timeSlotsContainer.appendChild(div);
       });
+
+      // Update last updated time
+      const lastUpdatedDiv = document.getElementById("last-updated");
+      if (lastUpdatedDiv) {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString();
+        lastUpdatedDiv.textContent = `Last updated: ${timeString}`;
+      }
+    }
+
+    // Helper function to get slot start time in minutes
+    function getSlotStartTime(slot) {
+      // Extract start time from slot string (e.g., "08:40 – 09:00 AM" -> 08:40)
+      // Handle both regular hyphen and en dash
+      const startTimeMatch = slot.match(/^(\d{1,2}):(\d{2})/);
+      if (!startTimeMatch) {
+        console.log('Failed to parse slot time:', slot);
+        return 0;
+      }
+      
+      let hours = parseInt(startTimeMatch[1]);
+      const minutes = parseInt(startTimeMatch[2]);
+      
+      // For the specific case of "11:40 – 12:00 PM", the start time is 11:40 AM
+      // We need to check if this is a morning slot that ends in PM
+      const isMorningSlotEndingInPM = hours <= 11 && slot.includes('PM');
+      
+      // Convert to 24-hour format
+      if (isMorningSlotEndingInPM) {
+        // Keep as AM (don't add 12)
+        hours = hours;
+      } else if (slot.includes('PM') && hours !== 12) {
+        hours += 12;
+      } else if (slot.includes('AM') && hours === 12) {
+        hours = 0;
+      }
+      
+      const totalMinutes = hours * 60 + minutes;
+      console.log('Parsed slot:', slot, 'Hours:', hours, 'Minutes:', minutes, 'Total minutes:', totalMinutes, 'AM/PM check:', slot.includes('PM') ? 'PM' : 'AM', 'Is morning slot ending in PM:', isMorningSlotEndingInPM);
+      return totalMinutes;
     }
 
     // Attach event listeners after defining renderSlots
     dateInput.addEventListener("change", renderSlots);
     prioritySelect.addEventListener("change", renderSlots);
+
+    // Auto-refresh slots every minute for real-time updates (only if today is selected)
+    setInterval(() => {
+      const selectedDate = dateInput.value;
+      if (selectedDate) {
+        const now = new Date();
+        const selectedDateTime = new Date(selectedDate);
+        const isToday = now.toDateString() === selectedDateTime.toDateString();
+        
+        // Only refresh if today is selected to avoid unnecessary API calls
+        if (isToday) {
+          renderSlots();
+        }
+      }
+    }, 60000); // Refresh every 60 seconds
 
     const form = document.getElementById("consultationForm");
     const submitBtn = document.getElementById("submitBtn");
