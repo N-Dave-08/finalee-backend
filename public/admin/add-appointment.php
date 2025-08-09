@@ -102,62 +102,62 @@ $patients = $conn->query("SELECT DISTINCT full_name FROM consultations ORDER BY 
           <form id="appointmentForm" novalidate>
             <div style="position: relative; background-color: #eaffea; padding: 20px; border-radius: 15px;">
 
-              <!-- X Button to exit -->
+                <!-- X Button to exit -->
               <button type="button" onclick="window.location.href='appointmentss.php';" style="
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                background: transparent;
-                border: none;
-                font-size: 28px;
-                color: #4CAF50;
-                cursor: pointer;
-              ">
-                &times;
-              </button>
-            
-              <!-- Patient Name -->
+                  position: absolute;
+                  top: 10px;
+                  right: 10px;
+                  background: transparent;
+                  border: none;
+                  font-size: 28px;
+                  color: #4CAF50;
+                  cursor: pointer;
+                ">
+                  &times;
+                </button>
+              
+                <!-- Patient Name -->
               <div class="form-group">
                 <label for="full_name" style="font-weight: bold;">Select Patient*</label><br><br>
-                <select id="full_name" name="full_name" required style="
-                  background-color: #4CAF50;
-                  color: white;
-                  padding: 10px 20px;
-                  border-radius: 20px;
-                  border: none;
-                  font-weight: bold;
-                  width: 250px;
-                ">
-                  <option value="">-- Select Patient --</option>
-                  <?php if ($patients && $patients->num_rows > 0): ?>
-                    <?php while ($p = $patients->fetch_assoc()): ?>
-                      <option value="<?= htmlspecialchars($p['full_name']) ?>">
-                        <?= htmlspecialchars($p['full_name']) ?>
-                      </option>
-                    <?php endwhile; ?>
-                  <?php endif; ?>
-                </select>
+                  <select id="full_name" name="full_name" required style="
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 20px;
+                    border: none;
+                    font-weight: bold;
+                    width: 250px;
+                  ">
+                    <option value="">-- Select Patient --</option>
+                    <?php if ($patients && $patients->num_rows > 0): ?>
+                      <?php while ($p = $patients->fetch_assoc()): ?>
+                        <option value="<?= htmlspecialchars($p['full_name']) ?>">
+                          <?= htmlspecialchars($p['full_name']) ?>
+                        </option>
+                      <?php endwhile; ?>
+                    <?php endif; ?>
+                  </select>
                 <div class="error-message" id="full_name-error"></div>
-              </div>
-            
-              <!-- Document Section -->
+                </div>
+              
+                <!-- Document Section -->
               <div class="form-group">
                 <label for="complaint" style="font-weight: bold;">Complaint/Document*</label><br><br>
                 <select id="complaint" name="complaint" required style="
                   width: 250px;
-                  height: 45px;
-                  padding: 10px;
-                  border-radius: 10px;
-                  border: 2px solid #4CAF50;
-                  background-color: #eaffea;
-                  color: #333;
-                  font-size: 16px;
-                  appearance: none;
-                  background-image: url('data:image/svg+xml;utf8,<svg fill=\'%234CAF50\' height=\'24\' viewBox=\'0 0 24 24\' width=\'24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>');
-                  background-repeat: no-repeat;
-                  background-position: right 10px center;
-                  background-size: 24px;
-                ">
+                    height: 45px;
+                    padding: 10px;
+                    border-radius: 10px;
+                    border: 2px solid #4CAF50;
+                    background-color: #eaffea;
+                    color: #333;
+                    font-size: 16px;
+                    appearance: none;
+                    background-image: url('data:image/svg+xml;utf8,<svg fill=\'%234CAF50\' height=\'24\' viewBox=\'0 0 24 24\' width=\'24\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7 10l5 5 5-5z\'/></svg>');
+                    background-repeat: no-repeat;
+                    background-position: right 10px center;
+                    background-size: 24px;
+                  ">
                   <option value="">-- Select Complaint --</option>
                   <option value="Check up for Elders">Check up for Elders</option>
                   <option value="Sick Check-up">Sick Check-up</option>
@@ -189,21 +189,21 @@ $patients = $conn->query("SELECT DISTINCT full_name FROM consultations ORDER BY 
                   <option value="Elderly">Senior Citizen</option>
                   <option value="PWD">Person with Disability (PWD)</option>
                   <option value="Pregnant">Pregnant Woman</option>
-                </select>
-              </div>
-            
-              <!-- Date Section -->
+                  </select>
+                </div>
+              
+                <!-- Date Section -->
               <div class="form-group">
                 <label for="appointment-date" style="font-weight: bold;">Date* <span style="font-size: 12px; color: #666;">(Monday to Friday only)</span></label><br><br>
                 <input type="date" id="appointment-date" name="date" required min="<?php echo date('Y-m-d'); ?>" style="
-                  padding: 10px;
-                  border: 2px solid #4CAF50;
-                  border-radius: 10px;
-                  background-color: #eaffea;
-                  color: #333;
-                  font-size: 16px;
-                  width: 200px;
-                ">
+                    padding: 10px;
+                    border: 2px solid #4CAF50;
+                    border-radius: 10px;
+                    background-color: #eaffea;
+                    color: #333;
+                    font-size: 16px;
+                    width: 200px;
+                  ">
                 <div class="error-message" id="date-error"></div>
               </div>
               
@@ -213,47 +213,47 @@ $patients = $conn->query("SELECT DISTINCT full_name FROM consultations ORDER BY 
                 <div id="time-slots" class="time-slots"></div>
                 <div class="error-message" id="slot-error"></div>
                 <div id="last-updated" style="font-size: 12px; color: #666; margin-top: 10px; text-align: center;"></div>
-              </div>
-            
-              <!-- Remarks Section -->
+               </div>
+              
+                <!-- Remarks Section -->
               <div class="form-group">
                 <label for="remarks" style="font-weight: bold;">Remarks (Optional)</label><br><br>
-                <textarea id="remarks" name="remarks" rows="4" style="
-                  width: 250px;
-                  padding: 10px;
-                  border-radius: 10px;
-                  border: 2px solid #4CAF50;
-                  background-color: #eaffea;
-                  color: #333;
-                  font-size: 16px;
-                "></textarea>
-              </div>
-            
+                  <textarea id="remarks" name="remarks" rows="4" style="
+                    width: 250px;
+                    padding: 10px;
+                    border-radius: 10px;
+                    border: 2px solid #4CAF50;
+                    background-color: #eaffea;
+                    color: #333;
+                    font-size: 16px;
+                  "></textarea>
+                </div>
+              
               <!-- Submit Button -->
-              <div>
+                <div>
                 <button type="submit" class="submit-btn" id="submitBtn" disabled style="
-                  background-color: #FFEB3B;
-                  color: black;
-                  font-weight: bold;
-                  border: none;
-                  border-radius: 30px;
-                  padding: 10px 30px;
-                  font-size: 18px;
-                  cursor: pointer;
-                ">
+                    background-color: #FFEB3B;
+                    color: black;
+                    font-weight: bold;
+                    border: none;
+                    border-radius: 30px;
+                    padding: 10px 30px;
+                    font-size: 18px;
+                    cursor: pointer;
+                  ">
                   CONFIRM APPOINTMENT
-                </button>
-              </div>
+                  </button>
+                </div>
               <div id="form-status"></div>
-            </div>
-          </form>
+                </div>
+                </form>
         </div>
       </div>
     </div>
-  </div>
-
+              </div>
+              
   <script src="/finalee/public/assets/js/common.js"></script>
-  <script>
+              <script>
     const regularSlots = [
       "08:00 – 08:20 AM", "08:20 – 08:40 AM", "08:40 – 09:00 AM",
       "09:00 – 09:20 AM", "09:20 – 09:40 AM", "09:40 – 10:00 AM",
@@ -594,6 +594,6 @@ $patients = $conn->query("SELECT DISTINCT full_name FROM consultations ORDER BY 
         }
       }
     }, 60000);
-  </script>
+              </script>
 </body>
 </html>
