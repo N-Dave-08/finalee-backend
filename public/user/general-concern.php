@@ -97,7 +97,7 @@ require_role('user');
           <label>Gustong block ng araw at oras para sa konsultasyon*<br><span>(Preferred date and time block for consultation)</span></label>
           <div class="date-time">
             <div>
-              <label for="appointment-date">Select Date</label>
+              <label for="appointment-date">Select Date <span style="font-size: 12px; color: #666;">(Monday to Friday only)</span></label>
               <input type="date" id="appointment-date" required min="<?php echo date('Y-m-d'); ?>"/>
               <div class="error-message" id="date-error"></div>
             </div>
@@ -168,6 +168,12 @@ require_role('user');
     async function renderSlots() {
       const selectedDate = dateInput.value;
       if (!selectedDate) return;
+
+      // Check if selected date is a weekend
+      if (checkWeekendDate()) {
+        // Don't render time slots for weekends, checkWeekendDate already handles the UI
+        return;
+      }
 
       timeSlotsContainer.innerHTML = "";
       selectedSlot = "";
@@ -268,8 +274,52 @@ require_role('user');
       return totalMinutes;
     }
 
+        // Function to check and handle weekend dates
+    function checkWeekendDate() {
+      const dateInput = document.getElementById("appointment-date");
+      const selectedDate = dateInput.value;
+      
+      if (!selectedDate) return false;
+      
+      const selectedDateTime = new Date(selectedDate);
+      const dayOfWeek = selectedDateTime.getDay();
+      
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        // Show specific message for the selected weekend day
+        let errorMessage = "";
+        if (dayOfWeek === 0) {
+          errorMessage = "Sunday clinic is not available. Please select Monday to Friday only.";
+        } else if (dayOfWeek === 6) {
+          errorMessage = "Saturday clinic is not available. Please select Monday to Friday only.";
+        }
+        
+        const errorElement = document.getElementById("date-error");
+        errorElement.innerHTML = `<span style="color: #e74c3c; font-weight: bold; background: #ffeaa7; padding: 5px 8px; border-radius: 4px; display: inline-block;">⚠️ ${errorMessage}</span>`;
+        
+        // Clear time slots if any were displayed
+        timeSlotsContainer.innerHTML = "";
+        selectedSlot = "";
+        validateForm();
+        return true; // Is weekend
+      } else {
+        // Clear any previous weekend error
+        const errorElement = document.getElementById("date-error");
+        if (errorElement.innerHTML.includes("clinic is not available")) {
+          errorElement.innerHTML = "";
+        }
+        return false; // Is not weekend
+      }
+    }
+
     // Attach event listeners after defining renderSlots
-    dateInput.addEventListener("change", renderSlots);
+    dateInput.addEventListener("change", function() {
+      checkWeekendDate();
+      renderSlots();
+    });
+    dateInput.addEventListener("input", function() {
+      checkWeekendDate();
+      renderSlots();
+    });
     prioritySelect.addEventListener("change", renderSlots);
 
     // Auto-refresh slots every minute for real-time updates (only if today is selected)
@@ -308,7 +358,15 @@ require_role('user');
       const today = new Date();
       const selected = new Date(date);
       today.setHours(0,0,0,0);
-      return selected >= today;
+      
+      // Check if date is not in the past
+      if (selected < today) return false;
+      
+      // Check if date is not a weekend (Saturday = 6, Sunday = 0)
+      const dayOfWeek = selected.getDay();
+      if (dayOfWeek === 0 || dayOfWeek === 6) return false;
+      
+      return true;
     }
 
     function validateForm() {
@@ -342,7 +400,15 @@ require_role('user');
       const date = document.getElementById("appointment-date").value;
       if (triedSubmit || date) {
         if (date && !isValidDate(date)) {
-          document.getElementById("date-error").innerText = "Please select a valid date (today or future).";
+          const selectedDate = new Date(date);
+          const dayOfWeek = selectedDate.getDay();
+          if (dayOfWeek === 0) {
+            document.getElementById("date-error").innerHTML = `<span style="color: #e74c3c; font-weight: bold; background: #ffeaa7; padding: 5px 8px; border-radius: 4px; display: inline-block;">⚠️ Sunday clinic is not available. Please select Monday to Friday only.</span>`;
+          } else if (dayOfWeek === 6) {
+            document.getElementById("date-error").innerHTML = `<span style="color: #e74c3c; font-weight: bold; background: #ffeaa7; padding: 5px 8px; border-radius: 4px; display: inline-block;">⚠️ Saturday clinic is not available. Please select Monday to Friday only.</span>`;
+          } else {
+            document.getElementById("date-error").innerText = "Please select a valid date (today or future).";
+          }
           valid = false;
         } else {
           document.getElementById("date-error").innerText = "";
@@ -422,11 +488,10 @@ require_role('user');
     });
 
     // After first submit, validate on input/change
-    ["complaint", "details", "appointment-date"].forEach(id => {
+    ["complaint", "details"].forEach(id => {
       document.getElementById(id).addEventListener("input", validateForm);
     });
     prioritySelect.addEventListener("change", validateForm);
-    dateInput.addEventListener("change", validateForm);
     timeSlotsContainer.addEventListener("click", validateForm);
   </script>
 </body>

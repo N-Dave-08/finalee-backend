@@ -37,14 +37,27 @@ while ($row = $res2->fetch_assoc()) {
 }
 $stmt2->close();
 
-// Fetch slots that current user already has pending consultations for
+// Fetch from appointments table (treat as booked if status is not Cancelled)
+$stmt_appointments = $conn->prepare("SELECT time_slot FROM appointments WHERE preferred_date = ? AND status != 'Cancelled'");
+$stmt_appointments->bind_param('s', $date);
+$stmt_appointments->execute();
+$res_appointments = $stmt_appointments->get_result();
+while ($row = $res_appointments->fetch_assoc()) {
+    // Normalize to en dash with single spaces for robust matching
+    $normalized = preg_replace('/\s*-\s*/u', ' – ', $row['time_slot']);
+    $booked[] = $normalized;
+}
+$stmt_appointments->close();
+
+// Fetch slots that current user already has pending consultations for (if user is logged in)
 if ($user_id) {
     $stmt3 = $conn->prepare("SELECT time_slot FROM consultations WHERE user_id = ? AND preferred_date = ? AND status = 'Pending'");
     $stmt3->bind_param('is', $user_id, $date);
     $stmt3->execute();
     $res3 = $stmt3->get_result();
     while ($row = $res3->fetch_assoc()) {
-        $booked[] = $row['time_slot'];
+        $normalized = preg_replace('/\s*-\s*/u', ' – ', $row['time_slot']);
+        $booked[] = $normalized;
     }
     $stmt3->close();
 }
